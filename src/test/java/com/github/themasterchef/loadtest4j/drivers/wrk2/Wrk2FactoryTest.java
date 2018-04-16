@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Category(UnitTest.class)
@@ -23,11 +22,6 @@ public class Wrk2FactoryTest implements DriverFactoryTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void testGetType() {
-        assertEquals("wrk2", new Wrk2Factory().getType());
-    }
 
     @Test
     public void testCreate() {

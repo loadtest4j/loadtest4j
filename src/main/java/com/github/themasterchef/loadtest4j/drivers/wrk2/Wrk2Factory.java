@@ -9,11 +9,6 @@ import java.util.Map;
 
 public class Wrk2Factory implements DriverFactory {
 
-    @Override
-    public String getType() {
-        return "wrk2";
-    }
-
     /**
      * Creates a Wrk2 driver using the following properties.
      *

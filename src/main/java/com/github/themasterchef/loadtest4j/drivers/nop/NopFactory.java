@@ -6,10 +6,6 @@ import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import java.util.Map;
 
 public class NopFactory implements DriverFactory {
-    @Override
-    public String getType() {
-        return "nop";
-    }
 
     /**
      * Creates a Nop driver.
