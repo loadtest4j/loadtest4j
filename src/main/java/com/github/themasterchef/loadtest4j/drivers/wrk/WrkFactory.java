@@ -8,10 +8,6 @@ import java.time.Duration;
 import java.util.Map;
 
 public class WrkFactory implements DriverFactory {
-    @Override
-    public String getType() {
-        return "wrk";
-    }
 
     /**
      * Creates a Wrk driver using the following properties.

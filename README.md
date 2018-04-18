@@ -37,7 +37,7 @@ Then add this library:
 Add the file `loadtest4j.properties` to your `src/test/resources` directory and configure the load test driver:
 
 ```
-loadtest4j.driver = wrk
+loadtest4j.driver = com.github.themasterchef.loadtest4j.drivers.wrk.WrkFactory
 loadtest4j.driver.duration = 30
 ```
 

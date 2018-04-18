@@ -13,10 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
 public class NopFactoryTest implements DriverFactoryTest {
-    @Test
-    public void testGetType() {
-        assertEquals("nop", new NopFactory().getType());
-    }
 
     @Test
     public void testCreate() {

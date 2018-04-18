@@ -12,9 +12,8 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Collections;
 
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.junit.Assert.assertNotNull;
 
 @Category(UnitTest.class)
@@ -22,11 +21,6 @@ public class WrkFactoryTest implements DriverFactoryTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void testGetType() {
-        assertEquals("wrk", new WrkFactory().getType());
-    }
 
     @Test
     public void testCreate() {

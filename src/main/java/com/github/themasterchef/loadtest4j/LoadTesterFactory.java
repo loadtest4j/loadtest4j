@@ -55,9 +55,9 @@ public final class LoadTesterFactory {
         }
     }
 
-    private Optional<DriverFactory> getDriverFactory(String type) {
+    private Optional<DriverFactory> getDriverFactory(String className) {
         return StreamSupport.stream(driverFactories.spliterator(), false)
-                .filter(factory -> factory.getType().equals(type))
+                .filter(factory -> factory.getClass().getName().equals(className))
                 .findFirst();
     }
 }
