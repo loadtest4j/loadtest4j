@@ -1,3 +1,2 @@
 com.github.themasterchef.loadtest4j.drivers.nop.NopFactory
 com.github.themasterchef.loadtest4j.drivers.wrk.WrkFactory
-com.github.themasterchef.loadtest4j.drivers.wrk2.Wrk2Factory

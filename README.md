@@ -7,7 +7,6 @@ A simple load test facade for Java.
 ## Drivers
 
 * wrk
-* wrk2
 
 ## Setup
 
@@ -39,6 +38,7 @@ Add the file `loadtest4j.properties` to your `src/test/resources` directory and 
 ```
 loadtest4j.driver = com.github.themasterchef.loadtest4j.drivers.wrk.WrkFactory
 loadtest4j.driver.duration = 30
+loadtest4j.driver.url = https://example.com
 ```
 
 Then write a load test:
@@ -55,14 +55,14 @@ public class FooTest {
 
     @Test
     public void testSimple() {
-        Result result = loadTester.run(Request.withUrl("https://example.com"));
+        Result result = loadTester.run(Request.withPath("/"));
 
         assertEquals(0, result.getErrors());
     }
 
     @Test
     public void testCustomised() {
-        Result result = loadTester.run(Request.withUrl("https://example.com")
+        Result result = loadTester.run(Request.withPath("/pets")
                                               .withMethod("POST")
                                               .withHeader("Content-Type", "application/json")
                                               .withBody("{}"));
@@ -77,7 +77,7 @@ public class FooTest {
         headers.put("Content-Type", "application/json");
         headers.put("Referer", "https://example.com");
 
-        Result result = loadTester.run(Request.withUrl("https://example.com")
+        Result result = loadTester.run(Request.withPath("/pets")
                                               .withHeaders(headers));
 
         assertEquals(0, result.getErrors());

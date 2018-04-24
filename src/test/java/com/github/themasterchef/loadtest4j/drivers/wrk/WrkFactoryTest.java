@@ -11,6 +11,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 import java.util.Collections;
+import java.util.HashMap;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasProperty;
@@ -26,7 +27,10 @@ public class WrkFactoryTest implements DriverFactoryTest {
     public void testCreate() {
         final DriverFactory sut = new WrkFactory();
 
-        final LoadTester loadTester = sut.create(Collections.singletonMap("duration", "2"));
+        final LoadTester loadTester = sut.create(new HashMap<String, String>() {{
+            put("duration", "2");
+            put("url", "http://example.com");
+        }});
 
         assertNotNull(loadTester);
     }
@@ -36,7 +40,7 @@ public class WrkFactoryTest implements DriverFactoryTest {
         final DriverFactory sut = new WrkFactory();
 
         thrown.expect(Validator.MissingPropertiesException.class);
-        thrown.expect(hasProperty("missingProperties", contains("duration")));
+        thrown.expect(hasProperty("missingProperties", contains("duration", "url")));
 
         sut.create(Collections.emptyMap());
     }
