@@ -15,19 +15,13 @@ public class WrkLuaScriptTest {
     public void testMinimalScript() {
         final WrkLuaScript script = new WrkLuaScript(Collections.emptyList());
 
-        assertEquals(m( "local requests = {}",
-                "local counter = 1",
-                "",
-                "init = function(args)",
+        assertEquals(m( "init = function(args)",
+                "  local r = {}",
+                "  req = table.concat(r)",
                 "end",
                 "",
                 "request = function()",
-                "  if counter > #requests then",
-                "    counter = 1",
-                "  end",
-                "  local r = requests[counter]",
-                "  counter = counter + 1",
-                "  return r",
+                "  return req",
                 "end"), script.toString());
     }
 
@@ -42,21 +36,15 @@ public class WrkLuaScriptTest {
 
         final WrkLuaScript script = new WrkLuaScript(request1, request2);
 
-        assertEquals(m( "local requests = {}",
-                "local counter = 1",
-                "",
-                "init = function(args)",
-                "  table.insert(requests, wrk.format('GET', '/pets', {}, ''))",
-                "  table.insert(requests, wrk.format('POST', '/pets', {['Accept'] = 'application/json', ['Content-Type'] = 'application/json'}, '{}'))",
+        assertEquals(m( "init = function(args)",
+                "  local r = {}",
+                "  r[1] = wrk.format('GET', '/pets', {}, '')",
+                "  r[2] = wrk.format('POST', '/pets', {['Accept'] = 'application/json', ['Content-Type'] = 'application/json'}, '{}')",
+                "  req = table.concat(r)",
                 "end",
                 "",
                 "request = function()",
-                "  if counter > #requests then",
-                "    counter = 1",
-                "  end",
-                "  local r = requests[counter]",
-                "  counter = counter + 1",
-                "  return r",
+                "  return req",
                 "end"), script.toString());
     }
 
