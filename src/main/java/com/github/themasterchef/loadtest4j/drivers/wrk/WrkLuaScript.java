@@ -20,23 +20,21 @@ class WrkLuaScript {
     @Override
     public String toString() {
         final StringJoiner s = new StringJoiner("\n");
-        s.add("local requests = {}");
-        s.add("local counter = 1");
-        s.add("");
+
         s.add("init = function(args)");
+        s.add("  local r = {}");
+        long i = 1;
         for (Request request: requests) {
-            s.add("  table.insert(requests, " + wrkRequest(request) + ")");
+            s.add(String.format("  r[%d] = %s", i, wrkRequest(request)));
+            i++;
         }
+        s.add("  req = table.concat(r)");
         s.add("end");
         s.add("");
         s.add("request = function()");
-        s.add("  if counter > #requests then");
-        s.add("    counter = 1");
-        s.add("  end");
-        s.add("  local r = requests[counter]");
-        s.add("  counter = counter + 1");
-        s.add("  return r");
+        s.add("  return req");
         s.add("end");
+
         return s.toString();
     }
 
