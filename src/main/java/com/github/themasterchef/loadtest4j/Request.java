@@ -2,7 +2,6 @@ package com.github.themasterchef.loadtest4j;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -93,22 +92,6 @@ public class Request {
 
     public String getPath() {
         return path;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Request request = (Request) o;
-        return Objects.equals(body, request.body) &&
-                Objects.equals(headers, request.headers) &&
-                Objects.equals(method, request.method) &&
-                Objects.equals(path, request.path);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(body, headers, method, path);
     }
 
     private static Map<String, String> concatMap(Map<String, String> map, String key, String value) {
