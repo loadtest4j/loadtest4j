@@ -29,7 +29,7 @@ public class WrkFactoryTest implements DriverFactoryTest {
 
         final LoadTester loadTester = sut.create(new HashMap<String, String>() {{
             put("duration", "2");
-            put("url", "http://example.com");
+            put("url", "https://example.com");
         }});
 
         assertNotNull(loadTester);

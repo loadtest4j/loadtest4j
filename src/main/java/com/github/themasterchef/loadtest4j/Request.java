@@ -16,15 +16,55 @@ public class Request {
     private final String method;
     private final String path;
 
-    Request(String body, Map<String, String> headers, String method, String path) {
+    private Request(String body, Map<String, String> headers, String method, String path) {
         this.body = body;
         this.headers = headers;
         this.method = method;
         this.path = path;
     }
 
-    public static Request withPath(String path) {
-        return new Request("", Collections.emptyMap(), "GET", path);
+    public static Request get(String path) {
+        return withMethodAndPath("GET", path);
+    }
+
+    public static Request post(String path) {
+        return withMethodAndPath("POST", path);
+    }
+
+    public static Request put(String path) {
+        return withMethodAndPath("PUT", path);
+    }
+
+    public static Request delete(String path) {
+        return withMethodAndPath("DELETE", path);
+    }
+
+    public static Request head(String path) {
+        return withMethodAndPath("HEAD", path);
+    }
+
+    public static Request trace(String path) {
+        return withMethodAndPath("TRACE", path);
+    }
+
+    public static Request options(String path) {
+        return withMethodAndPath("OPTIONS", path);
+    }
+
+    public static Request patch(String path) {
+        return withMethodAndPath("PATCH", path);
+    }
+
+    public static Request link(String path) {
+        return withMethodAndPath("LINK", path);
+    }
+
+    public static Request unlink(String path) {
+        return withMethodAndPath("UNLINK", path);
+    }
+
+    private static Request withMethodAndPath(String method, String path) {
+        return new Request("", Collections.emptyMap(), method, path);
     }
 
     public Request withHeader(String key, String value) {
@@ -37,10 +77,6 @@ public class Request {
 
     public Request withBody(String body) {
         return new Request(body, this.getHeaders(), this.getMethod(), this.getPath());
-    }
-
-    public Request withMethod(String method) {
-        return new Request(this.getBody(), this.getHeaders(), method, this.getPath());
     }
 
     public String getBody() {

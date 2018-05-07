@@ -33,13 +33,12 @@ public class WrkLuaScriptTest {
 
     @Test
     public void testScript() {
-        final Request request1 = Request.withPath("/pets");
+        final Request request1 = Request.get("/pets");
 
-        final Request request2 = Request.withPath("/pets")
+        final Request request2 = Request.post("/pets")
                 .withHeader("Accept", "application/json")
                 .withHeader("Content-Type", "application/json")
-                .withBody("{}")
-                .withMethod("POST");
+                .withBody("{}");
 
         final WrkLuaScript script = new WrkLuaScript(request1, request2);
 

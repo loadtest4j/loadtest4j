@@ -3,6 +3,7 @@ package com.github.themasterchef.loadtest4j;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public abstract class LoadTesterTest {
     protected abstract LoadTester sut();
@@ -11,9 +12,9 @@ public abstract class LoadTesterTest {
     public void testRun() throws Exception {
         final LoadTester loadTester = sut();
 
-        final Result result = loadTester.run(Request.withPath("/pets")).get();
+        final Result result = loadTester.run(Request.get("/")).get();
 
-        assertEquals(0, result.getRequests());
+        assertTrue(result.getRequests() >= 0);
         assertEquals(0, result.getErrors());
     }
 
@@ -21,9 +22,9 @@ public abstract class LoadTesterTest {
     public void testRunWithMultipleRequests() throws Exception {
         final LoadTester loadTester = sut();
 
-        final Result result = loadTester.run(Request.withPath("/"), Request.withPath("/pets")).get();
+        final Result result = loadTester.run(Request.get("/"), Request.get("/pets")).get();
 
-        assertEquals(0, result.getRequests());
+        assertTrue(result.getRequests() >= 0);
         assertEquals(0, result.getErrors());
     }
 }
