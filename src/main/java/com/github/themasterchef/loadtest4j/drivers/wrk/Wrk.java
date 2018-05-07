@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 import static java.lang.String.valueOf;
 
 /**
- * Runs a load test using the classic 'wrk' program by Will Glozer (https://github.com/wg/wrk).
+ * Runs a load test using the 'wrk' program by Will Glozer (https://github.com/wg/wrk).
  */
 class Wrk implements LoadTester {
 
@@ -35,16 +35,16 @@ class Wrk implements LoadTester {
     }
 
     private static Result parseStdout(String stdout) {
-        final int numErrors = Regex.compile("Non-2xx or 3xx responses: (\\d+)")
+        final long numErrors = Regex.compile("Non-2xx or 3xx responses: (\\d+)")
                 .firstMatch(stdout)
-                .map(Integer::parseInt)
-                .orElse(0);
+                .map(Long::parseLong)
+                .orElse(0L);
 
-        final int numRequests = Regex.compile("(\\d+) requests in ").firstMatch(stdout)
-                .map(Integer::parseInt)
+        final long numRequests = Regex.compile("(\\d+) requests in ").firstMatch(stdout)
+                .map(Long::parseLong)
                 .orElseThrow(() -> new LoadTesterException("The output from wrk was malformatted."));
 
-        return new Result(numErrors, numRequests);
+        return new WrkResult(numErrors, numRequests);
     }
 
     @Override
@@ -70,6 +70,24 @@ class Wrk implements LoadTester {
                 final String stdout = process.readStdout();
                 return parseStdout(stdout);
             });
+        }
+    }
+
+    private static class WrkResult implements Result {
+        private final long errors;
+        private final long requests;
+
+        WrkResult(long errors, long requests) {
+            this.errors = errors;
+            this.requests = requests;
+        }
+
+        public long getErrors() {
+            return errors;
+        }
+
+        public long getRequests() {
+            return requests;
         }
     }
 }
