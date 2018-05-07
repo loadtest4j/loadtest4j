@@ -10,7 +10,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 
 class Nop implements LoadTester {
     @Override
-    public CompletableFuture<Result> run(Request request) {
+    public CompletableFuture<Result> run(Request... requests) {
         return completedFuture(new Result(0, 0));
     }
 }

@@ -24,12 +24,14 @@ class Wrk implements LoadTester {
     private final Duration duration;
     private final String executable;
     private final int threads;
+    private final String url;
 
-    Wrk(int connections, Duration duration, String executable, int threads) {
+    Wrk(int connections, Duration duration, String executable, int threads, String url) {
         this.connections = connections;
         this.duration = duration;
         this.executable = executable;
         this.threads = threads;
+        this.url = url;
     }
 
     private static Result parseStdout(String stdout) {
@@ -46,8 +48,8 @@ class Wrk implements LoadTester {
     }
 
     @Override
-    public CompletableFuture<Result> run(Request request) {
-        final WrkLuaScript script = new WrkLuaScript(request.getBody(), request.getHeaders(), request.getMethod());
+    public CompletableFuture<Result> run(Request... requests) {
+        final WrkLuaScript script = new WrkLuaScript(requests);
 
         try (final AutoDeletingTempFile scriptPath = AutoDeletingTempFile.create(script.toString())) {
             final List<String> arguments = new ArgumentBuilder()
@@ -55,7 +57,7 @@ class Wrk implements LoadTester {
                     .addNamedArgument("--duration", String.format("%ds", duration.getSeconds()))
                     .addNamedArgument("--script", scriptPath.getAbsolutePath())
                     .addNamedArgument("--threads", valueOf(threads))
-                    .addArgument(request.getUrl())
+                    .addArgument(url)
                     .build();
 
             final Shell.Command command = new Shell.Command(arguments, executable);

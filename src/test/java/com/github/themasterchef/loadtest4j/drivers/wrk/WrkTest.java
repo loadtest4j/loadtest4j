@@ -12,6 +12,6 @@ public class WrkTest extends LoadTesterTest {
     @Override
     public LoadTester sut() {
         final String executable = "src/test/resources/bin/wrk";
-        return new Wrk(1, Duration.ofSeconds(1), executable, 1);
+        return new Wrk(1, Duration.ofSeconds(1), executable, 1, "http://example.com");
     }
 }

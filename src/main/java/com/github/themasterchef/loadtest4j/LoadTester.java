@@ -7,6 +7,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface LoadTester {
 
-    CompletableFuture<Result> run(Request request);
+    CompletableFuture<Result> run(Request... requests);
 
 }

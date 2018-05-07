@@ -1,29 +1,47 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import java.util.Map;
+import com.github.themasterchef.loadtest4j.Request;
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.StringJoiner;
 
 class WrkLuaScript {
-    private final String body;
-    private final Map<String, String> headers;
-    private final String method;
+    private final Collection<Request> requests;
 
-    WrkLuaScript(String body, Map<String, String> headers, String method) {
-        this.body = body;
-        this.headers = headers;
-        this.method = method;
+    WrkLuaScript(Request... requests) {
+        this(Arrays.asList(requests));
+    }
+
+    WrkLuaScript(Collection<Request> requests) {
+        this.requests = requests;
     }
 
     @Override
     public String toString() {
-        final StringJoiner joiner = new StringJoiner("\n");
+        final StringJoiner s = new StringJoiner("\n");
+        s.add("local requests = {}");
+        s.add("local counter = 1");
+        s.add("");
+        s.add("init = function(args)");
+        for (Request request: requests) {
+            s.add("  table.insert(requests, " + wrkRequest(request) + ")");
+        }
+        s.add("end");
+        s.add("");
+        s.add("request = function()");
+        s.add("  if counter > #requests then");
+        s.add("    counter = 1");
+        s.add("  end");
+        s.add("  local r = requests[counter]");
+        s.add("  counter = counter + 1");
+        s.add("  return r");
+        s.add("end");
+        return s.toString();
+    }
 
-        joiner.add(String.format("wrk.body = '%s'", body));
-
-        headers.forEach((k, v) -> joiner.add(String.format("wrk.headers['%s'] = '%s'", k, v)));
-
-        joiner.add(String.format("wrk.method = '%s'", method));
-
-        return joiner.toString();
+    private static String wrkRequest(Request request) {
+        final WrkRequest req = new WrkRequest(request);
+        return String.format("wrk.format('%s', '%s', %s, '%s')", req.getMethod(), req.getPath(), req.getHeaders(), req.getBody());
     }
 }

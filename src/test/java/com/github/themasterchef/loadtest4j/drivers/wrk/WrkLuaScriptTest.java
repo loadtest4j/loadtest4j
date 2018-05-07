@@ -1,35 +1,67 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
+import com.github.themasterchef.loadtest4j.Request;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
-import java.util.StringJoiner;
 
 import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
 public class WrkLuaScriptTest {
     @Test
-    public void testScript() {
-        final WrkLuaScript script = new WrkLuaScript("{}", Collections.singletonMap("Content-Type", "application/json"), "POST");
+    public void testMinimalScript() {
+        final WrkLuaScript script = new WrkLuaScript(Collections.emptyList());
 
-        assertEquals(m("wrk.body = '{}'", "wrk.headers['Content-Type'] = 'application/json'", "wrk.method = 'POST'"), script.toString());
+        assertEquals(m( "local requests = {}",
+                "local counter = 1",
+                "",
+                "init = function(args)",
+                "end",
+                "",
+                "request = function()",
+                "  if counter > #requests then",
+                "    counter = 1",
+                "  end",
+                "  local r = requests[counter]",
+                "  counter = counter + 1",
+                "  return r",
+                "end"), script.toString());
     }
 
     @Test
-    public void testMinimalScript() {
-        final WrkLuaScript script = new WrkLuaScript("{}", Collections.emptyMap(), "GET");
+    public void testScript() {
+        final Request request1 = Request.withPath("/pets");
 
-        assertEquals(m("wrk.body = '{}'", "wrk.method = 'GET'"), script.toString());
+        final Request request2 = Request.withPath("/pets")
+                .withHeader("Accept", "application/json")
+                .withHeader("Content-Type", "application/json")
+                .withBody("{}")
+                .withMethod("POST");
+
+        final WrkLuaScript script = new WrkLuaScript(request1, request2);
+
+        assertEquals(m( "local requests = {}",
+                "local counter = 1",
+                "",
+                "init = function(args)",
+                "  table.insert(requests, wrk.format('GET', '/pets', {}, ''))",
+                "  table.insert(requests, wrk.format('POST', '/pets', {['Accept'] = 'application/json', ['Content-Type'] = 'application/json'}, '{}'))",
+                "end",
+                "",
+                "request = function()",
+                "  if counter > #requests then",
+                "    counter = 1",
+                "  end",
+                "  local r = requests[counter]",
+                "  counter = counter + 1",
+                "  return r",
+                "end"), script.toString());
     }
 
     private static String m(String... lines) {
-        final StringJoiner joiner = new StringJoiner("\n");
-        for (String line: lines) {
-            joiner.add(line);
-        }
-        return joiner.toString();
+        return String.join("\n", lines);
     }
 }

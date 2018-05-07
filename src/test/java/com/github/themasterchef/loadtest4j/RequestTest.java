@@ -17,24 +17,24 @@ import static org.junit.Assert.assertFalse;
 public class RequestTest {
     @Test
     public void testCreateDefaults() {
-        final Request sut = Request.withUrl("http://example.com");
+        final Request sut = Request.withPath("/pets");
 
-        assertEquals(new Request("", emptyMap(), "GET", "http://example.com"), sut);
+        assertEquals(new Request("", emptyMap(), "GET", "/pets"), sut);
     }
 
     @Test
     public void testCreate() {
-        final Request sut = Request.withUrl("http://example.com")
+        final Request sut = Request.withPath("/pets")
                 .withBody("{}")
                 .withHeader("Content-Type", "application/json")
                 .withMethod("POST");
 
-        assertEquals(new Request("{}", singletonMap("Content-Type", "application/json"), "POST", "http://example.com"), sut);
+        assertEquals(new Request("{}", singletonMap("Content-Type", "application/json"), "POST", "/pets"), sut);
     }
 
     @Test
     public void testCreateWithMultipleHeaders() {
-        final Request sut = Request.withUrl("http://example.com")
+        final Request sut = Request.withPath("/pets")
                 .withHeader("Accept", "application/json")
                 .withHeader("Referer", "http://example.com");
 
@@ -49,7 +49,7 @@ public class RequestTest {
             put("Referer", "http://example.com");
         }};
 
-        final Request sut = Request.withUrl("http://example.com")
+        final Request sut = Request.withPath("/pets")
                 .withHeaders(headers);
 
         assertEquals("application/json", sut.getHeaders().get("Accept"));
@@ -58,7 +58,7 @@ public class RequestTest {
 
     @Test
     public void testCreateCombinesHeaders() {
-        final Request sut = Request.withUrl("http://example.com")
+        final Request sut = Request.withPath("/pets")
                 .withHeader("Referer", "http://example.com")
                 .withHeaders(singletonMap("Accept", "application/json"));
 
@@ -68,7 +68,7 @@ public class RequestTest {
 
     @Test
     public void testWithHeaderBehavesImmutably() {
-        final Request sut = Request.withUrl("http://example.com");
+        final Request sut = Request.withPath("/pets");
 
         final Map<String, String> headersBefore = sut.getHeaders();
 
@@ -79,7 +79,7 @@ public class RequestTest {
 
     @Test
     public void testWithHeadersBehavesImmutably() {
-        final Request sut = Request.withUrl("http://example.com");
+        final Request sut = Request.withPath("/pets");
 
         final Map<String, String> headersBefore = sut.getHeaders();
 
