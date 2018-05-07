@@ -10,8 +10,8 @@ import java.time.Duration;
 @Category(IntegrationTest.class)
 public class WrkTest extends LoadTesterTest {
     @Override
-    public LoadTester sut() {
+    public LoadTester sut(String serviceUrl) {
         final String executable = "src/test/resources/bin/wrk";
-        return new Wrk(1, Duration.ofSeconds(1), executable, 1, "https://example.com");
+        return new Wrk(1, Duration.ofSeconds(1), executable, 1, serviceUrl);
     }
 }

@@ -1,29 +1,66 @@
 package com.github.themasterchef.loadtest4j;
 
+import com.xebialabs.restito.server.StubServer;
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
+
+import org.glassfish.grizzly.http.util.HttpStatus;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import static com.xebialabs.restito.semantics.Action.status;
+import static com.xebialabs.restito.semantics.Condition.get;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public abstract class LoadTesterTest {
-    protected abstract LoadTester sut();
+
+    private StubServer httpServer;
+
+    @Before
+    public void startServer() {
+        httpServer = new StubServer().run();
+    }
+
+    @After
+    public void stopServer() {
+        httpServer.stop();
+    }
+
+    private String getServiceUrl() {
+        return String.format("http://localhost:%d", httpServer.getPort());
+    }
+
+    protected abstract LoadTester sut(String serviceUrl);
 
     @Test
     public void testRun() throws Exception {
-        final LoadTester loadTester = sut();
+        // Given
+        final LoadTester loadTester = sut(getServiceUrl());
+        // And
+        whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
+        // When
         final Result result = loadTester.run(Request.get("/")).get();
 
+        // Then
         assertTrue(result.getRequests() >= 0);
         assertEquals(0, result.getErrors());
     }
 
     @Test
     public void testRunWithMultipleRequests() throws Exception {
-        final LoadTester loadTester = sut();
+        // Given
+        final LoadTester loadTester = sut(getServiceUrl());
+        // And
+        whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
+        // And
+        whenHttp(httpServer).match(get("/pets")).then(status(HttpStatus.OK_200));
 
+        // When
         final Result result = loadTester.run(Request.get("/"), Request.get("/pets")).get();
 
+        // Then
         assertTrue(result.getRequests() >= 0);
         assertEquals(0, result.getErrors());
     }
