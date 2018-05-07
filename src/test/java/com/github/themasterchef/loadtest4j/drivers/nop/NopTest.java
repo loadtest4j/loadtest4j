@@ -8,7 +8,7 @@ import org.junit.experimental.categories.Category;
 @Category(UnitTest.class)
 public class NopTest extends LoadTesterTest {
     @Override
-    public LoadTester sut() {
+    public LoadTester sut(String serviceUrl) {
         return new Nop();
     }
 }
