@@ -51,6 +51,8 @@ class Wrk implements LoadTester {
 
     @Override
     public CompletableFuture<Result> run(Request... requests) {
+        validateNotEmpty(requests);
+
         final WrkLuaScript script = new WrkLuaScript(requests);
 
         try (final AutoDeletingTempFile scriptPath = AutoDeletingTempFile.create(script.toString())) {
@@ -72,6 +74,12 @@ class Wrk implements LoadTester {
                 final String stdout = process.readStdout();
                 return parseStdout(stdout);
             });
+        }
+    }
+
+    private static <T> void validateNotEmpty(T[] requests) {
+        if (requests.length < 1) {
+            throw new LoadTesterException("No requests were specified for the load test.");
         }
     }
 
