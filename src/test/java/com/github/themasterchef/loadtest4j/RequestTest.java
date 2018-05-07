@@ -16,59 +16,127 @@ import static org.junit.Assert.assertFalse;
 @Category(UnitTest.class)
 public class RequestTest {
     @Test
-    public void testCreateDefaults() {
-        final Request sut = Request.withPath("/pets");
+    public void testDefaultHeaders() {
+        final Request sut = Request.get("/pets");
 
-        assertEquals(new Request("", emptyMap(), "GET", "/pets"), sut);
+        assertEquals(emptyMap(), sut.getHeaders());
     }
 
     @Test
-    public void testCreate() {
-        final Request sut = Request.withPath("/pets")
-                .withBody("{}")
-                .withHeader("Content-Type", "application/json")
-                .withMethod("POST");
+    public void testDefaultBody() {
+        final Request sut = Request.get("/pets");
 
-        assertEquals(new Request("{}", singletonMap("Content-Type", "application/json"), "POST", "/pets"), sut);
+        assertEquals("", sut.getBody());
     }
 
     @Test
-    public void testCreateWithMultipleHeaders() {
-        final Request sut = Request.withPath("/pets")
+    public void testGetPath() {
+        final Request sut = Request.get("/pets");
+
+        assertEquals("/pets", sut.getPath());
+    }
+
+    @Test
+    public void testGet() {
+        assertEquals("GET", Request.get("/").getMethod());
+    }
+
+    @Test
+    public void testPost() {
+        assertEquals("POST", Request.post("/").getMethod());
+    }
+
+    @Test
+    public void testPut() {
+        assertEquals("PUT", Request.put("/").getMethod());
+    }
+
+    @Test
+    public void testDelete() {
+        assertEquals("DELETE", Request.delete("/").getMethod());
+    }
+
+    @Test
+    public void testOptions() {
+        assertEquals("OPTIONS", Request.options("/").getMethod());
+    }
+
+    @Test
+    public void testHead() {
+        assertEquals("HEAD", Request.head("/").getMethod());
+    }
+
+    @Test
+    public void testTrace() {
+        assertEquals("TRACE", Request.trace("/").getMethod());
+    }
+
+    @Test
+    public void testPatch() {
+        assertEquals("PATCH", Request.patch("/").getMethod());
+    }
+
+    @Test
+    public void testLink() {
+        assertEquals("LINK", Request.link("/").getMethod());
+    }
+
+    @Test
+    public void testUnlink() {
+        assertEquals("UNLINK", Request.unlink("/").getMethod());
+    }
+
+    @Test
+    public void testWithBody() {
+        final Request sut = Request.post("/pets").withBody("{}");
+
+        assertEquals("{}", sut.getBody());
+    }
+
+    @Test
+    public void testWithHeader() {
+        final Request sut = Request.post("/pets").withHeader("Content-Type", "application/json");
+
+        assertEquals(singletonMap("Content-Type", "application/json"), sut.getHeaders());
+    }
+
+    @Test
+    public void testWithHeaderMultipleInvocations() {
+        final Request sut = Request.get("/pets")
                 .withHeader("Accept", "application/json")
-                .withHeader("Referer", "http://example.com");
+                .withHeader("Referer", "https://example.com");
 
         assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("http://example.com", sut.getHeaders().get("Referer"));
+        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
     }
 
     @Test
-    public void testCreateWithHeaderMap() {
+    public void testWithHeaders() {
         final Map<String, String> headers = new HashMap<String, String>() {{
             put("Accept", "application/json");
-            put("Referer", "http://example.com");
+            put("Referer", "https://example.com");
         }};
 
-        final Request sut = Request.withPath("/pets")
+        final Request sut = Request.get("/pets")
                 .withHeaders(headers);
 
         assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("http://example.com", sut.getHeaders().get("Referer"));
+        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
     }
 
     @Test
-    public void testCreateCombinesHeaders() {
-        final Request sut = Request.withPath("/pets")
-                .withHeader("Referer", "http://example.com")
+    public void testCombinesHeaders() {
+        final Request sut = Request.get("/pets")
+                .withHeader("Referer", "https://example.com")
                 .withHeaders(singletonMap("Accept", "application/json"));
 
         assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("http://example.com", sut.getHeaders().get("Referer"));
+        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
     }
 
     @Test
     public void testWithHeaderBehavesImmutably() {
-        final Request sut = Request.withPath("/pets");
+        final Request sut = Request.get("/pets");
 
         final Map<String, String> headersBefore = sut.getHeaders();
 
@@ -79,7 +147,7 @@ public class RequestTest {
 
     @Test
     public void testWithHeadersBehavesImmutably() {
-        final Request sut = Request.withPath("/pets");
+        final Request sut = Request.get("/pets");
 
         final Map<String, String> headersBefore = sut.getHeaders();
 

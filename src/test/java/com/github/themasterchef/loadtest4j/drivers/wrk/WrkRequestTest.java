@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
 public class WrkRequestTest {
-    private final Request request = Request.withPath("/pets");
+    private final Request request = Request.get("/pets");
 
     @Test
     public void testBody() {
@@ -20,9 +20,9 @@ public class WrkRequestTest {
 
     @Test
     public void testMethod() {
-        final WrkRequest req = new WrkRequest(request.withMethod("INVALI'D"));
+        final WrkRequest req = new WrkRequest(request);
 
-        assertEquals("INVALI\\'D", req.getMethod());
+        assertEquals("GET", req.getMethod());
     }
 
     @Test

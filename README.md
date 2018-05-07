@@ -55,15 +55,14 @@ public class FooTest {
 
     @Test
     public void testSimple() {
-        Result result = loadTester.run(Request.withPath("/"));
+        Result result = loadTester.run(Request.get("/"));
 
         assertEquals(0, result.getErrors());
     }
 
     @Test
     public void testCustomised() {
-        Result result = loadTester.run(Request.withPath("/pets")
-                                              .withMethod("POST")
+        Result result = loadTester.run(Request.post("/pets")
                                               .withHeader("Content-Type", "application/json")
                                               .withBody("{}"));
 
@@ -74,10 +73,9 @@ public class FooTest {
     public void testLotsOfHeaders() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
-        headers.put("Content-Type", "application/json");
         headers.put("Referer", "https://example.com");
 
-        Result result = loadTester.run(Request.withPath("/pets")
+        Result result = loadTester.run(Request.get("/pets")
                                               .withHeaders(headers));
 
         assertEquals(0, result.getErrors());
