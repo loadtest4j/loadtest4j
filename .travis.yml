@@ -3,5 +3,9 @@ language: java
 sudo: false
 
 jdk:
-  - oraclejdk8
+- oraclejdk8
 
+addons:
+  apt:
+    packages:
+    - libssl-dev
