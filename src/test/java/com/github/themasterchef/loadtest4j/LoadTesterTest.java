@@ -7,6 +7,8 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.get;
@@ -16,6 +18,11 @@ import static org.junit.Assert.assertTrue;
 public abstract class LoadTesterTest {
 
     private StubServer httpServer;
+
+    static {
+        // Silence Restito logging.
+        Logger.getLogger("org.glassfish.grizzly").setLevel(Level.OFF);
+    }
 
     @Before
     public void startServer() {
