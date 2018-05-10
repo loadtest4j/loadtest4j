@@ -11,7 +11,7 @@ import java.time.Duration;
 public class WrkTest extends LoadTesterTest {
     @Override
     public LoadTester sut(String serviceUrl) {
-        final String executable = "src/test/resources/bin/wrk";
+        final String executable = "wrk";
         return new Wrk(1, Duration.ofSeconds(1), executable, 1, serviceUrl);
     }
 }
