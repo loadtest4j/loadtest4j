@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/themasterchef/loadtest4j.svg?branch=master)](https://travis-ci.org/themasterchef/loadtest4j)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0dedacd1b10941df95f08ebe0774e2be)](https://www.codacy.com/app/themasterchef/loadtest4j)
+[![JitPack Release](https://jitpack.io/v/com.github.themasterchef/loadtest4j.svg)](https://jitpack.io/#com.github.themasterchef/loadtest4j)
 
 A simple load test facade for Java.
 
