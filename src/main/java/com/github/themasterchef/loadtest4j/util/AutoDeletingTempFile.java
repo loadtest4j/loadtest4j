@@ -26,7 +26,7 @@ public class AutoDeletingTempFile implements AutoCloseable {
         }
     }
 
-    boolean exists() {
+    protected boolean exists() {
         return Files.exists(path);
     }
 

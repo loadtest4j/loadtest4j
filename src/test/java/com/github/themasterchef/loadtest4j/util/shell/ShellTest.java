@@ -1,8 +1,10 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j.util.shell;
 
 import com.github.themasterchef.loadtest4j.junit.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +14,8 @@ public class ShellTest {
     public void testRun() throws Exception {
         final Shell sut = new Shell();
 
-        final int exitStatus = sut.start(new Shell.Command("whoami")).run().get();
+        final Command command = new Command(Collections.emptyList(), "whoami");
+        final int exitStatus = sut.start(command).run().get();
 
         assertEquals(0, exitStatus);
     }

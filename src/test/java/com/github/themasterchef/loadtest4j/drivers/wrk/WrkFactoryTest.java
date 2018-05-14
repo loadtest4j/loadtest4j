@@ -12,6 +12,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasProperty;
@@ -27,10 +28,11 @@ public class WrkFactoryTest implements DriverFactoryTest {
     public void testCreate() {
         final DriverFactory sut = new WrkFactory();
 
-        final LoadTester loadTester = sut.create(new HashMap<String, String>() {{
-            put("duration", "2");
-            put("url", "https://example.com");
-        }});
+        final Map<String, String> properties = new HashMap<>();
+        properties.put("duration", "2");
+        properties.put("url", "https://example.com");
+
+        final LoadTester loadTester = sut.create(properties);
 
         assertNotNull(loadTester);
     }

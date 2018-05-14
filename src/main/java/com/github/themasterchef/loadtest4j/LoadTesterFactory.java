@@ -10,6 +10,14 @@ import java.util.stream.StreamSupport;
 
 public final class LoadTesterFactory {
 
+    private static final Iterable<DriverFactory> DRIVER_FACTORIES = ServiceLoader.load(DriverFactory.class);
+
+    private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
+
+    private final Iterable<DriverFactory> driverFactories;
+
+    private final Properties properties;
+
     /**
      * The primary entry point to the library. Clients should request {@link LoadTester} instances from here.
      *
@@ -27,19 +35,12 @@ public final class LoadTesterFactory {
         return new LoadTesterFactory(DRIVER_FACTORIES, properties).createLoadTester();
     }
 
-    private static final Iterable<DriverFactory> DRIVER_FACTORIES = ServiceLoader.load(DriverFactory.class);
-
-    private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
-
-    private final Iterable<DriverFactory> driverFactories;
-    private final Properties properties;
-
     LoadTesterFactory(Iterable<DriverFactory> driverFactories, Properties properties) {
         this.driverFactories = driverFactories;
         this.properties = properties;
     }
 
-    LoadTester createLoadTester() {
+    protected LoadTester createLoadTester() {
         try {
             Validator.validatePresenceOf(properties, DRIVER_PROPERTY_NAMESPACE);
 

@@ -7,7 +7,9 @@ import com.github.themasterchef.loadtest4j.Result;
 import com.github.themasterchef.loadtest4j.util.ArgumentBuilder;
 import com.github.themasterchef.loadtest4j.util.AutoDeletingTempFile;
 import com.github.themasterchef.loadtest4j.util.Regex;
-import com.github.themasterchef.loadtest4j.util.Shell;
+import com.github.themasterchef.loadtest4j.util.shell.Command;
+import com.github.themasterchef.loadtest4j.util.shell.Process;
+import com.github.themasterchef.loadtest4j.util.shell.Shell;
 
 import java.time.Duration;
 import java.util.List;
@@ -60,9 +62,9 @@ class Wrk implements LoadTester {
                     .addArgument(url)
                     .build();
 
-            final Shell.Command command = new Shell.Command(arguments, executable);
+            final Command command = new Command(arguments, executable);
 
-            final Shell.Process process = new Shell().start(command);
+            final Process process = new Shell().start(command);
 
             return process.run().thenApply(exitStatus -> {
                 if (exitStatus != 0) throw new LoadTesterException("Command exited with an error");
