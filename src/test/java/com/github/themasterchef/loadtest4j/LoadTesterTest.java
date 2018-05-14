@@ -6,7 +6,10 @@ import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +26,9 @@ public abstract class LoadTesterTest {
         // Silence Restito logging.
         Logger.getLogger("org.glassfish.grizzly").setLevel(Level.OFF);
     }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void startServer() {
@@ -53,6 +59,19 @@ public abstract class LoadTesterTest {
         // Then
         assertTrue(result.getRequests() >= 0);
         assertEquals(0, result.getErrors());
+    }
+
+    @Test
+    public void testRunWithNoRequests() throws Exception {
+        // Given
+        final LoadTester loadTester = sut(getServiceUrl());
+
+        // Then
+        thrown.expect(LoadTesterException.class);
+        thrown.expectMessage("No requests were specified for the load test.");
+
+        // When
+        loadTester.run().get();
     }
 
     @Test
