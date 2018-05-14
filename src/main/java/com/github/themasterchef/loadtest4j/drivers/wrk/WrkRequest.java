@@ -15,19 +15,19 @@ class WrkRequest {
         this.request = request;
     }
 
-    String getMethod() {
+    protected String getMethod() {
         return escapeSingleQuotes(request.getMethod());
     }
 
-    String getBody() {
+    protected String getBody() {
         return escapeSingleQuotes(request.getBody());
     }
 
-    String getPath() {
+    protected String getPath() {
         return escapeSingleQuotes(request.getPath());
     }
 
-    Map<String, String> getHeaders() {
+    protected Map<String, String> getHeaders() {
         final Map<String, String> escapedMap = escapeSingleQuotes(request.getHeaders());
         return new LuaMap(escapedMap);
     }

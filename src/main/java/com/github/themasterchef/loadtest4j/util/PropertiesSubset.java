@@ -39,11 +39,11 @@ public class PropertiesSubset {
             this.value = value;
         }
 
-        String getKey() {
+        private String getKey() {
             return key;
         }
 
-        String getValue() {
+        private String getValue() {
             return value;
         }
     }

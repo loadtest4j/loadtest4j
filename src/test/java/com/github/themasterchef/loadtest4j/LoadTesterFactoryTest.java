@@ -65,9 +65,9 @@ public class LoadTesterFactoryTest {
     }
 
     private static Properties singletonProperties(String key, String value) {
-        return new Properties() {{
-            setProperty(key, value);
-        }};
+        final Properties p = new Properties();
+        p.setProperty(key, value);
+        return p;
     }
 
     private static Properties emptyProperties() {

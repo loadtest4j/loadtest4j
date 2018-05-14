@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.singletonMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -19,7 +17,7 @@ public class RequestTest {
     public void testDefaultHeaders() {
         final Request sut = Request.get("/pets");
 
-        assertEquals(emptyMap(), sut.getHeaders());
+        assertEquals(Collections.emptyMap(), sut.getHeaders());
     }
 
     @Test
@@ -97,7 +95,7 @@ public class RequestTest {
     public void testWithHeader() {
         final Request sut = Request.post("/pets").withHeader("Content-Type", "application/json");
 
-        assertEquals(singletonMap("Content-Type", "application/json"), sut.getHeaders());
+        assertEquals(Collections.singletonMap("Content-Type", "application/json"), sut.getHeaders());
     }
 
     @Test
@@ -112,10 +110,9 @@ public class RequestTest {
 
     @Test
     public void testWithHeaders() {
-        final Map<String, String> headers = new HashMap<String, String>() {{
-            put("Accept", "application/json");
-            put("Referer", "https://example.com");
-        }};
+        final Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        headers.put("Referer", "https://example.com");
 
         final Request sut = Request.get("/pets")
                 .withHeaders(headers);
@@ -128,7 +125,7 @@ public class RequestTest {
     public void testCombinesHeaders() {
         final Request sut = Request.get("/pets")
                 .withHeader("Referer", "https://example.com")
-                .withHeaders(singletonMap("Accept", "application/json"));
+                .withHeaders(Collections.singletonMap("Accept", "application/json"));
 
         assertEquals("application/json", sut.getHeaders().get("Accept"));
         assertEquals("https://example.com", sut.getHeaders().get("Referer"));
