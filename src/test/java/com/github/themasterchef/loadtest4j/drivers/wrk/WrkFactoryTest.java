@@ -1,8 +1,8 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.DriverFactory;
-import com.github.themasterchef.loadtest4j.DriverFactoryTest;
-import com.github.themasterchef.loadtest4j.LoadTester;
+import com.github.themasterchef.loadtest4j.drivers.Driver;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactoryTest;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import com.github.themasterchef.loadtest4j.util.Validator;
 import org.junit.Rule;
@@ -32,9 +32,9 @@ public class WrkFactoryTest implements DriverFactoryTest {
         properties.put("duration", "2");
         properties.put("url", "https://example.com");
 
-        final LoadTester loadTester = sut.create(properties);
+        final Driver driver = sut.create(properties);
 
-        assertNotNull(loadTester);
+        assertNotNull(driver);
     }
 
     @Test

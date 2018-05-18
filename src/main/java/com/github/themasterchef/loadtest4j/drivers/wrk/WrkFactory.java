@@ -1,7 +1,7 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.DriverFactory;
-import com.github.themasterchef.loadtest4j.LoadTester;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
+import com.github.themasterchef.loadtest4j.drivers.Driver;
 import com.github.themasterchef.loadtest4j.util.Validator;
 
 import java.time.Duration;
@@ -24,7 +24,7 @@ public class WrkFactory implements DriverFactory {
      * - `threads` (defaults to 1)
      */
     @Override
-    public LoadTester create(Map<String, String> properties) {
+    public Driver create(Map<String, String> properties) {
         Validator.validatePresenceOf(properties, "duration", "url");
 
         final Duration duration = Duration.ofSeconds(Long.valueOf(properties.get("duration")));

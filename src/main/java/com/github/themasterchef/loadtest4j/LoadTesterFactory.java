@@ -1,5 +1,7 @@
 package com.github.themasterchef.loadtest4j;
 
+import com.github.themasterchef.loadtest4j.drivers.Driver;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import com.github.themasterchef.loadtest4j.util.PropertiesResource;
 import com.github.themasterchef.loadtest4j.util.PropertiesSubset;
 import com.github.themasterchef.loadtest4j.util.Validator;
@@ -51,7 +53,8 @@ public final class LoadTesterFactory {
 
             final Map<String, String> driverProperties = PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
 
-            return driverFactory.create(driverProperties);
+            final Driver driver = driverFactory.create(driverProperties);
+            return new StandardLoadTester(driver);
         } catch (Validator.MissingPropertiesException e) {
             final String msg = String.format("The following load test driver properties were not found: %s. Please specify them either as JVM properties or in loadtest4j.properties.", e.getMissingProperties());
             throw new LoadTesterException(msg);

@@ -1,5 +1,8 @@
-package com.github.themasterchef.loadtest4j;
+package com.github.themasterchef.loadtest4j.drivers;
 
+import com.github.themasterchef.loadtest4j.Requests;
+import com.github.themasterchef.loadtest4j.drivers.Driver;
+import com.github.themasterchef.loadtest4j.drivers.DriverResult;
 import com.xebialabs.restito.server.StubServer;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
@@ -17,7 +20,7 @@ import static com.xebialabs.restito.semantics.Condition.get;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public abstract class LoadTesterTest {
+public abstract class DriverTest {
 
     private StubServer httpServer;
 
@@ -43,17 +46,17 @@ public abstract class LoadTesterTest {
         return String.format("http://localhost:%d", httpServer.getPort());
     }
 
-    protected abstract LoadTester sut(String serviceUrl);
+    protected abstract Driver sut(String serviceUrl);
 
     @Test
     public void testRun() throws Exception {
         // Given
-        final LoadTester loadTester = sut(getServiceUrl());
+        final Driver driver = sut(getServiceUrl());
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Requests.get("/")).get();
+        final DriverResult result = driver.run(Requests.get("/")).get();
 
         // Then
         assertTrue(result.getRequests() >= 0);
@@ -61,29 +64,16 @@ public abstract class LoadTesterTest {
     }
 
     @Test
-    public void testRunWithNoRequests() throws Exception {
-        // Given
-        final LoadTester loadTester = sut(getServiceUrl());
-
-        // Then
-        thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("No requests were specified for the load test.");
-
-        // When
-        loadTester.run().get();
-    }
-
-    @Test
     public void testRunWithMultipleRequests() throws Exception {
         // Given
-        final LoadTester loadTester = sut(getServiceUrl());
+        final Driver driver = sut(getServiceUrl());
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
         // And
         whenHttp(httpServer).match(get("/pets")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Requests.get("/"), Requests.get("/pets")).get();
+        final DriverResult result = driver.run(Requests.get("/"), Requests.get("/pets")).get();
 
         // Then
         assertTrue(result.getRequests() >= 0);

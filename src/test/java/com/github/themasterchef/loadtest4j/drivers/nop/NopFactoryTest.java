@@ -1,8 +1,8 @@
 package com.github.themasterchef.loadtest4j.drivers.nop;
 
-import com.github.themasterchef.loadtest4j.DriverFactory;
-import com.github.themasterchef.loadtest4j.DriverFactoryTest;
-import com.github.themasterchef.loadtest4j.LoadTester;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
+import com.github.themasterchef.loadtest4j.drivers.DriverFactoryTest;
+import com.github.themasterchef.loadtest4j.drivers.Driver;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -18,8 +18,8 @@ public class NopFactoryTest implements DriverFactoryTest {
     public void testCreate() {
         final DriverFactory sut = new NopFactory();
 
-        final LoadTester loadTester = sut.create(Collections.emptyMap());
+        final Driver driver = sut.create(Collections.emptyMap());
 
-        assertEquals(Nop.class, loadTester.getClass());
+        assertEquals(Nop.class, driver.getClass());
     }
 }

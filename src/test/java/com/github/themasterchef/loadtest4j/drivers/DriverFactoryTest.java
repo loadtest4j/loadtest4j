@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j;
+package com.github.themasterchef.loadtest4j.drivers;
 
 public interface DriverFactoryTest {
     void testCreate();

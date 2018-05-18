@@ -1,9 +1,9 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.LoadTester;
+import com.github.themasterchef.loadtest4j.drivers.Driver;
 import com.github.themasterchef.loadtest4j.LoadTesterException;
 import com.github.themasterchef.loadtest4j.Request;
-import com.github.themasterchef.loadtest4j.Result;
+import com.github.themasterchef.loadtest4j.drivers.DriverResult;
 
 import java.time.Duration;
 import java.util.List;
@@ -14,7 +14,7 @@ import static java.lang.String.valueOf;
 /**
  * Runs a load test using the 'wrk' program by Will Glozer (https://github.com/wg/wrk).
  */
-class Wrk implements LoadTester {
+class Wrk implements Driver {
 
     private final int connections;
     private final Duration duration;
@@ -30,7 +30,7 @@ class Wrk implements LoadTester {
         this.url = url;
     }
 
-    private static Result parseStdout(String stdout) {
+    private static DriverResult parseStdout(String stdout) {
         final long numErrors = Regex.compile("Non-2xx or 3xx responses: (\\d+)")
                 .firstMatch(stdout)
                 .map(Long::parseLong)
@@ -44,9 +44,7 @@ class Wrk implements LoadTester {
     }
 
     @Override
-    public CompletableFuture<Result> run(Request... requests) {
-        validateNotEmpty(requests);
-
+    public CompletableFuture<DriverResult> run(Request... requests) {
         final WrkLuaScript script = new WrkLuaScript(requests);
 
         try (final AutoDeletingTempFile scriptPath = AutoDeletingTempFile.create(script.toString())) {
@@ -71,13 +69,7 @@ class Wrk implements LoadTester {
         }
     }
 
-    private static <T> void validateNotEmpty(T[] requests) {
-        if (requests.length < 1) {
-            throw new LoadTesterException("No requests were specified for the load test.");
-        }
-    }
-
-    private static class WrkResult implements Result {
+    private static class WrkResult implements DriverResult {
         private final long errors;
         private final long requests;
 
