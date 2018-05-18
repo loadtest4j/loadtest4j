@@ -1,6 +1,7 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.Request;
+import com.github.themasterchef.loadtest4j.Requests;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -27,9 +28,9 @@ public class WrkLuaScriptTest {
 
     @Test
     public void testScript() {
-        final Request request1 = Request.get("/pets");
+        final Request request1 = Requests.get("/pets");
 
-        final Request request2 = Request.post("/pets")
+        final Request request2 = Requests.post("/pets")
                 .withHeader("Accept", "application/json")
                 .withHeader("Content-Type", "application/json")
                 .withBody("{}");

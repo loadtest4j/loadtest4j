@@ -4,12 +4,6 @@ import com.github.themasterchef.loadtest4j.LoadTester;
 import com.github.themasterchef.loadtest4j.LoadTesterException;
 import com.github.themasterchef.loadtest4j.Request;
 import com.github.themasterchef.loadtest4j.Result;
-import com.github.themasterchef.loadtest4j.util.ArgumentBuilder;
-import com.github.themasterchef.loadtest4j.util.AutoDeletingTempFile;
-import com.github.themasterchef.loadtest4j.util.Regex;
-import com.github.themasterchef.loadtest4j.util.shell.Command;
-import com.github.themasterchef.loadtest4j.util.shell.Process;
-import com.github.themasterchef.loadtest4j.util.shell.Shell;
 
 import java.time.Duration;
 import java.util.List;

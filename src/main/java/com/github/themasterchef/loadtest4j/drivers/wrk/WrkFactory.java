@@ -1,7 +1,7 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
+import com.github.themasterchef.loadtest4j.DriverFactory;
 import com.github.themasterchef.loadtest4j.LoadTester;
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import com.github.themasterchef.loadtest4j.util.Validator;
 
 import java.time.Duration;

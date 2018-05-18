@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.LoadTesterException;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class AutoDeletingTempFile implements AutoCloseable {
+class AutoDeletingTempFile implements AutoCloseable {
 
     private final Path path;
 
@@ -30,11 +30,11 @@ public class AutoDeletingTempFile implements AutoCloseable {
         return Files.exists(path);
     }
 
-    public String getAbsolutePath() {
+    protected String getAbsolutePath() {
         return path.toAbsolutePath().toString();
     }
 
-    public static AutoDeletingTempFile create(String contents) {
+    protected static AutoDeletingTempFile create(String contents) {
         try {
             final Path path = Files.createTempFile(null, null);
             writeStringToFile(path.toFile(), contents);

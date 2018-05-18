@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util.shell;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.LoadTesterException;
 
@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Shell {
+class Shell {
 
-    public Process start(Command command) {
+    protected Process start(Command command) {
         final List<String> cmd = new ArrayList<>();
         cmd.add(command.getLaunchPath());
         cmd.addAll(command.getArguments());

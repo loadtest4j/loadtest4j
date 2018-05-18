@@ -1,6 +1,4 @@
-package com.github.themasterchef.loadtest4j.drivers;
-
-import com.github.themasterchef.loadtest4j.LoadTester;
+package com.github.themasterchef.loadtest4j;
 
 import java.util.Map;
 

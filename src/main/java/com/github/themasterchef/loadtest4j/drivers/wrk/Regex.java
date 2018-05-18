@@ -1,10 +1,10 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Regex {
+class Regex {
 
     private final Pattern pattern;
 
@@ -12,7 +12,7 @@ public class Regex {
         this.pattern = pattern;
     }
 
-    public Optional<String> firstMatch(String str) {
+    protected Optional<String> firstMatch(String str) {
         final Matcher matcher = pattern.matcher(str);
         final Optional<String> match;
         if (matcher.find()) {
@@ -23,7 +23,7 @@ public class Regex {
         return match;
     }
 
-    public static Regex compile(String pattern) {
+    protected static Regex compile(String pattern) {
         return new Regex(Pattern.compile(pattern));
     }
 }

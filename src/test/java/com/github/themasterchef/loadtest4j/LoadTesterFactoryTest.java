@@ -1,6 +1,5 @@
 package com.github.themasterchef.loadtest4j;
 
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import com.github.themasterchef.loadtest4j.drivers.nop.NopFactory;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Rule;

@@ -57,16 +57,16 @@ public class FooTest {
 
     @Test
     public void testSimple() {
-        Result result = loadTester.run(Request.get("/"));
+        Result result = loadTester.run(Requests.get("/"));
 
         assertEquals(0, result.getErrors());
     }
 
     @Test
     public void testCustomised() {
-        Result result = loadTester.run(Request.post("/pets")
-                                              .withHeader("Content-Type", "application/json")
-                                              .withBody("{}"));
+        Result result = loadTester.run(Requests.post("/pets")
+                                               .withHeader("Content-Type", "application/json")
+                                               .withBody("{}"));
 
         assertEquals(0, result.getErrors());
     }
@@ -77,8 +77,8 @@ public class FooTest {
         headers.put("Accept", "application/json");
         headers.put("Referer", "https://example.com");
 
-        Result result = loadTester.run(Request.get("/pets")
-                                              .withHeaders(headers));
+        Result result = loadTester.run(Requests.get("/pets")
+                                               .withHeaders(headers));
 
         assertEquals(0, result.getErrors());
     }

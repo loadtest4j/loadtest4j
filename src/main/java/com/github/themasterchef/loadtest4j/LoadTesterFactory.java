@@ -1,11 +1,13 @@
 package com.github.themasterchef.loadtest4j;
 
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import com.github.themasterchef.loadtest4j.util.PropertiesResource;
 import com.github.themasterchef.loadtest4j.util.PropertiesSubset;
 import com.github.themasterchef.loadtest4j.util.Validator;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
 
 public final class LoadTesterFactory {

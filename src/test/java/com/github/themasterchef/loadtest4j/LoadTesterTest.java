@@ -1,8 +1,6 @@
 package com.github.themasterchef.loadtest4j;
 
 import com.xebialabs.restito.server.StubServer;
-import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
-
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +11,7 @@ import org.junit.rules.ExpectedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.get;
 import static org.junit.Assert.assertEquals;
@@ -54,7 +53,7 @@ public abstract class LoadTesterTest {
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Request.get("/")).get();
+        final Result result = loadTester.run(Requests.get("/")).get();
 
         // Then
         assertTrue(result.getRequests() >= 0);
@@ -84,7 +83,7 @@ public abstract class LoadTesterTest {
         whenHttp(httpServer).match(get("/pets")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Request.get("/"), Request.get("/pets")).get();
+        final Result result = loadTester.run(Requests.get("/"), Requests.get("/pets")).get();
 
         // Then
         assertTrue(result.getRequests() >= 0);
