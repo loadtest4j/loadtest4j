@@ -1,6 +1,6 @@
 package com.github.themasterchef.loadtest4j.drivers.nop;
 
-import com.github.themasterchef.loadtest4j.*;
+import com.github.themasterchef.loadtest4j.Request;
 import com.github.themasterchef.loadtest4j.drivers.Driver;
 import com.github.themasterchef.loadtest4j.drivers.DriverResult;
 
