@@ -1,13 +1,19 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
-import com.github.themasterchef.loadtest4j.drivers.Driver;
-import com.github.themasterchef.loadtest4j.util.Validator;
+import com.github.themasterchef.loadtest4j.DriverFactory;
+import com.github.themasterchef.loadtest4j.Driver;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 public class WrkFactory implements DriverFactory {
+
+    @Override
+    public Collection<String> getMandatoryProperties() {
+        return Arrays.asList("duration", "url");
+    }
 
     /**
      * Creates a Wrk driver using the following properties.
@@ -25,8 +31,6 @@ public class WrkFactory implements DriverFactory {
      */
     @Override
     public Driver create(Map<String, String> properties) {
-        Validator.validatePresenceOf(properties, "duration", "url");
-
         final Duration duration = Duration.ofSeconds(Long.valueOf(properties.get("duration")));
         final int connections = Integer.valueOf(properties.getOrDefault("connections", "1"));
         final String executable = properties.getOrDefault("executable", "wrk");

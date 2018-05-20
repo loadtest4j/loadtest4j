@@ -1,13 +1,13 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.drivers.Driver;
+import com.github.themasterchef.loadtest4j.Driver;
 import com.github.themasterchef.loadtest4j.LoadTesterException;
-import com.github.themasterchef.loadtest4j.Request;
-import com.github.themasterchef.loadtest4j.drivers.DriverResult;
+import com.github.themasterchef.loadtest4j.DriverRequest;
+import com.github.themasterchef.loadtest4j.DriverResult;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static java.lang.String.valueOf;
 
@@ -40,11 +40,11 @@ class Wrk implements Driver {
                 .map(Long::parseLong)
                 .orElseThrow(() -> new LoadTesterException("The output from wrk was malformatted."));
 
-        return new WrkResult(numErrors, numRequests);
+        return new DriverResult(numErrors, numRequests);
     }
 
     @Override
-    public CompletableFuture<DriverResult> run(Request... requests) {
+    public DriverResult run(Collection<DriverRequest> requests) {
         final WrkLuaScript script = new WrkLuaScript(requests);
 
         try (final AutoDeletingTempFile scriptPath = AutoDeletingTempFile.create(script.toString())) {
@@ -60,30 +60,12 @@ class Wrk implements Driver {
 
             final Process process = new Shell().start(command);
 
-            return process.run().thenApply(exitStatus -> {
-                if (exitStatus != 0) throw new LoadTesterException("Command exited with an error");
+            final int exitStatus = process.run();
 
-                final String stdout = process.readStdout();
-                return parseStdout(stdout);
-            });
-        }
-    }
+            if (exitStatus != 0) throw new LoadTesterException("Command exited with an error");
 
-    private static class WrkResult implements DriverResult {
-        private final long errors;
-        private final long requests;
-
-        WrkResult(long errors, long requests) {
-            this.errors = errors;
-            this.requests = requests;
-        }
-
-        public long getErrors() {
-            return errors;
-        }
-
-        public long getRequests() {
-            return requests;
+            final String stdout = process.readStdout();
+            return parseStdout(stdout);
         }
     }
 }

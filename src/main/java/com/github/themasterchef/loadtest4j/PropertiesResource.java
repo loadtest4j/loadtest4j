@@ -1,17 +1,17 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j;
 
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertiesResource {
+class PropertiesResource {
 
     private final String resourceName;
 
-    public PropertiesResource(String resourceName) {
+    PropertiesResource(String resourceName) {
         this.resourceName = resourceName;
     }
 
-    public Properties getProperties() {
+    protected Properties getProperties() {
         final Properties properties = new Properties();
         try {
             properties.load(PropertiesResource.class.getResourceAsStream(resourceName));

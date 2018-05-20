@@ -1,6 +1,5 @@
 package com.github.themasterchef.loadtest4j;
 
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
 import com.github.themasterchef.loadtest4j.drivers.nop.NopFactory;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
@@ -8,9 +7,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Properties;
+import java.util.*;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -53,6 +50,19 @@ public class LoadTesterFactoryTest {
     }
 
     @Test
+    public void testCreateDriverWithMissingProperties() {
+        final DriverFactory stubFactory = new StubDriverFactory();
+        final Collection<DriverFactory> driverFactories = Collections.singletonList(stubFactory);
+        final Properties driverProperties = singletonProperties("loadtest4j.driver", stubFactory.getClass().getName());
+        final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
+
+        thrown.expect(LoadTesterException.class);
+        thrown.expectMessage("The following load test driver properties were not found: [foo, bar]. Please specify them either as JVM properties or in loadtest4j.properties.");
+
+        factory.createLoadTester();
+    }
+
+    @Test
     public void testCreateDriver() {
         final DriverFactory nopFactory = new NopFactory();
         final Collection<DriverFactory> driverFactories = Collections.singletonList(nopFactory);
@@ -72,5 +82,18 @@ public class LoadTesterFactoryTest {
 
     private static Properties emptyProperties() {
         return new Properties();
+    }
+
+    private static class StubDriverFactory implements DriverFactory {
+
+        @Override
+        public Collection<String> getMandatoryProperties() {
+            return Arrays.asList("foo", "bar");
+        }
+
+        @Override
+        public Driver create(Map<String, String> properties) {
+            return null;
+        }
     }
 }

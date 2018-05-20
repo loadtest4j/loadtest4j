@@ -1,6 +1,6 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.Request;
+import com.github.themasterchef.loadtest4j.DriverRequest;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -9,9 +9,9 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 class WrkRequest {
-    private final Request request;
+    private final DriverRequest request;
 
-    WrkRequest(Request request) {
+    WrkRequest(DriverRequest request) {
         this.request = request;
     }
 

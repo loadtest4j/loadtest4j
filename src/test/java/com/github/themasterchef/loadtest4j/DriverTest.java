@@ -1,8 +1,5 @@
-package com.github.themasterchef.loadtest4j.drivers;
+package com.github.themasterchef.loadtest4j;
 
-import com.github.themasterchef.loadtest4j.Requests;
-import com.github.themasterchef.loadtest4j.drivers.Driver;
-import com.github.themasterchef.loadtest4j.drivers.DriverResult;
 import com.xebialabs.restito.server.StubServer;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
@@ -11,6 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,14 +49,15 @@ public abstract class DriverTest {
     protected abstract Driver sut(String serviceUrl);
 
     @Test
-    public void testRun() throws Exception {
+    public void testRun()  {
         // Given
         final Driver driver = sut(getServiceUrl());
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
         // When
-        final DriverResult result = driver.run(Requests.get("/")).get();
+        final Collection<DriverRequest> requests = Collections.singletonList(DriverRequests.get("/"));
+        final DriverResult result = driver.run(requests);
 
         // Then
         assertTrue(result.getRequests() >= 0);
@@ -64,7 +65,7 @@ public abstract class DriverTest {
     }
 
     @Test
-    public void testRunWithMultipleRequests() throws Exception {
+    public void testRunWithMultipleRequests() {
         // Given
         final Driver driver = sut(getServiceUrl());
         // And
@@ -73,7 +74,8 @@ public abstract class DriverTest {
         whenHttp(httpServer).match(get("/pets")).then(status(HttpStatus.OK_200));
 
         // When
-        final DriverResult result = driver.run(Requests.get("/"), Requests.get("/pets")).get();
+        final Collection<DriverRequest> requests = Arrays.asList(DriverRequests.get("/"), DriverRequests.get("/pets"));
+        final DriverResult result = driver.run(requests);
 
         // Then
         assertTrue(result.getRequests() >= 0);

@@ -1,7 +1,7 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.drivers.Driver;
-import com.github.themasterchef.loadtest4j.drivers.DriverTest;
+import com.github.themasterchef.loadtest4j.Driver;
+import com.github.themasterchef.loadtest4j.DriverTest;
 import com.github.themasterchef.loadtest4j.junit.IntegrationTest;
 import org.junit.experimental.categories.Category;
 

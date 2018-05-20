@@ -4,7 +4,6 @@ import com.github.themasterchef.loadtest4j.LoadTesterException;
 
 import java.io.InputStream;
 import java.util.Scanner;
-import java.util.concurrent.CompletableFuture;
 
 class Process {
 
@@ -21,13 +20,11 @@ class Process {
         return scanner.hasNext() ? scanner.next() : "";
     }
 
-    protected CompletableFuture<Integer> run() {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return process.waitFor();
-            } catch (InterruptedException e) {
-                throw new LoadTesterException(e);
-            }
-        });
+    protected Integer run() {
+        try {
+            return process.waitFor();
+        } catch (InterruptedException e) {
+            throw new LoadTesterException(e);
+        }
     }
 }

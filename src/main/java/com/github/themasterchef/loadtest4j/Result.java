@@ -1,14 +1,26 @@
 package com.github.themasterchef.loadtest4j;
 
 /**
- * The result of a load test.
+ * The post-processed results of a load test.
  */
-public interface Result {
-    long getErrors();
+public final class Result {
+    private final long errors;
+    private final long requests;
 
-    long getRequests();
+    Result(long errors, long requests) {
+        this.errors = errors;
+        this.requests = requests;
+    }
 
-    default double getErrorRate() {
+    public long getErrors() {
+        return errors;
+    }
+
+    public long getRequests() {
+        return requests;
+    }
+
+    public double getErrorRate() {
         // Do not divide by zero
         if (getRequests() == 0) {
             return 0;
