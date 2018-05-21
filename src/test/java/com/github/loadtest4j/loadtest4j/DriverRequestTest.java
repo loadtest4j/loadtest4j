@@ -15,7 +15,7 @@ public class DriverRequestTest {
     private DriverRequest request;
 
     @Before
-    public void setup() {
+    public void setUp() {
         request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/");
     }
 

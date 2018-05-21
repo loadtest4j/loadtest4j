@@ -6,8 +6,6 @@ import com.github.loadtest4j.loadtest4j.DriverFactory;
 import java.util.*;
 
 public class NopDriverFactory implements DriverFactory {
-    public NopDriverFactory() {}
-
     @Override
     public Set<String> getMandatoryProperties() {
         return Collections.emptySet();

@@ -142,9 +142,7 @@ public class LoadTesterFactoryTest {
         }
     }
 
-    private static class StubDriverFactory implements DriverFactory {
-        public StubDriverFactory() {}
-
+    public static class StubDriverFactory implements DriverFactory {
         @Override
         public Set<String> getMandatoryProperties() {
             return new HashSet<>(Arrays.asList("bar", "foo"));
