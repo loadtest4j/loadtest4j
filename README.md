@@ -1,7 +1,7 @@
 # loadtest4j
 
-[![Build Status](https://travis-ci.org/loadtest4j/loadtest4j.svg?branch=master)](https://travis-ci.org/loadtest4j/loadtest4j)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0dedacd1b10941df95f08ebe0774e2be)](https://www.codacy.com/app/loadtest4j/loadtest4j)
+[![Build Status](https://travis-ci.com/loadtest4j/loadtest4j.svg?branch=master)](https://travis-ci.com/loadtest4j/loadtest4j)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/29e3d0f7658c499eaee2023cebe3dd2c)](https://www.codacy.com/app/loadtest4j/loadtest4j)
 [![JitPack Release](https://jitpack.io/v/com.github.loadtest4j/loadtest4j.svg)](https://jitpack.io/#com.github.loadtest4j/loadtest4j)
 
 A simple load test facade for Java.
