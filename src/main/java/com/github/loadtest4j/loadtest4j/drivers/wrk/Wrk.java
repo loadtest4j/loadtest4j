@@ -47,7 +47,7 @@ class Wrk implements Driver {
 
             final Command command = new Command(arguments, executable);
 
-            final com.github.loadtest4j.loadtest4j.drivers.wrk.Process process = new Shell().start(command);
+            final Process process = new Shell().start(command);
 
             final int exitStatus = process.run();
 
