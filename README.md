@@ -1,8 +1,8 @@
 # loadtest4j
 
-[![Build Status](https://travis-ci.org/themasterchef/loadtest4j.svg?branch=master)](https://travis-ci.org/themasterchef/loadtest4j)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0dedacd1b10941df95f08ebe0774e2be)](https://www.codacy.com/app/themasterchef/loadtest4j)
-[![JitPack Release](https://jitpack.io/v/com.github.themasterchef/loadtest4j.svg)](https://jitpack.io/#com.github.themasterchef/loadtest4j)
+[![Build Status](https://travis-ci.com/loadtest4j/loadtest4j.svg?branch=master)](https://travis-ci.com/loadtest4j/loadtest4j)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/29e3d0f7658c499eaee2023cebe3dd2c)](https://www.codacy.com/app/loadtest4j/loadtest4j)
+[![JitPack Release](https://jitpack.io/v/com.github.loadtest4j/loadtest4j.svg)](https://jitpack.io/#com.github.loadtest4j/loadtest4j)
 
 A simple load test facade for Java.
 
@@ -27,7 +27,7 @@ Then add this library:
 
 ```xml
 <dependency>
-    <groupId>com.github.themasterchef</groupId>
+    <groupId>com.github.loadtest4j</groupId>
     <artifactId>loadtest4j</artifactId>
     <version>[a git tag]</version>
 </dependency>
@@ -38,7 +38,7 @@ Then add this library:
 Add the file `loadtest4j.properties` to your `src/test/resources` directory and configure the load test driver:
 
 ```
-loadtest4j.driver = com.github.themasterchef.loadtest4j.drivers.wrk.WrkFactory
+loadtest4j.driver = com.github.loadtest4j.loadtest4j.drivers.wrk.WrkFactory
 loadtest4j.driver.duration = 30
 loadtest4j.driver.url = https://example.com
 ```
