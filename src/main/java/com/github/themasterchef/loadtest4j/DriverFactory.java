@@ -1,10 +1,10 @@
 package com.github.themasterchef.loadtest4j;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 public interface DriverFactory {
-    Collection<String> getMandatoryProperties();
+    Set<String> getMandatoryProperties();
 
     Driver create(Map<String, String> properties);
 }

@@ -30,21 +30,10 @@ class Wrk implements Driver {
         this.url = url;
     }
 
-    private static DriverResult parseStdout(String stdout) {
-        final long numErrors = Regex.compile("Non-2xx or 3xx responses: (\\d+)")
-                .firstMatch(stdout)
-                .map(Long::parseLong)
-                .orElse(0L);
-
-        final long numRequests = Regex.compile("(\\d+) requests in ").firstMatch(stdout)
-                .map(Long::parseLong)
-                .orElseThrow(() -> new LoadTesterException("The output from wrk was malformatted."));
-
-        return new DriverResult(numErrors, numRequests);
-    }
-
     @Override
     public DriverResult run(Collection<DriverRequest> requests) {
+        validateNotEmpty(requests);
+
         final WrkLuaScript script = new WrkLuaScript(requests);
 
         try (final AutoDeletingTempFile scriptPath = AutoDeletingTempFile.create(script.toString())) {
@@ -67,5 +56,24 @@ class Wrk implements Driver {
             final String stdout = process.readStdout();
             return parseStdout(stdout);
         }
+    }
+
+    private static <T> void validateNotEmpty(Collection<T> requests) {
+        if (requests.size() < 1) {
+            throw new LoadTesterException("No requests were specified for the load test.");
+        }
+    }
+
+    private static DriverResult parseStdout(String stdout) {
+        final long numErrors = Regex.compile("Non-2xx or 3xx responses: (\\d+)")
+                .firstMatch(stdout)
+                .map(Long::parseLong)
+                .orElse(0L);
+
+        final long numRequests = Regex.compile("(\\d+) requests in ").firstMatch(stdout)
+                .map(Long::parseLong)
+                .orElseThrow(() -> new LoadTesterException("The output from wrk was malformatted."));
+
+        return new DriverResult(numErrors, numRequests);
     }
 }

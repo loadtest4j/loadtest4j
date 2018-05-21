@@ -39,18 +39,27 @@ public final class LoadTesterFactory {
     }
 
     protected LoadTester createLoadTester() {
-        validatePresenceOf(properties, Collections.singletonList(DRIVER_PROPERTY_NAMESPACE));
+        final DriverFactory driverFactory = getDriverFactory();
 
-        final String driverType = properties.getProperty(DRIVER_PROPERTY_NAMESPACE);
-        final DriverFactory driverFactory = getDriverFactory(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
-
-        final Map<String, String> driverProperties = PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
+        final Map<String, String> driverProperties = getDriverProperties();
 
         validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
 
         final Driver driver = driverFactory.create(driverProperties);
 
-        return new LoadTester(driver);
+        return new DriverAdapter(driver);
+    }
+
+    private DriverFactory getDriverFactory() {
+        validatePresenceOf(properties, Collections.singletonList(DRIVER_PROPERTY_NAMESPACE));
+
+        final String driverType = properties.getProperty(DRIVER_PROPERTY_NAMESPACE);
+
+        return getDriverFactory(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
+    }
+
+    private Map<String, String> getDriverProperties() {
+        return PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
     }
 
     private Optional<DriverFactory> getDriverFactory(String className) {

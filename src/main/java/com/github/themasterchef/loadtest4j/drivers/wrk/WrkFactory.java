@@ -4,15 +4,13 @@ import com.github.themasterchef.loadtest4j.DriverFactory;
 import com.github.themasterchef.loadtest4j.Driver;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 
 public class WrkFactory implements DriverFactory {
 
     @Override
-    public Collection<String> getMandatoryProperties() {
-        return Arrays.asList("duration", "url");
+    public Set<String> getMandatoryProperties() {
+        return setOf("duration", "url");
     }
 
     /**
@@ -38,5 +36,11 @@ public class WrkFactory implements DriverFactory {
         final String url = properties.get("url");
 
         return new Wrk(connections, duration, executable, threads, url);
+    }
+
+    private static Set<String> setOf(String... values) {
+        // This utility method can be replaced when Java 9+ is more widely adopted
+        final Set<String> internalSet = new HashSet<>(Arrays.asList(values));
+        return Collections.unmodifiableSet(internalSet);
     }
 }

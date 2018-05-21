@@ -1,17 +1,17 @@
 package com.github.themasterchef.loadtest4j.drivers.nop;
 
-import com.github.themasterchef.loadtest4j.DriverFactory;
 import com.github.themasterchef.loadtest4j.Driver;
+import com.github.themasterchef.loadtest4j.DriverFactory;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 public class NopFactory implements DriverFactory {
 
     @Override
-    public Collection<String> getMandatoryProperties() {
-        return Collections.emptyList();
+    public Set<String> getMandatoryProperties() {
+        return Collections.emptySet();
     }
 
     /**

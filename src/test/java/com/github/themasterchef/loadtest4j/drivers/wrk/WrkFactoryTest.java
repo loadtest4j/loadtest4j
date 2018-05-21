@@ -2,36 +2,46 @@ package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.Driver;
 import com.github.themasterchef.loadtest4j.DriverFactory;
-import com.github.themasterchef.loadtest4j.drivers.DriverFactoryTest;
+import com.github.themasterchef.loadtest4j.DriverFactoryTest;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @Category(UnitTest.class)
-public class WrkFactoryTest implements DriverFactoryTest {
+public class WrkFactoryTest extends DriverFactoryTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Override
-    public void testGetMandatoryProperties() {
-        final DriverFactory sut = new WrkFactory();
+    protected DriverFactory sut() {
+        return new WrkFactory();
+    }
 
-        assertEquals(Arrays.asList("duration", "url"), sut.getMandatoryProperties());
+    @Test
+    public void testGetMandatoryProperties() {
+        final DriverFactory sut = sut();
+
+        final Set<String> mandatoryProperties = sut.getMandatoryProperties();
+
+        assertEquals(2, mandatoryProperties.size());
+        assertTrue(mandatoryProperties.contains("duration"));
+        assertTrue(mandatoryProperties.contains("url"));
     }
 
     @Test
     public void testCreate() {
-        final DriverFactory sut = new WrkFactory();
+        final DriverFactory sut = sut();
 
         final Map<String, String> properties = new HashMap<>();
         properties.put("duration", "2");

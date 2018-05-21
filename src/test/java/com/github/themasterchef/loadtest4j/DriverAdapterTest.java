@@ -11,7 +11,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
-public class LoadTesterTest {
+public class DriverAdapterTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -19,7 +19,7 @@ public class LoadTesterTest {
     public void testRun() {
         // Given
         final StubDriver driver = new StubDriver();
-        final LoadTester loadTester = new LoadTester(driver);
+        final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
         final Result result = loadTester.run(Request.get("/"));
@@ -27,19 +27,6 @@ public class LoadTesterTest {
         // Then
         assertEquals(0, result.getErrors());
         assertEquals(0, result.getRequests());
-    }
-
-    @Test
-    public void testRunWithNoRequests() {
-        // Given
-        final LoadTester loadTester = new LoadTester(new StubDriver());
-
-        // Expect
-        thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("No requests were specified for the load test.");
-
-        // When
-        loadTester.run();
     }
 
     private static class StubDriver implements Driver {

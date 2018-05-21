@@ -28,4 +28,14 @@ public class ResultTest {
 
         assertEquals(0.5, result.getErrorRate(), 0.001);
     }
+
+    @Test
+    public void testGetErrorRateWithHugeNumbers() {
+        final long requests = Long.MAX_VALUE;
+        final long errors = requests / 2;
+
+        final Result result = new Result(errors, requests);
+
+        assertEquals(0.5, result.getErrorRate(), 0.001);
+    }
 }

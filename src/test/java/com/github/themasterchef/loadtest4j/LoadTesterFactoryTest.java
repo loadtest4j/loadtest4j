@@ -57,7 +57,7 @@ public class LoadTesterFactoryTest {
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
         thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("The following load test driver properties were not found: [foo, bar]. Please specify them either as JVM properties or in loadtest4j.properties.");
+        thrown.expectMessage("The following load test driver properties were not found: [bar, foo]. Please specify them either as JVM properties or in loadtest4j.properties.");
 
         factory.createLoadTester();
     }
@@ -87,8 +87,8 @@ public class LoadTesterFactoryTest {
     private static class StubDriverFactory implements DriverFactory {
 
         @Override
-        public Collection<String> getMandatoryProperties() {
-            return Arrays.asList("foo", "bar");
+        public Set<String> getMandatoryProperties() {
+            return new HashSet<>(Arrays.asList("bar", "foo"));
         }
 
         @Override

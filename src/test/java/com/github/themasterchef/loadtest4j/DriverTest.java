@@ -48,10 +48,14 @@ public abstract class DriverTest {
 
     protected abstract Driver sut(String serviceUrl);
 
+    protected Driver sut() {
+        return sut(getServiceUrl());
+    }
+
     @Test
     public void testRun()  {
         // Given
-        final Driver driver = sut(getServiceUrl());
+        final Driver driver = sut();
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
@@ -67,7 +71,7 @@ public abstract class DriverTest {
     @Test
     public void testRunWithMultipleRequests() {
         // Given
-        final Driver driver = sut(getServiceUrl());
+        final Driver driver = sut();
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
         // And
