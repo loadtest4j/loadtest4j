@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.loadtest4j</groupId>
     <artifactId>loadtest4j</artifactId>
-    <version>0.4.1</version>
+    <version>0.5.0</version>
 
     <description>A simple load test facade for Java.</description>
 
