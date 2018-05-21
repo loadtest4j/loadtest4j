@@ -1,6 +1,7 @@
 package com.github.themasterchef.loadtest4j;
 
 import com.github.themasterchef.loadtest4j.drivers.nop.NopFactory;
+import com.github.themasterchef.loadtest4j.junit.IntegrationTest;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.*;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Category(UnitTest.class)
@@ -27,7 +29,7 @@ public class LoadTesterFactoryTest {
 
     @Test
     public void testCreateDriverWithNoDriverFactories() {
-        final Collection<DriverFactory> driverFactories = Collections.emptyList();
+        final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner();
         final Properties driverProperties = singletonProperties("loadtest4j.driver", "foo");
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
@@ -39,7 +41,8 @@ public class LoadTesterFactoryTest {
 
     @Test
     public void testCreateDriverWithNoConfig() {
-        final Collection<DriverFactory> driverFactories = Collections.singletonList(new NopFactory());
+        final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
+                .add(new NopFactory());
         final Properties driverProperties = emptyProperties();
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
@@ -52,7 +55,8 @@ public class LoadTesterFactoryTest {
     @Test
     public void testCreateDriverWithMissingProperties() {
         final DriverFactory stubFactory = new StubDriverFactory();
-        final Collection<DriverFactory> driverFactories = Collections.singletonList(stubFactory);
+        final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
+                .add(stubFactory);
         final Properties driverProperties = singletonProperties("loadtest4j.driver", stubFactory.getClass().getName());
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
@@ -65,13 +69,50 @@ public class LoadTesterFactoryTest {
     @Test
     public void testCreateDriver() {
         final DriverFactory nopFactory = new NopFactory();
-        final Collection<DriverFactory> driverFactories = Collections.singletonList(nopFactory);
+        final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
+                .add(nopFactory);
         final Properties driverProperties = singletonProperties("loadtest4j.driver", nopFactory.getClass().getName());
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
         final LoadTester loadTester = factory.createLoadTester();
 
         assertNotNull(loadTester);
+    }
+
+    @Category(IntegrationTest.class)
+    public static class PropertiesResourceTest {
+        @Test
+        public void getProperties() {
+            final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/example.properties");
+
+            final Properties properties = sut.getProperties();
+
+            final Properties expectedProperties = new Properties();
+            expectedProperties.put("foo", "bar");
+            assertEquals(expectedProperties, properties);
+        }
+
+        @Test
+        public void getEmptyProperties() {
+            final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/fake.properties");
+
+            final Properties properties = sut.getProperties();
+
+            assertEquals(new Properties(), properties);
+        }
+    }
+
+    @Category(UnitTest.class)
+    public static class PropertiesSubsetTest {
+        @Test
+        public void testGetSubsetAndStripPrefix() {
+            final Properties props = new Properties();
+            props.put("foo", "1");
+            props.put("foo.bar", "2");
+            props.put("foo.bar.baz", "3");
+
+            assertEquals(Collections.singletonMap("baz", "3"), LoadTesterFactory.PropertiesSubset.getSubsetAndStripPrefix(props, "foo.bar"));
+        }
     }
 
     private static Properties singletonProperties(String key, String value) {
@@ -84,7 +125,24 @@ public class LoadTesterFactoryTest {
         return new Properties();
     }
 
+    private static class MockDriverFactoryScanner implements LoadTesterFactory.DriverFactoryScanner {
+        private final Collection<DriverFactory> factories = new ArrayList<>();
+
+        MockDriverFactoryScanner add(DriverFactory factory) {
+            factories.add(factory);
+            return this;
+        }
+
+        @Override
+        public Optional<DriverFactory> findFirst(String className) {
+            return factories.stream()
+                    .filter(factory -> factory.getClass().getName().equals(className))
+                    .findFirst();
+        }
+    }
+
     private static class StubDriverFactory implements DriverFactory {
+        StubDriverFactory() {}
 
         @Override
         public Set<String> getMandatoryProperties() {
