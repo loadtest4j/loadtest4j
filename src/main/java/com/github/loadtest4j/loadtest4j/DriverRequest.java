@@ -14,7 +14,7 @@ public final class DriverRequest {
     private final String method;
     private final String path;
 
-    DriverRequest(String body, Map<String, String> headers, String method, String path) {
+    public DriverRequest(String body, Map<String, String> headers, String method, String path) {
         this.body = body;
         this.headers = headers;
         this.method = method;
