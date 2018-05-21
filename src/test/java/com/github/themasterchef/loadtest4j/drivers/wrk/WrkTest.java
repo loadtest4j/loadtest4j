@@ -10,6 +10,9 @@ import org.junit.experimental.categories.Category;
 import java.time.Duration;
 import java.util.Collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 @Category(IntegrationTest.class)
 public class WrkTest extends DriverTest {
     @Override
@@ -23,11 +26,14 @@ public class WrkTest extends DriverTest {
         // Given
         final Driver driver = sut();
 
-        // Expect
-        thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("No requests were specified for the load test.");
-
         // When
-        driver.run(Collections.emptyList());
+        try {
+            driver.run(Collections.emptyList());
+
+            fail("This should not work.");
+        } catch (LoadTesterException e) {
+            // Then
+            assertEquals("No requests were specified for the load test.", e.getMessage());
+        }
     }
 }
