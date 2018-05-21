@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util.shell;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Test;

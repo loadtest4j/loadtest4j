@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * An HTTP request for a load test.
+ * A description of an HTTP request to be run in a load test.
  */
-public class Request {
+public final class Request {
 
     private final String body;
     private final Map<String, String> headers;

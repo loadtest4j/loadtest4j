@@ -29,7 +29,7 @@ Then add this library:
 <dependency>
     <groupId>com.github.themasterchef</groupId>
     <artifactId>loadtest4j</artifactId>
-    <version>[A Git tag]</version>
+    <version>[a git tag]</version>
 </dependency>
 ```
 

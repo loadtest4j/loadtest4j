@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j;
 
 import com.github.themasterchef.loadtest4j.junit.IntegrationTest;
 import org.junit.Test;

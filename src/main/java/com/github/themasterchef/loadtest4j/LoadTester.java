@@ -1,12 +1,8 @@
 package com.github.themasterchef.loadtest4j;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
- * A facade for running a load test.
+ * The load test runner.
  */
 public interface LoadTester {
-
-    CompletableFuture<Result> run(Request... requests);
-
+    Result run(Request... requests);
 }

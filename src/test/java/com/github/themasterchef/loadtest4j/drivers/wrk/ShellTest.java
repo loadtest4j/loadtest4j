@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util.shell;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import com.github.themasterchef.loadtest4j.junit.IntegrationTest;
 import org.junit.Test;
@@ -11,11 +11,11 @@ import static org.junit.Assert.assertEquals;
 @Category(IntegrationTest.class)
 public class ShellTest {
     @Test
-    public void testRun() throws Exception {
+    public void testRun() {
         final Shell sut = new Shell();
 
         final Command command = new Command(Collections.emptyList(), "whoami");
-        final int exitStatus = sut.start(command).run().get();
+        final int exitStatus = sut.start(command).run();
 
         assertEquals(0, exitStatus);
     }

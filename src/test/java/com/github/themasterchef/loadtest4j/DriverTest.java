@@ -1,8 +1,6 @@
 package com.github.themasterchef.loadtest4j;
 
 import com.xebialabs.restito.server.StubServer;
-import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
-
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
@@ -10,15 +8,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.get;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public abstract class LoadTesterTest {
+public abstract class DriverTest {
 
     private StubServer httpServer;
 
@@ -44,17 +46,22 @@ public abstract class LoadTesterTest {
         return String.format("http://localhost:%d", httpServer.getPort());
     }
 
-    protected abstract LoadTester sut(String serviceUrl);
+    protected abstract Driver sut(String serviceUrl);
+
+    protected Driver sut() {
+        return sut(getServiceUrl());
+    }
 
     @Test
-    public void testRun() throws Exception {
+    public void testRun()  {
         // Given
-        final LoadTester loadTester = sut(getServiceUrl());
+        final Driver driver = sut();
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Request.get("/")).get();
+        final Collection<DriverRequest> requests = Collections.singletonList(DriverRequests.get("/"));
+        final DriverResult result = driver.run(requests);
 
         // Then
         assertTrue(result.getRequests() >= 0);
@@ -62,29 +69,17 @@ public abstract class LoadTesterTest {
     }
 
     @Test
-    public void testRunWithNoRequests() throws Exception {
+    public void testRunWithMultipleRequests() {
         // Given
-        final LoadTester loadTester = sut(getServiceUrl());
-
-        // Then
-        thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("No requests were specified for the load test.");
-
-        // When
-        loadTester.run().get();
-    }
-
-    @Test
-    public void testRunWithMultipleRequests() throws Exception {
-        // Given
-        final LoadTester loadTester = sut(getServiceUrl());
+        final Driver driver = sut();
         // And
         whenHttp(httpServer).match(get("/")).then(status(HttpStatus.OK_200));
         // And
         whenHttp(httpServer).match(get("/pets")).then(status(HttpStatus.OK_200));
 
         // When
-        final Result result = loadTester.run(Request.get("/"), Request.get("/pets")).get();
+        final Collection<DriverRequest> requests = Arrays.asList(DriverRequests.get("/"), DriverRequests.get("/pets"));
+        final DriverResult result = driver.run(requests);
 
         // Then
         assertTrue(result.getRequests() >= 0);

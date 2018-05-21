@@ -1,21 +1,15 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j;
 
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PropertiesSubset {
+class PropertiesSubset {
 
     private PropertiesSubset() { }
 
-    public static Map<String, String> getSubset(Properties properties, String prefix) {
-        return getSubsetStream(properties, prefix)
-                .map(property -> new Property(property, properties.getProperty(property, null)))
-                .collect(Collectors.toMap(Property::getKey, Property::getValue));
-    }
-
-    public static Map<String, String> getSubsetAndStripPrefix(Properties properties, String prefix) {
+    protected static Map<String, String> getSubsetAndStripPrefix(Properties properties, String prefix) {
         final String processedPrefix = prefix + ".";
 
         return getSubsetStream(properties, processedPrefix)

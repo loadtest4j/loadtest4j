@@ -1,4 +1,4 @@
-package com.github.themasterchef.loadtest4j.util;
+package com.github.themasterchef.loadtest4j;
 
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Before;
@@ -6,8 +6,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
@@ -22,17 +20,6 @@ public class PropertiesSubsetTest {
         props.put("foo", "1");
         props.put("foo.bar", "2");
         props.put("foo.bar.baz", "3");
-    }
-
-    @Test
-    public void testGetSubset() {
-        final Map<String, String> actualSubset = PropertiesSubset.getSubset(props, "foo.bar");
-
-        final Map<String, String> expectedSubset = new HashMap<>();
-        expectedSubset.put("foo.bar", "2");
-        expectedSubset.put("foo.bar.baz", "3");
-
-        assertEquals(expectedSubset, actualSubset);
     }
 
     @Test

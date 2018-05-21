@@ -1,10 +1,12 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.Request;
+import com.github.themasterchef.loadtest4j.DriverRequest;
+import com.github.themasterchef.loadtest4j.DriverRequests;
 import com.github.themasterchef.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -27,19 +29,17 @@ public class WrkLuaScriptTest {
 
     @Test
     public void testScript() {
-        final Request request1 = Request.get("/pets");
+        final DriverRequest request1 = DriverRequests.get("/pets");
 
-        final Request request2 = Request.post("/pets")
-                .withHeader("Accept", "application/json")
-                .withHeader("Content-Type", "application/json")
-                .withBody("{}");
+        final DriverRequest request2 = DriverRequests.getWithBodyAndHeaders("/pets", "{}",
+                Collections.singletonMap("Accept", "application/json"));
 
-        final WrkLuaScript script = new WrkLuaScript(request1, request2);
+        final WrkLuaScript script = new WrkLuaScript(Arrays.asList(request1, request2));
 
         assertEquals(m( "init = function(args)",
                 "  local r = {}",
                 "  r[1] = wrk.format('GET', '/pets', {}, '')",
-                "  r[2] = wrk.format('POST', '/pets', {['Accept'] = 'application/json', ['Content-Type'] = 'application/json'}, '{}')",
+                "  r[2] = wrk.format('GET', '/pets', {['Accept'] = 'application/json'}, '{}')",
                 "  req = table.concat(r)",
                 "end",
                 "",

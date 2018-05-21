@@ -1,14 +1,14 @@
-package com.github.themasterchef.loadtest4j.util.shell;
+package com.github.themasterchef.loadtest4j.drivers.wrk;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Command {
+class Command {
 
     private final List<String> arguments;
     private final String launchPath;
 
-    public Command(List<String> arguments, String launchPath) {
+    Command(List<String> arguments, String launchPath) {
         this.arguments = arguments;
         this.launchPath = launchPath;
     }

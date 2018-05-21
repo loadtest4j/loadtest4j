@@ -1,19 +1,14 @@
 package com.github.themasterchef.loadtest4j.drivers.wrk;
 
-import com.github.themasterchef.loadtest4j.Request;
+import com.github.themasterchef.loadtest4j.DriverRequest;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.StringJoiner;
 
 class WrkLuaScript {
-    private final Collection<Request> requests;
+    private final Collection<DriverRequest> requests;
 
-    WrkLuaScript(Request... requests) {
-        this(Arrays.asList(requests));
-    }
-
-    WrkLuaScript(Collection<Request> requests) {
+    WrkLuaScript(Collection<DriverRequest> requests) {
         this.requests = requests;
     }
 
@@ -24,7 +19,7 @@ class WrkLuaScript {
         s.add("init = function(args)");
         s.add("  local r = {}");
         long i = 1;
-        for (Request request: requests) {
+        for (DriverRequest request: requests) {
             s.add(String.format("  r[%d] = %s", i, wrkRequest(request)));
             i++;
         }
@@ -38,7 +33,7 @@ class WrkLuaScript {
         return s.toString();
     }
 
-    private static String wrkRequest(Request request) {
+    private static String wrkRequest(DriverRequest request) {
         final WrkRequest req = new WrkRequest(request);
         return String.format("wrk.format('%s', '%s', %s, '%s')", req.getMethod(), req.getPath(), req.getHeaders(), req.getBody());
     }

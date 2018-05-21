@@ -1,22 +1,20 @@
-package com.github.themasterchef.loadtest4j.util;
-
-import com.github.themasterchef.loadtest4j.LoadTesterFactory;
+package com.github.themasterchef.loadtest4j;
 
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertiesResource {
+class PropertiesResource {
 
     private final String resourceName;
 
-    public PropertiesResource(String resourceName) {
+    PropertiesResource(String resourceName) {
         this.resourceName = resourceName;
     }
 
-    public Properties getProperties() {
+    protected Properties getProperties() {
         final Properties properties = new Properties();
         try {
-            properties.load(LoadTesterFactory.class.getResourceAsStream(resourceName));
+            properties.load(PropertiesResource.class.getResourceAsStream(resourceName));
         } catch (IOException | NullPointerException e) {
             // Return a new properties instance which we know is clean
             return new Properties();

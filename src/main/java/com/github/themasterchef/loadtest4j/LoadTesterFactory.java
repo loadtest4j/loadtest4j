@@ -1,11 +1,7 @@
 package com.github.themasterchef.loadtest4j;
 
-import com.github.themasterchef.loadtest4j.drivers.DriverFactory;
-import com.github.themasterchef.loadtest4j.util.PropertiesResource;
-import com.github.themasterchef.loadtest4j.util.PropertiesSubset;
-import com.github.themasterchef.loadtest4j.util.Validator;
-
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public final class LoadTesterFactory {
@@ -32,7 +28,9 @@ public final class LoadTesterFactory {
         final Properties properties = new Properties();
         properties.putAll(new PropertiesResource("/loadtest4j.properties").getProperties());
         properties.putAll(System.getProperties());
-        return new LoadTesterFactory(DRIVER_FACTORIES, properties).createLoadTester();
+
+        final LoadTesterFactory factory = new LoadTesterFactory(DRIVER_FACTORIES, properties);
+        return factory.createLoadTester();
     }
 
     LoadTesterFactory(Iterable<DriverFactory> driverFactories, Properties properties) {
@@ -41,24 +39,43 @@ public final class LoadTesterFactory {
     }
 
     protected LoadTester createLoadTester() {
-        try {
-            Validator.validatePresenceOf(properties, DRIVER_PROPERTY_NAMESPACE);
+        final DriverFactory driverFactory = getDriverFactory();
 
-            final String driverType = properties.getProperty(DRIVER_PROPERTY_NAMESPACE);
-            final DriverFactory driverFactory = getDriverFactory(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
+        final Map<String, String> driverProperties = getDriverProperties();
 
-            final Map<String, String> driverProperties = PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
+        validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
 
-            return driverFactory.create(driverProperties);
-        } catch (Validator.MissingPropertiesException e) {
-            final String msg = String.format("The following load test driver properties were not found: %s. Please specify them either as JVM properties or in loadtest4j.properties.", e.getMissingProperties());
-            throw new LoadTesterException(msg);
-        }
+        final Driver driver = driverFactory.create(driverProperties);
+
+        return new DriverAdapter(driver);
+    }
+
+    private DriverFactory getDriverFactory() {
+        validatePresenceOf(properties, Collections.singletonList(DRIVER_PROPERTY_NAMESPACE));
+
+        final String driverType = properties.getProperty(DRIVER_PROPERTY_NAMESPACE);
+
+        return getDriverFactory(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
+    }
+
+    private Map<String, String> getDriverProperties() {
+        return PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
     }
 
     private Optional<DriverFactory> getDriverFactory(String className) {
         return StreamSupport.stream(driverFactories.spliterator(), false)
                 .filter(factory -> factory.getClass().getName().equals(className))
                 .findFirst();
+    }
+
+    private static void validatePresenceOf(Map map, Collection<String> keys) {
+        final Set<String> missingKeys = keys.stream()
+                .filter(key -> !map.containsKey(key))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        if (!missingKeys.isEmpty()) {
+            final String msg = String.format("The following load test driver properties were not found: %s. Please specify them either as JVM properties or in loadtest4j.properties.", missingKeys);
+            throw new LoadTesterException(msg);
+        }
     }
 }
