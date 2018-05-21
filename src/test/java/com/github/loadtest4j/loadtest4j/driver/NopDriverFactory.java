@@ -1,24 +1,20 @@
-package com.github.loadtest4j.loadtest4j.drivers.nop;
+package com.github.loadtest4j.loadtest4j.driver;
 
 import com.github.loadtest4j.loadtest4j.Driver;
 import com.github.loadtest4j.loadtest4j.DriverFactory;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class NopFactory implements DriverFactory {
+public class NopDriverFactory implements DriverFactory {
+    public NopDriverFactory() {}
 
     @Override
     public Set<String> getMandatoryProperties() {
         return Collections.emptySet();
     }
 
-    /**
-     * Creates a Nop driver.
-     */
     @Override
     public Driver create(Map<String, String> properties) {
-        return new Nop();
+        return new NopDriver();
     }
 }
