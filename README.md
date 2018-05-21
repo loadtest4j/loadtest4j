@@ -6,41 +6,22 @@
 
 A simple load test facade for Java.
 
-## Drivers
+## Regular usage
 
-* wrk
-
-## Setup
-
-Add the [JitPack](https://jitpack.io) repository to your pom.xml:
-
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-```
-
-Then add this library:
+Install a load test driver (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
 
 ```xml
 <dependency>
     <groupId>com.github.loadtest4j</groupId>
-    <artifactId>loadtest4j</artifactId>
-    <version>[a git tag]</version>
+    <artifactId>loadtest4j-wrk</artifactId>
 </dependency>
 ```
-
-## Usage
 
 Add the file `loadtest4j.properties` to your `src/test/resources` directory and configure the load test driver:
 
 ```
-loadtest4j.driver = com.github.loadtest4j.loadtest4j.drivers.wrk.WrkFactory
-loadtest4j.driver.duration = 30
-loadtest4j.driver.url = https://example.com
+loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
+loadtest4j.driver.url = https://localhost:3000
 ```
 
 Then write a load test:
@@ -84,3 +65,37 @@ public class FooTest {
     }
 }
 ```
+
+## To write a driver
+
+Add the [JitPack](https://jitpack.io) repository to your pom.xml:
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+Then add this library:
+
+```xml
+<dependency>
+    <groupId>com.github.loadtest4j</groupId>
+    <artifactId>loadtest4j</artifactId>
+    <version>[a git tag]</version>
+</dependency>
+```
+
+Then write your driver and its counterpart factory:
+
+```java
+class MyDriver implements Driver {
+    public DriverResult run(Collection<DriverRequest> requests) {
+        // ...
+    }
+}
+```
+
