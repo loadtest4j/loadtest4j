@@ -128,7 +128,7 @@ public class LoadTesterFactoryTest {
     private static class MockDriverFactoryScanner implements LoadTesterFactory.DriverFactoryScanner {
         private final Collection<DriverFactory> factories = new ArrayList<>();
 
-        MockDriverFactoryScanner add(DriverFactory factory) {
+        private MockDriverFactoryScanner add(DriverFactory factory) {
             factories.add(factory);
             return this;
         }
