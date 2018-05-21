@@ -1,12 +1,11 @@
 package com.github.loadtest4j.loadtest4j;
 
+import com.github.loadtest4j.loadtest4j.driver.NopDriver;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-
-import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +17,7 @@ public class DriverAdapterTest {
     @Test
     public void testRun() {
         // Given
-        final StubDriver driver = new StubDriver();
+        final NopDriver driver = new NopDriver();
         final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
@@ -29,10 +28,4 @@ public class DriverAdapterTest {
         assertEquals(0, result.getRequests());
     }
 
-    private static class StubDriver implements Driver {
-        @Override
-        public DriverResult run(Collection<DriverRequest> requests) {
-            return new DriverResult(0, 0);
-        }
-    }
 }

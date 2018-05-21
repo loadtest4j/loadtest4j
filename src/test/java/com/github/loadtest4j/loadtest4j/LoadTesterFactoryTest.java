@@ -1,6 +1,7 @@
 package com.github.loadtest4j.loadtest4j;
 
-import com.github.loadtest4j.loadtest4j.drivers.nop.NopFactory;
+import com.github.loadtest4j.loadtest4j.driver.NopDriver;
+import com.github.loadtest4j.loadtest4j.driver.NopDriverFactory;
 import com.github.loadtest4j.loadtest4j.junit.IntegrationTest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
@@ -42,7 +43,7 @@ public class LoadTesterFactoryTest {
     @Test
     public void testCreateDriverWithNoConfig() {
         final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
-                .add(new NopFactory());
+                .add(new NopDriverFactory());
         final Properties driverProperties = emptyProperties();
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
@@ -68,7 +69,7 @@ public class LoadTesterFactoryTest {
 
     @Test
     public void testCreateDriver() {
-        final DriverFactory nopFactory = new NopFactory();
+        final DriverFactory nopFactory = new NopDriverFactory();
         final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
                 .add(nopFactory);
         final Properties driverProperties = singletonProperties("loadtest4j.driver", nopFactory.getClass().getName());
@@ -141,9 +142,7 @@ public class LoadTesterFactoryTest {
         }
     }
 
-    private static class StubDriverFactory implements DriverFactory {
-        StubDriverFactory() {}
-
+    public static class StubDriverFactory implements DriverFactory {
         @Override
         public Set<String> getMandatoryProperties() {
             return new HashSet<>(Arrays.asList("bar", "foo"));
@@ -151,7 +150,8 @@ public class LoadTesterFactoryTest {
 
         @Override
         public Driver create(Map<String, String> properties) {
-            return null;
+            return new NopDriver();
         }
     }
+
 }
