@@ -1,6 +1,5 @@
 package com.github.loadtest4j.loadtest4j.drivers.nop;
 
-import com.github.loadtest4j.loadtest4j.DriverFactoryTest;
 import com.github.loadtest4j.loadtest4j.DriverFactory;
 import com.github.loadtest4j.loadtest4j.Driver;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
@@ -12,10 +11,9 @@ import java.util.Collections;
 import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
-public class NopFactoryTest extends DriverFactoryTest {
+public class NopFactoryTest {
 
-    @Override
-    protected DriverFactory sut() {
+    private DriverFactory sut() {
         return new NopFactory();
     }
 
@@ -24,6 +22,13 @@ public class NopFactoryTest extends DriverFactoryTest {
         final DriverFactory sut = sut();
 
         assertEquals(Collections.emptySet(), sut.getMandatoryProperties());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetMandatoryPropertiesIsImmutable() {
+        final DriverFactory sut = sut();
+
+        sut.getMandatoryProperties().add("foobarbaz123");
     }
 
     @Test

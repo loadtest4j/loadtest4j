@@ -1,8 +1,6 @@
 language: java
 
-os: osx
+sudo: false
 
-osx_image: xcode9.2
-
-before_install:
-- brew install wrk
+jdk:
+- oraclejdk8
