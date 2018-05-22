@@ -31,11 +31,6 @@ public class FooTest {
 
     private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
 
-    @Before
-    private void setup() {
-        // Set up your service somewhere before load testing
-    }
-
     @Test
     public void testSimple() {
         Result result = loadTester.run(Request.get("/"));
