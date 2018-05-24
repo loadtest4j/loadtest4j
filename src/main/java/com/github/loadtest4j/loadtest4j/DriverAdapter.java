@@ -1,7 +1,7 @@
 package com.github.loadtest4j.loadtest4j;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 class DriverAdapter implements LoadTester {
@@ -13,14 +13,14 @@ class DriverAdapter implements LoadTester {
 
     @Override
     public Result run(Request... requests) {
-        final Collection<DriverRequest> driverRequests = preprocessRequests(requests);
+        final List<DriverRequest> driverRequests = preprocessRequests(requests);
 
         final DriverResult driverResult = driver.run(driverRequests);
 
         return postprocessResult(driverResult);
     }
 
-    private static Collection<DriverRequest> preprocessRequests(Request[] requests) {
+    private static List<DriverRequest> preprocessRequests(Request[] requests) {
         return Arrays.stream(requests)
                 .map(request -> new DriverRequest(request.getBody(), request.getHeaders(), request.getMethod(), request.getPath()))
                 .collect(Collectors.toList());
