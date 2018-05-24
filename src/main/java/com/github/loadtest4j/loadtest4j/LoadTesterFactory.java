@@ -54,6 +54,8 @@ public final class LoadTesterFactory {
     }
 
     private DriverFactory getDriverFactory() {
+        validateNotEmpty(driverFactoryScanner);
+
         validatePresenceOf(properties, Collections.singletonList(DRIVER_PROPERTY_NAMESPACE));
 
         final String driverType = properties.getProperty(DRIVER_PROPERTY_NAMESPACE);
@@ -63,6 +65,12 @@ public final class LoadTesterFactory {
 
     private Map<String, String> getDriverProperties() {
         return PropertiesSubset.getSubsetAndStripPrefix(properties, DRIVER_PROPERTY_NAMESPACE);
+    }
+
+    private static void validateNotEmpty(DriverFactoryScanner scanner) {
+        if (scanner.isEmpty()) {
+            throw new LoadTesterException("No load test drivers were found. Please add one or more drivers to your project.");
+        }
     }
 
     private static void validatePresenceOf(Map map, Collection<String> keys) {
@@ -133,6 +141,8 @@ public final class LoadTesterFactory {
 
     interface DriverFactoryScanner {
         Optional<DriverFactory> findFirst(String className);
+
+        boolean isEmpty();
     }
 
     static class DriverFactoryClasspathScanner implements DriverFactoryScanner {
@@ -159,6 +169,10 @@ public final class LoadTesterFactory {
             return FACTORIES.stream()
                     .filter(factory -> factory.getClass().getName().equals(className))
                     .findFirst();
+        }
+
+        public boolean isEmpty() {
+            return FACTORIES.isEmpty();
         }
     }
 }
