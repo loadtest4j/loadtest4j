@@ -31,6 +31,19 @@ public class LoadTesterFactoryTest {
     @Test
     public void testCreateDriverWithNoDriverFactories() {
         final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner();
+        final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, new Properties());
+
+        thrown.expect(LoadTesterException.class);
+        thrown.expectMessage("No load test drivers were found. Please add one or more drivers to your project.");
+
+        factory.createLoadTester();
+    }
+
+    @Test
+    public void testCreateDriverWithInvalidDriverFactorySpecified() {
+        final DriverFactory stubFactory = new StubDriverFactory();
+        final LoadTesterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
+                .add(stubFactory);
         final Properties driverProperties = singletonProperties("loadtest4j.driver", "foo");
         final LoadTesterFactory factory = new LoadTesterFactory(driverFactories, driverProperties);
 
@@ -139,6 +152,11 @@ public class LoadTesterFactoryTest {
             return factories.stream()
                     .filter(factory -> factory.getClass().getName().equals(className))
                     .findFirst();
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return factories.isEmpty();
         }
     }
 
