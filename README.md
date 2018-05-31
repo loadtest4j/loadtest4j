@@ -35,7 +35,7 @@ public class FooTest {
     public void testSimple() {
         Result result = loadTester.run(Request.get("/"));
 
-        assertEquals(0, result.getErrors());
+        assertEquals(0, result.getKo());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class FooTest {
                                               .withHeader("Content-Type", "application/json")
                                               .withBody("{}"));
 
-        assertEquals(0, result.getErrors());
+        assertEquals(0, result.getKo());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class FooTest {
         Result result = loadTester.run(Request.get("/pets")
                                               .withHeaders(headers));
 
-        assertEquals(0, result.getErrors());
+        assertEquals(0, result.getKo());
     }
 }
 ```

@@ -17,28 +17,28 @@ public class ResultTest {
     }
 
     @Test
-    public void testGetErrorRate() {
+    public void testGetPercentKo() {
         final Result result = new Result(0, 2);
 
         assertEquals(1.0, result.getPercentKo(), 0.001);
     }
 
     @Test
-    public void testGetErrorRateAvoidsDivideByZero() {
+    public void testGetPercentKoAvoidsDivideByZero() {
         final Result result = new Result(0, 0);
 
         assertEquals(0, result.getPercentKo(), 0.001);
     }
 
     @Test
-    public void testGetErrorRateWithErrors() {
+    public void testGetPercentKoWithErrors() {
         final Result result = new Result(2, 2);
 
         assertEquals(0.5, result.getPercentKo(), 0.001);
     }
 
     @Test
-    public void testGetErrorRateWithHugeNumbers() {
+    public void testGetPercentKoWithHugeNumbers() {
         final long ok = Long.MAX_VALUE / 2;
         final long ko = Long.MAX_VALUE / 2;
 
