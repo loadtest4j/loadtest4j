@@ -27,8 +27,8 @@ public class DriverAdapterTest {
         final Result result = loadTester.run(Request.get("/"));
 
         // Then
-        assertEquals(0, result.getErrors());
-        assertEquals(0, result.getRequests());
+        assertEquals(0, result.getKo());
+        assertEquals(0, result.getOk());
     }
 
     @Test

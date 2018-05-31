@@ -27,6 +27,6 @@ class DriverAdapter implements LoadTester {
     }
 
     private static Result postprocessResult(DriverResult driverResult) {
-        return new Result(driverResult.getErrors(), driverResult.getRequests());
+        return new Result(driverResult.getOk(), driverResult.getKo());
     }
 }
