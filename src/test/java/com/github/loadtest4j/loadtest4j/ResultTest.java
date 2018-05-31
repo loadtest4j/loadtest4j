@@ -8,34 +8,42 @@ import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
 public class ResultTest {
+
+    @Test
+    public void testGetTotal() {
+        final Result result = new Result(1, 1);
+
+        assertEquals(2, result.getTotal());
+    }
+
     @Test
     public void testGetErrorRate() {
         final Result result = new Result(0, 2);
 
-        assertEquals(0, result.getErrorRate(), 0.001);
+        assertEquals(1.0, result.getPercentKo(), 0.001);
     }
 
     @Test
     public void testGetErrorRateAvoidsDivideByZero() {
         final Result result = new Result(0, 0);
 
-        assertEquals(0, result.getErrorRate(), 0.001);
+        assertEquals(0, result.getPercentKo(), 0.001);
     }
 
     @Test
     public void testGetErrorRateWithErrors() {
-        final Result result = new Result(1, 2);
+        final Result result = new Result(2, 2);
 
-        assertEquals(0.5, result.getErrorRate(), 0.001);
+        assertEquals(0.5, result.getPercentKo(), 0.001);
     }
 
     @Test
     public void testGetErrorRateWithHugeNumbers() {
-        final long requests = Long.MAX_VALUE;
-        final long errors = requests / 2;
+        final long ok = Long.MAX_VALUE / 2;
+        final long ko = Long.MAX_VALUE / 2;
 
-        final Result result = new Result(errors, requests);
+        final Result result = new Result(ok, ko);
 
-        assertEquals(0.5, result.getErrorRate(), 0.001);
+        assertEquals(0.5, result.getPercentKo(), 0.001);
     }
 }

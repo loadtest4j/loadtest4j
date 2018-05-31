@@ -2,7 +2,6 @@ package com.github.loadtest4j.loadtest4j;
 
 import com.github.loadtest4j.loadtest4j.driver.NopDriver;
 import com.github.loadtest4j.loadtest4j.driver.NopDriverFactory;
-import com.github.loadtest4j.loadtest4j.junit.IntegrationTest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.junit.rules.ExpectedException;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @Category(UnitTest.class)
@@ -91,42 +89,6 @@ public class LoadTesterFactoryTest {
         final LoadTester loadTester = factory.createLoadTester();
 
         assertNotNull(loadTester);
-    }
-
-    @Category(IntegrationTest.class)
-    public static class PropertiesResourceTest {
-        @Test
-        public void getProperties() {
-            final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/example.properties");
-
-            final Properties properties = sut.getProperties();
-
-            final Properties expectedProperties = new Properties();
-            expectedProperties.put("foo", "bar");
-            assertEquals(expectedProperties, properties);
-        }
-
-        @Test
-        public void getEmptyProperties() {
-            final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/fake.properties");
-
-            final Properties properties = sut.getProperties();
-
-            assertEquals(new Properties(), properties);
-        }
-    }
-
-    @Category(UnitTest.class)
-    public static class PropertiesSubsetTest {
-        @Test
-        public void testGetSubsetAndStripPrefix() {
-            final Properties props = new Properties();
-            props.put("foo", "1");
-            props.put("foo.bar", "2");
-            props.put("foo.bar.baz", "3");
-
-            assertEquals(Collections.singletonMap("baz", "3"), LoadTesterFactory.PropertiesSubset.getSubsetAndStripPrefix(props, "foo.bar"));
-        }
     }
 
     private static Properties singletonProperties(String key, String value) {

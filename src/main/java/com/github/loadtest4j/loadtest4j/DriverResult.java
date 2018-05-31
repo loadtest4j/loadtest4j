@@ -4,19 +4,19 @@ package com.github.loadtest4j.loadtest4j;
  * The low-level results from the load test driver.
  */
 public final class DriverResult {
-    private final long errors;
-    private final long requests;
+    private final long ok;
+    private final long ko;
 
-    public DriverResult(long errors, long requests) {
-        this.errors = errors;
-        this.requests = requests;
+    public DriverResult(long ok, long ko) {
+        this.ok = ok;
+        this.ko = ko;
     }
 
-    public long getErrors() {
-        return errors;
+    public long getOk() {
+        return ok;
     }
 
-    public long getRequests() {
-        return requests;
+    public long getKo() {
+        return ko;
     }
 }
