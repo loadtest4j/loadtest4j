@@ -7,7 +7,7 @@ public final class Result {
     private final long ok;
     private final long ko;
 
-    Result(long ok, long ko) {
+    public Result(long ok, long ko) {
         this.ok = ok;
         this.ko = ko;
     }

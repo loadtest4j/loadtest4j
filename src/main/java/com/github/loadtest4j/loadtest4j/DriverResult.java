@@ -1,22 +1,14 @@
 package com.github.loadtest4j.loadtest4j;
 
+import java.util.Optional;
+
 /**
  * The low-level results from the load test driver.
  */
-public final class DriverResult {
-    private final long ok;
-    private final long ko;
+public interface DriverResult {
+    long getOk();
 
-    public DriverResult(long ok, long ko) {
-        this.ok = ok;
-        this.ko = ko;
-    }
+    long getKo();
 
-    public long getOk() {
-        return ok;
-    }
-
-    public long getKo() {
-        return ko;
-    }
+    Optional<String> getReportUrl();
 }

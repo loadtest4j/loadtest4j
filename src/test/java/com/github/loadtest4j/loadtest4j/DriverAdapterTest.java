@@ -1,8 +1,8 @@
 package com.github.loadtest4j.loadtest4j;
 
-import com.github.loadtest4j.loadtest4j.driver.NopDriver;
-import com.github.loadtest4j.loadtest4j.driver.SpyDriver;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
+import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
+import com.github.loadtest4j.loadtest4j.test_utils.SpyDriver;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
