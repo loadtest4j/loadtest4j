@@ -1,5 +1,6 @@
 package com.github.loadtest4j.loadtest4j;
 
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -9,6 +10,8 @@ public interface DriverResult {
     long getOk();
 
     long getKo();
+
+    Duration getActualDuration();
 
     Optional<String> getReportUrl();
 }

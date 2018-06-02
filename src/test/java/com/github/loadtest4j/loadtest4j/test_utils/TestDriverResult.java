@@ -2,6 +2,7 @@ package com.github.loadtest4j.loadtest4j.test_utils;
 
 import com.github.loadtest4j.loadtest4j.DriverResult;
 
+import java.time.Duration;
 import java.util.Optional;
 
 public class TestDriverResult implements DriverResult {
@@ -30,6 +31,11 @@ public class TestDriverResult implements DriverResult {
     @Override
     public long getKo() {
         return ko;
+    }
+
+    @Override
+    public Duration getActualDuration() {
+        return Duration.ZERO;
     }
 
     @Override

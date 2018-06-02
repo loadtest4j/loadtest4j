@@ -1,15 +1,23 @@
 package com.github.loadtest4j.loadtest4j;
 
+import java.time.Duration;
+
 /**
  * The post-processed results of a load test.
  */
 public final class Result {
     private final long ok;
     private final long ko;
+    private final Duration actualDuration;
 
-    public Result(long ok, long ko) {
+    public Result(long ok, long ko, Duration actualDuration) {
         this.ok = ok;
         this.ko = ko;
+        this.actualDuration = actualDuration;
+    }
+
+    public Duration getActualDuration() {
+        return actualDuration;
     }
 
     public long getKo() {
