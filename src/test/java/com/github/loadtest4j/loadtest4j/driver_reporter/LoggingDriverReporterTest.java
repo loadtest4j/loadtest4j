@@ -25,7 +25,7 @@ public class LoggingDriverReporterTest {
         private String printedMsg;
 
         @Override
-        void print(String msg) {
+        protected void print(String msg) {
             printedMsg = msg;
         }
 

@@ -7,7 +7,7 @@ public class LoggingDriverReporter implements DriverReporter {
         print(msg);
     }
 
-    void print(String msg) {
+    protected void print(String msg) {
         System.out.println(msg);
     }
 }

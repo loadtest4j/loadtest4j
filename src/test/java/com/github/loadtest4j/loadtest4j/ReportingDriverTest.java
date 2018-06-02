@@ -53,7 +53,7 @@ public class ReportingDriverTest {
             this.reportedUrl = reportUrl;
         }
 
-        String getReportedUrl() {
+        private String getReportedUrl() {
             return reportedUrl;
         }
     }

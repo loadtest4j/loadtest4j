@@ -20,11 +20,11 @@ class DriverAdapterFactory {
         this.driverFactoryScanner = driverFactoryScanner;
     }
 
-    static DriverAdapterFactory defaultFactory() {
+    protected static DriverAdapterFactory defaultFactory() {
         return new DriverAdapterFactory(DRIVER_FACTORIES);
     }
 
-    LoadTester create(Map<String, String> properties) {
+    protected LoadTester create(Map<String, String> properties) {
         final Driver driver = createDriver(properties);
 
         return new DriverAdapter(driver);
