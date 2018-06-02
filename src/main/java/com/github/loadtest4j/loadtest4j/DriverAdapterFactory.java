@@ -33,9 +33,8 @@ class DriverAdapterFactory {
     private Driver createDriver(Map<String, String> properties) {
         final DriverFactory driverFactory = getDriverFactory(properties);
 
-        validatePresenceOf(properties, driverFactory.getMandatoryProperties());
-
         final Map<String, String> driverProperties = getDriverProperties(properties);
+        validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
         final Driver driver = driverFactory.create(driverProperties);
 
         final Driver validatingDriver = new ValidatingDriver(driver);
