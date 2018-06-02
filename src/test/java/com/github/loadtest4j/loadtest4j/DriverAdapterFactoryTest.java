@@ -9,6 +9,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -68,13 +69,21 @@ public class DriverAdapterFactoryTest {
 
     @Test
     public void testCreateDriver() {
-        final DriverFactory nopFactory = new NopDriverFactory();
+        // Given
+        final DriverFactory stubFactory = new StubDriverFactory();
         final DriverAdapterFactory.DriverFactoryScanner driverFactories = new MockDriverFactoryScanner()
-                .add(nopFactory);
+                .add(stubFactory);
         final DriverAdapterFactory factory = new DriverAdapterFactory(driverFactories);
 
-        final LoadTester loadTester = factory.create(Collections.singletonMap("loadtest4j.driver", nopFactory.getClass().getName()));
+        // When
+        final Map<String, String> properties = new ConcurrentHashMap<>();
+        properties.put("loadtest4j.driver", stubFactory.getClass().getName());
+        properties.put("loadtest4j.driver.bar", "1");
+        properties.put("loadtest4j.driver.foo", "2");
+        properties.put("loadtest4j.reporter.enabled", "true");
+        final LoadTester loadTester = factory.create(properties);
 
+        // Then
         assertNotNull(loadTester);
     }
 
