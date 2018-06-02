@@ -29,7 +29,7 @@ public class LoggingDriverReporterTest {
             printedMsg = msg;
         }
 
-        String getPrintedMsg() {
+        private String getPrintedMsg() {
             return printedMsg;
         }
     }
