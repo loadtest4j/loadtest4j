@@ -50,7 +50,9 @@ public final class LoadTesterFactory {
 
         final Driver driver = driverFactory.create(driverProperties);
 
-        return new DriverAdapter(driver);
+        final Driver validatingDriver = new ValidatingDriver(driver);
+
+        return new DriverAdapter(validatingDriver);
     }
 
     private DriverFactory getDriverFactory() {

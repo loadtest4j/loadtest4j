@@ -27,7 +27,8 @@ loadtest4j.driver.url = https://localhost:3000
 Then write a load test:
 
 ```java
-public class FooTest {
+@Category(LoadTest.class)
+public class PetStoreLoadTest {
 
     private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
 
