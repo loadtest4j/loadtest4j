@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-final class ValidatingDriver implements Driver {
+class ValidatingDriver implements Driver {
 
     private final Driver delegate;
 

@@ -1,4 +1,4 @@
-package com.github.loadtest4j.loadtest4j.driver;
+package com.github.loadtest4j.loadtest4j.test_utils;
 
 import com.github.loadtest4j.loadtest4j.Driver;
 import com.github.loadtest4j.loadtest4j.DriverFactory;

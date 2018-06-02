@@ -1,0 +1,18 @@
+package com.github.loadtest4j.loadtest4j;
+
+import com.github.loadtest4j.loadtest4j.driver_reporter.DriverReporter;
+import com.github.loadtest4j.loadtest4j.driver_reporter.LoggingDriverReporter;
+import com.github.loadtest4j.loadtest4j.driver_reporter.NopDriverReporter;
+
+import java.util.Map;
+
+class DriverReporterFactory {
+    DriverReporter create(Map<String, String> properties) {
+        final boolean isEnabled = Boolean.valueOf(properties.getOrDefault("enabled", "false"));
+        if (isEnabled) {
+            return new LoggingDriverReporter();
+        } else {
+            return new NopDriverReporter();
+        }
+    }
+}

@@ -1,4 +1,4 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.utils;
 
 import com.github.loadtest4j.loadtest4j.junit.IntegrationTest;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class PropertiesResourceTest {
     @Test
     public void getProperties() {
-        final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/example.properties");
+        final PropertiesResource sut = new PropertiesResource("/props/example.properties");
 
         final Properties properties = sut.getProperties();
 
@@ -23,7 +23,7 @@ public class PropertiesResourceTest {
 
     @Test
     public void getEmptyProperties() {
-        final LoadTesterFactory.PropertiesResource sut = new LoadTesterFactory.PropertiesResource("/props/fake.properties");
+        final PropertiesResource sut = new PropertiesResource("/props/fake.properties");
 
         final Properties properties = sut.getProperties();
 

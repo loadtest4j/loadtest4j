@@ -1,8 +1,8 @@
 package com.github.loadtest4j.loadtest4j;
 
-import com.github.loadtest4j.loadtest4j.driver.StubDriver;
-import com.github.loadtest4j.loadtest4j.driver.TestDriverResult;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
+import com.github.loadtest4j.loadtest4j.test_utils.StubDriver;
+import com.github.loadtest4j.loadtest4j.test_utils.TestDriverResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

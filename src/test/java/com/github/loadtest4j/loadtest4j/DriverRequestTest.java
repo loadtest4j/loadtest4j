@@ -1,5 +1,6 @@
 package com.github.loadtest4j.loadtest4j;
 
+import com.github.loadtest4j.loadtest4j.DriverRequest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Before;
 import org.junit.Test;
