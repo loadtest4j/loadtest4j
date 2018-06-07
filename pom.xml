@@ -40,6 +40,7 @@
                 <version>3.9.0</version>
                 <configuration>
                     <printFailingErrors>true</printFailingErrors>
+                    <linkXRef>false</linkXRef>
                 </configuration>
                 <executions>
                     <execution>
