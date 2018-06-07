@@ -41,6 +41,7 @@
                 <configuration>
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>
+                    <analysisCache>true</analysisCache>
                 </configuration>
                 <executions>
                     <execution>
