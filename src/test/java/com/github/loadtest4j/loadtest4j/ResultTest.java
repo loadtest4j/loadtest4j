@@ -22,7 +22,7 @@ public class ResultTest {
     public void testGetPercentKo() {
         final Result result = new Result(0, 2, Duration.ZERO);
 
-        assertEquals(1.0, result.getPercentKo(), 0.001);
+        assertEquals(100, result.getPercentKo(), 0.001);
     }
 
     @Test
@@ -34,9 +34,9 @@ public class ResultTest {
 
     @Test
     public void testGetPercentKoWithErrors() {
-        final Result result = new Result(2, 2, Duration.ZERO);
+        final Result result = new Result(3, 1, Duration.ZERO);
 
-        assertEquals(0.5, result.getPercentKo(), 0.001);
+        assertEquals(25, result.getPercentKo(), 0.001);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class ResultTest {
 
         final Result result = new Result(ok, ko, Duration.ZERO);
 
-        assertEquals(0.5, result.getPercentKo(), 0.001);
+        assertEquals(50, result.getPercentKo(), 0.001);
     }
 
     @Test
