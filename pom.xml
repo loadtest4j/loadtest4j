@@ -20,11 +20,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.github.lukehutch</groupId>
-            <artifactId>fast-classpath-scanner</artifactId>
-            <version>2.21</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -42,6 +37,7 @@
                     <printFailingErrors>true</printFailingErrors>
                     <linkXRef>false</linkXRef>
                     <analysisCache>true</analysisCache>
+                    <includeTests>true</includeTests>
                 </configuration>
                 <executions>
                     <execution>
