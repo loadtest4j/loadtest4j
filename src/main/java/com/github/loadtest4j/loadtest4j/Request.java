@@ -14,12 +14,14 @@ public final class Request {
     private final Map<String, String> headers;
     private final String method;
     private final String path;
+    private final Map<String, String> queryParams;
 
-    private Request(String body, Map<String, String> headers, String method, String path) {
+    private Request(String body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
         this.body = body;
         this.headers = headers;
         this.method = method;
         this.path = path;
+        this.queryParams = queryParams;
     }
 
     public static Request get(String path) {
@@ -63,19 +65,27 @@ public final class Request {
     }
 
     private static Request withMethodAndPath(String method, String path) {
-        return new Request("", Collections.emptyMap(), method, path);
+        return new Request("", Collections.emptyMap(), method, path, Collections.emptyMap());
     }
 
     public Request withHeader(String key, String value) {
-        return new Request(this.getBody(), concatMap(this.getHeaders(), key, value), this.getMethod(), this.getPath());
+        return new Request(this.getBody(), concatMap(this.getHeaders(), key, value), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 
     public Request withHeaders(Map<String, String> headers) {
-        return new Request(this.getBody(), concatMaps(this.getHeaders(), headers), this.getMethod(), this.getPath());
+        return new Request(this.getBody(), concatMaps(this.getHeaders(), headers), this.getMethod(), this.getPath(), this.getQueryParams());
+    }
+
+    public Request withQueryParam(String key, String value) {
+        return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMap(this.getQueryParams(), key, value));
+    }
+
+    public Request withQueryParams(Map<String, String> queryParams) {
+        return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMaps(this.getQueryParams(), queryParams));
     }
 
     public Request withBody(String body) {
-        return new Request(body, this.getHeaders(), this.getMethod(), this.getPath());
+        return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 
     public String getBody() {
@@ -92,6 +102,10 @@ public final class Request {
 
     public String getPath() {
         return path;
+    }
+
+    public Map<String, String> getQueryParams() {
+        return queryParams;
     }
 
     private static Map<String, String> concatMap(Map<String, String> map, String key, String value) {

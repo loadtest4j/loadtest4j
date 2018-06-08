@@ -109,6 +109,17 @@ public class RequestTest {
     }
 
     @Test
+    public void testWithHeaderBehavesImmutably() {
+        final Request sut = Request.get("/pets");
+
+        final Map<String, String> headersBefore = sut.getHeaders();
+
+        sut.withHeader("Foo", "bar");
+
+        assertFalse(headersBefore.containsKey("Foo"));
+    }
+
+    @Test
     public void testWithHeaders() {
         final Map<String, String> headers = new HashMap<>();
         headers.put("Accept", "application/json");
@@ -122,6 +133,17 @@ public class RequestTest {
     }
 
     @Test
+    public void testWithHeadersBehavesImmutably() {
+        final Request sut = Request.get("/pets");
+
+        final Map<String, String> headersBefore = sut.getHeaders();
+
+        sut.withHeaders(Collections.singletonMap("Foo", "bar"));
+
+        assertFalse(headersBefore.containsKey("Foo"));
+    }
+
+    @Test
     public void testCombinesHeaders() {
         final Request sut = Request.get("/pets")
                 .withHeader("Referer", "https://example.com")
@@ -132,24 +154,64 @@ public class RequestTest {
     }
 
     @Test
-    public void testWithHeaderBehavesImmutably() {
-        final Request sut = Request.get("/pets");
+    public void testWithQueryParam() {
+        final Request sut = Request.get("/pets").withQueryParam("foo", "1");
 
-        final Map<String, String> headersBefore = sut.getHeaders();
-
-        sut.withHeader("Foo", "bar");
-
-        assertFalse(headersBefore.containsKey("Foo"));
+        assertEquals(Collections.singletonMap("foo", "1"), sut.getQueryParams());
     }
 
     @Test
-    public void testWithHeadersBehavesImmutably() {
+    public void testWithQueryParamMultipleInvocations() {
+        final Request sut = Request.get("/pets")
+                .withQueryParam("foo", "1")
+                .withQueryParam("bar", "2");
+
+        assertEquals("1", sut.getQueryParams().get("foo"));
+        assertEquals("2", sut.getQueryParams().get("bar"));
+    }
+
+    @Test
+    public void testWithQueryParamBehavesImmutably() {
         final Request sut = Request.get("/pets");
 
-        final Map<String, String> headersBefore = sut.getHeaders();
+        final Map<String, String> queryParamsBefore = sut.getQueryParams();
 
-        sut.withHeaders(Collections.singletonMap("Foo", "bar"));
+        sut.withQueryParam("foo", "bar");
 
-        assertFalse(headersBefore.containsKey("Foo"));
+        assertFalse(queryParamsBefore.containsKey("foo"));
+    }
+
+    @Test
+    public void testWithQueryParams() {
+        final Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("foo", "1");
+        queryParams.put("bar", "2");
+
+        final Request sut = Request.get("/pets")
+                .withQueryParams(queryParams);
+
+        assertEquals("1", sut.getQueryParams().get("foo"));
+        assertEquals("2", sut.getQueryParams().get("bar"));
+    }
+
+    @Test
+    public void testWithQueryParamsBehavesImmutably() {
+        final Request sut = Request.get("/pets");
+
+        final Map<String, String> queryParamsBefore = sut.getQueryParams();
+
+        sut.withQueryParams(Collections.singletonMap("foo", "bar"));
+
+        assertFalse(queryParamsBefore.containsKey("foo"));
+    }
+
+    @Test
+    public void testCombinesQueryParams() {
+        final Request sut = Request.get("/pets")
+                .withQueryParam("foo", "1")
+                .withQueryParams(Collections.singletonMap("bar", "2"));
+
+        assertEquals("1", sut.getQueryParams().get("foo"));
+        assertEquals("2", sut.getQueryParams().get("bar"));
     }
 }
