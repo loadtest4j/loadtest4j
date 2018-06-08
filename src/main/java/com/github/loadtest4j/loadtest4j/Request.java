@@ -80,10 +80,6 @@ public final class Request {
         return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMap(this.getQueryParams(), key, value));
     }
 
-    public Request withQueryParams(Map<String, String> queryParams) {
-        return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMaps(this.getQueryParams(), queryParams));
-    }
-
     public Request withBody(String body) {
         return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }

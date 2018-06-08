@@ -180,38 +180,4 @@ public class RequestTest {
 
         assertFalse(queryParamsBefore.containsKey("foo"));
     }
-
-    @Test
-    public void testWithQueryParams() {
-        final Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("foo", "1");
-        queryParams.put("bar", "2");
-
-        final Request sut = Request.get("/pets")
-                .withQueryParams(queryParams);
-
-        assertEquals("1", sut.getQueryParams().get("foo"));
-        assertEquals("2", sut.getQueryParams().get("bar"));
-    }
-
-    @Test
-    public void testWithQueryParamsBehavesImmutably() {
-        final Request sut = Request.get("/pets");
-
-        final Map<String, String> queryParamsBefore = sut.getQueryParams();
-
-        sut.withQueryParams(Collections.singletonMap("foo", "bar"));
-
-        assertFalse(queryParamsBefore.containsKey("foo"));
-    }
-
-    @Test
-    public void testCombinesQueryParams() {
-        final Request sut = Request.get("/pets")
-                .withQueryParam("foo", "1")
-                .withQueryParams(Collections.singletonMap("bar", "2"));
-
-        assertEquals("1", sut.getQueryParams().get("foo"));
-        assertEquals("2", sut.getQueryParams().get("bar"));
-    }
 }
