@@ -55,4 +55,18 @@ public class ResultTest {
 
         assertEquals(Duration.ofSeconds(2), result.getActualDuration());
     }
+
+    @Test
+    public void testGetRequestsPerSecond() {
+        final Result result = new Result(5, 5, Duration.ofMillis(2500));
+
+        assertEquals(4, result.getRequestsPerSecond(), 0.001);
+    }
+
+    @Test
+    public void testGetRequestsPerSecondAvoidsDivideByZero() {
+        final Result result = new Result(2, 0, Duration.ZERO);
+
+        assertEquals(0, result.getRequestsPerSecond(), 0.001);
+    }
 }

@@ -43,4 +43,18 @@ public final class Result {
             return ((double) getKo()) / ((double) getTotal());
         }
     }
+
+    /**
+     * @return The average requests per second (total / duration)
+     */
+    public double getRequestsPerSecond() {
+        final double durationSeconds = ((double) getActualDuration().toMillis()) / 1000;
+
+        // Do not divide by zero
+        if (durationSeconds == 0) {
+            return 0;
+        } else {
+            return getTotal() / durationSeconds;
+        }
+    }
 }
