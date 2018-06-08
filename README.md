@@ -33,16 +33,20 @@ public class PetStoreLoadTest {
 
     @Test
     public void testSimple() {
-        Result result = loadTester.run(Request.get("/"));
+        List<Request> requests = List.of(Request.get("/"));
+
+        Result result = loadTester.run(requests);
 
         assertEquals(0, result.getKo());
     }
 
     @Test
     public void testCustomised() {
-        Result result = loadTester.run(Request.post("/pets")
-                                              .withHeader("Content-Type", "application/json")
-                                              .withBody("{}"));
+        List<Request> requests = List.of(Request.post("/pets")
+                                                .withHeader("Content-Type", "application/json")
+                                                .withBody("{}"));
+
+        Result result = loadTester.run(requests);
 
         assertEquals(0, result.getKo());
     }
@@ -53,8 +57,10 @@ public class PetStoreLoadTest {
         headers.put("Accept", "application/json");
         headers.put("Referer", "https://example.com");
 
-        Result result = loadTester.run(Request.get("/pets")
-                                              .withHeaders(headers));
+        List<Request> requests = List.of(Request.get("/pets")
+                                                .withHeaders(headers));
+
+        Result result = loadTester.run(requests);
 
         assertEquals(0, result.getKo());
     }
@@ -80,7 +86,7 @@ Then add this library:
 <dependency>
     <groupId>com.github.loadtest4j</groupId>
     <artifactId>loadtest4j</artifactId>
-    <version>[a git tag]</version>
+    <version>[git tag]</version>
 </dependency>
 ```
 
