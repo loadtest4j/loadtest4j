@@ -21,7 +21,7 @@ class DriverAdapter implements LoadTester {
 
     private static List<DriverRequest> preprocessRequests(List<Request> requests) {
         return requests.stream()
-                .map(request -> new DriverRequest(request.getBody(), request.getHeaders(), request.getMethod(), request.getPath()))
+                .map(request -> new DriverRequest(request.getBody(), request.getHeaders(), request.getMethod(), request.getPath(), request.getQueryParams()))
                 .collect(Collectors.toList());
     }
 

@@ -16,7 +16,7 @@ public class DriverRequestTest {
 
     @Before
     public void setUp() {
-        request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/");
+        request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
     }
 
     @Test
@@ -37,5 +37,10 @@ public class DriverRequestTest {
     @Test
     public void testGetPath() {
         assertEquals("/", request.getPath());
+    }
+
+    @Test
+    public void testGetQueryParams() {
+        assertEquals(Collections.singletonMap("foo", "bar"), request.getQueryParams());
     }
 }
