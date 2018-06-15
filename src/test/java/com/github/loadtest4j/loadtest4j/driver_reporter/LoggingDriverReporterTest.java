@@ -1,8 +1,11 @@
 package com.github.loadtest4j.loadtest4j.driver_reporter;
 
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
+import com.github.loadtest4j.loadtest4j.test_utils.NopOutputStream;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,26 +14,30 @@ public class LoggingDriverReporterTest {
     @Test
     public void testShow() {
         // Given
-        final LoggingDriverReporterSpy reporter = new LoggingDriverReporterSpy();
+        final PrintStreamSpy printStream = new PrintStreamSpy();
+        final LoggingDriverReporter reporter = new LoggingDriverReporter(printStream);
 
         // When
         reporter.show("https://example.com");
 
         // Then
-        assertEquals("The driver has generated a custom report. This is available at the following URL: https://example.com", reporter.getPrintedMsg());
+        assertEquals("The driver has generated a custom report. This is available at the following URL: https://example.com", printStream.getMsg());
     }
 
-    private static class LoggingDriverReporterSpy extends LoggingDriverReporter {
+    private static class PrintStreamSpy extends PrintStream {
+        private String msg;
 
-        private String printedMsg;
-
-        @Override
-        protected void print(String msg) {
-            printedMsg = msg;
+        private PrintStreamSpy() {
+            super(new NopOutputStream());
         }
 
-        private String getPrintedMsg() {
-            return printedMsg;
+        @Override
+        public void println(String msg) {
+            this.msg = msg;
+        }
+
+        private String getMsg() {
+            return msg;
         }
     }
 }

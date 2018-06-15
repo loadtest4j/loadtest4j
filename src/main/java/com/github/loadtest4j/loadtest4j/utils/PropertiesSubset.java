@@ -11,7 +11,11 @@ public class PropertiesSubset {
         final String processedPrefix = prefix + ".";
 
         return getSubsetStream(properties, processedPrefix)
-                .map(property -> new Property(property.replace(processedPrefix, ""), properties.getOrDefault(property, null)))
+                .map(property -> {
+                    final String key = property.replace(processedPrefix, "");
+                    final String value = properties.getOrDefault(property, null);
+                    return new Property(key, value);
+                })
                 .collect(Collectors.toMap(Property::getKey, Property::getValue));
     }
 
@@ -19,23 +23,5 @@ public class PropertiesSubset {
         return properties.keySet()
                 .stream()
                 .filter(propertyName -> propertyName.startsWith(prefix));
-    }
-
-    private static class Property {
-        private final String key;
-        private final String value;
-
-        private Property(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        private String getKey() {
-            return key;
-        }
-
-        private String getValue() {
-            return value;
-        }
     }
 }
