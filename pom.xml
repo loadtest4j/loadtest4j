@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <jacoco.version>0.8.1</jacoco.version>
     </properties>
 
     <dependencies>
@@ -52,11 +51,12 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
+                <version>0.8.1</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -90,13 +90,4 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-            </plugin>
-        </plugins>
-    </reporting>
 </project>
