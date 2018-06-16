@@ -5,4 +5,4 @@ sudo: false
 jdk:
 - oraclejdk8
 
-script: mvn test site -B
+script: mvn verify -B
