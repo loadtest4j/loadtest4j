@@ -49,33 +49,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.1</version>
-                <configuration>
-                    <rules>
-                        <rule>
-                            <element>BUNDLE</element>
-                            <limits>
-                                <limit>
-                                    <counter>INSTRUCTION</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.95</minimum>
-                                </limit>
-                            </limits>
-                        </rule>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.0.1</version>
@@ -106,4 +79,19 @@
             </plugin>
         </plugins>
     </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
