@@ -1,13 +1,22 @@
 package com.github.loadtest4j.loadtest4j.driver_reporter;
 
+import java.io.PrintStream;
+
 public class LoggingDriverReporter implements DriverReporter {
+
+    private final PrintStream printStream;
+
+    public LoggingDriverReporter(PrintStream printStream) {
+        this.printStream = printStream;
+    }
+
+    public static LoggingDriverReporter stdout() {
+        return new LoggingDriverReporter(System.out);
+    }
+
     @Override
     public void show(String reportUrl) {
         final String msg = String.format("The driver has generated a custom report. This is available at the following URL: %s", reportUrl);
-        print(msg);
-    }
-
-    protected void print(String msg) {
-        System.out.println(msg);
+        printStream.println(msg);
     }
 }

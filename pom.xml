@@ -3,8 +3,8 @@
     <groupId>com.github.loadtest4j</groupId>
     <artifactId>loadtest4j</artifactId>
     <version>0.10.0</version>
-
     <description>A simple load test facade for Java.</description>
+    <url>https://github.com/loadtest4j/loadtest4j</url>
 
     <licenses>
         <license>
@@ -49,12 +49,24 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.0.1</version>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -70,7 +82,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>attach-javadoc</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>

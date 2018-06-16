@@ -10,7 +10,7 @@ class DriverReporterFactory {
     protected DriverReporter create(Map<String, String> properties) {
         final boolean isEnabled = Boolean.valueOf(properties.getOrDefault("enabled", "false"));
         if (isEnabled) {
-            return new LoggingDriverReporter();
+            return LoggingDriverReporter.stdout();
         } else {
             return new NopDriverReporter();
         }
