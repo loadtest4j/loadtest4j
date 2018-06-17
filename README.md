@@ -8,20 +8,35 @@ A simple load test facade for Java.
 
 ## Regular usage
 
-Install a load test driver (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
+Add a load test driver to your `pom.xml` (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
 
 ```xml
-<dependency>
-    <groupId>com.github.loadtest4j</groupId>
-    <artifactId>loadtest4j-wrk</artifactId>
-</dependency>
+<project>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.loadtest4j</groupId>
+            <artifactId>loadtest4j-wrk</artifactId>
+            <version>[git tag]</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+</project>
 ```
 
-Add the file `loadtest4j.properties` to your `src/test/resources` directory and configure the load test driver:
+Configure the load test driver in `src/test/resources/loadtest4j.properties`:
 
 ```
 loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
 loadtest4j.driver.url = https://localhost:3000
+
+loadtest4j.reporter.enabled = true
 ```
 
 Then write a load test:
@@ -33,8 +48,10 @@ public class PetStoreLoadTest {
     private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
 
     @Test
-    public void testSimple() {
-        List<Request> requests = List.of(Request.get("/"));
+    public void testFindPets() {
+        List<Request> requests = List.of(Request.get("/pet/findByStatus")
+                                                .withHeader("Accept", "application/json")
+                                                .withQueryParam("status", "available"));
 
         Result result = loadTester.run(requests);
 
@@ -42,24 +59,14 @@ public class PetStoreLoadTest {
     }
 
     @Test
-    public void testCustomised() {
-        List<Request> requests = List.of(Request.post("/pets")
-                                                .withHeader("Content-Type", "application/json")
+    public void testAddPet() {
+        Map<String, String> headers = Map.of(
+                "Accept", "application/json",
+                "Content-Type", "application/json");
+
+        List<Request> requests = List.of(Request.post("/pet")
+                                                .withHeaders(headers)
                                                 .withBody("{}"));
-
-        Result result = loadTester.run(requests);
-
-        assertEquals(0, result.getKo());
-    }
-
-    @Test
-    public void testLotsOfHeaders() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/json");
-        headers.put("Referer", "https://example.com");
-
-        List<Request> requests = List.of(Request.get("/pets")
-                                                .withHeaders(headers));
 
         Result result = loadTester.run(requests);
 
@@ -70,18 +77,7 @@ public class PetStoreLoadTest {
 
 ## To write a driver
 
-Add the [JitPack](https://jitpack.io) repository to your pom.xml:
-
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-```
-
-Then add this library:
+Add this library to your `pom.xml`:
 
 ```xml
 <dependency>
@@ -96,6 +92,12 @@ Then write your driver and its counterpart factory:
 ```java
 class MyDriver implements Driver {
     public DriverResult run(Collection<DriverRequest> requests) {
+        // ...
+    }
+}
+
+public class MyDriverFactory implements DriverFactory {
+    public Driver create(Map<String, String> properties) {
         // ...
     }
 }
