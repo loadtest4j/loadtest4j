@@ -51,7 +51,7 @@ public class DriverAdapterFactoryTest {
         final DriverAdapterFactory factory = DriverAdapterFactory.defaultFactory();
 
         thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("The following load test driver properties were not found: [loadtest4j.driver]. Please specify them either as JVM properties or in loadtest4j.properties.");
+        thrown.expectMessage("The driver config is missing. Add it to /loadtest4j.properties or the JVM properties.");
 
         factory.create(Collections.emptyMap());
     }
@@ -61,7 +61,7 @@ public class DriverAdapterFactoryTest {
         final DriverAdapterFactory factory = DriverAdapterFactory.defaultFactory();
 
         thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("The following load test driver properties were not found: [bar, foo]. Please specify them either as JVM properties or in loadtest4j.properties.");
+        thrown.expectMessage("The following driver properties are missing: [loadtest4j.driver.bar, loadtest4j.driver.foo]. Add them to /loadtest4j.properties or the JVM properties.");
 
         factory.create(Collections.singletonMap("loadtest4j.driver", StubDriverFactory.class.getName()));
     }

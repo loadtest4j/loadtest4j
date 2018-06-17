@@ -60,16 +60,19 @@ class DriverAdapterFactory {
     private static void validatePresenceOf(Map map, Collection<String> keys) {
         final Set<String> missingKeys = keys.stream()
                 .filter(key -> !map.containsKey(key))
+                .map(key -> String.format("%s.%s", DRIVER_PROPERTY_NAMESPACE, key))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         if (!missingKeys.isEmpty()) {
-            final String msg = String.format("The following load test driver properties were not found: %s. Please specify them either as JVM properties or in loadtest4j.properties.", missingKeys);
+            final String msg = String.format("The following driver properties are missing: %s. Add them to /loadtest4j.properties or the JVM properties.", missingKeys);
             throw new LoadTesterException(msg);
         }
     }
 
     private DriverFactory getDriverFactory(Map<String, String> properties) {
-        validatePresenceOf(properties, Collections.singletonList(DRIVER_PROPERTY_NAMESPACE));
+        if (!properties.containsKey(DRIVER_PROPERTY_NAMESPACE)) {
+            throw new LoadTesterException("The driver config is missing. Add it to /loadtest4j.properties or the JVM properties.");
+        }
 
         final String driverType = properties.get(DRIVER_PROPERTY_NAMESPACE);
 

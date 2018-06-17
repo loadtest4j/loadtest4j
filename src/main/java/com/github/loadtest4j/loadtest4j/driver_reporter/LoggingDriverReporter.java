@@ -6,7 +6,7 @@ public class LoggingDriverReporter implements DriverReporter {
 
     private final PrintStream printStream;
 
-    public LoggingDriverReporter(PrintStream printStream) {
+    LoggingDriverReporter(PrintStream printStream) {
         this.printStream = printStream;
     }
 
@@ -16,7 +16,7 @@ public class LoggingDriverReporter implements DriverReporter {
 
     @Override
     public void show(String reportUrl) {
-        final String msg = String.format("The driver has generated a custom report. This is available at the following URL: %s", reportUrl);
+        final String msg = String.format("Load test driver report URL: %s", reportUrl);
         printStream.println(msg);
     }
 }
