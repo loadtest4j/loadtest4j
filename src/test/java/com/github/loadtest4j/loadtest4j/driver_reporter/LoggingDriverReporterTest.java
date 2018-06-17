@@ -21,7 +21,7 @@ public class LoggingDriverReporterTest {
         reporter.show("https://example.com");
 
         // Then
-        assertEquals("The driver has generated a custom report. This is available at the following URL: https://example.com", printStream.getMsg());
+        assertEquals("Load test driver report URL: https://example.com", printStream.getMsg());
     }
 
     private static class PrintStreamSpy extends PrintStream {
