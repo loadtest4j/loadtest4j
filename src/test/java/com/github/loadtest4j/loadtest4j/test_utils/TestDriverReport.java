@@ -1,26 +1,26 @@
 package com.github.loadtest4j.loadtest4j.test_utils;
 
-import com.github.loadtest4j.loadtest4j.DriverResult;
+import com.github.loadtest4j.loadtest4j.driver.DriverReport;
 
 import java.time.Duration;
 import java.util.Optional;
 
-public class TestDriverResult implements DriverResult {
+public class TestDriverReport implements DriverReport {
 
     private final long ok;
     private final long ko;
-    private final Optional<String> reportUrl;
+    private final Optional<String> url;
 
-    public TestDriverResult(long ok, long ko) {
+    public TestDriverReport(long ok, long ko) {
         this.ok = ok;
         this.ko = ko;
-        this.reportUrl = Optional.empty();
+        this.url = Optional.empty();
     }
 
-    public TestDriverResult(long ok, long ko, String reportUrl) {
+    public TestDriverReport(long ok, long ko, String url) {
         this.ok = ok;
         this.ko = ko;
-        this.reportUrl = Optional.of(reportUrl);
+        this.url = Optional.of(url);
     }
 
     @Override
@@ -39,7 +39,12 @@ public class TestDriverResult implements DriverResult {
     }
 
     @Override
-    public Optional<String> getReportUrl() {
-        return reportUrl;
+    public Duration getResponseTime(double percentile) {
+        return Duration.ZERO;
+    }
+
+    @Override
+    public Optional<String> getUrl() {
+        return url;
     }
 }

@@ -1,7 +1,7 @@
 package com.github.loadtest4j.loadtest4j.test_utils;
 
-import com.github.loadtest4j.loadtest4j.Driver;
-import com.github.loadtest4j.loadtest4j.DriverFactory;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 
 import java.util.*;
 

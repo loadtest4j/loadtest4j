@@ -1,17 +1,17 @@
-package com.github.loadtest4j.loadtest4j.driver_reporter;
+package com.github.loadtest4j.loadtest4j.factory;
 
 import java.io.PrintStream;
 
-public class LoggingDriverReporter implements DriverReporter {
+class LoggingReporter implements Reporter {
 
     private final PrintStream printStream;
 
-    LoggingDriverReporter(PrintStream printStream) {
+    LoggingReporter(PrintStream printStream) {
         this.printStream = printStream;
     }
 
-    public static LoggingDriverReporter stdout() {
-        return new LoggingDriverReporter(System.out);
+    static LoggingReporter stdout() {
+        return new LoggingReporter(System.out);
     }
 
     @Override

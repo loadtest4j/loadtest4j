@@ -1,5 +1,6 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
+import com.github.loadtest4j.loadtest4j.LoadTester;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesResource;
 
 import java.util.*;

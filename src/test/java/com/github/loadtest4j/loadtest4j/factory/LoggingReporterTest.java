@@ -1,4 +1,4 @@
-package com.github.loadtest4j.loadtest4j.driver_reporter;
+package com.github.loadtest4j.loadtest4j.factory;
 
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopOutputStream;
@@ -10,12 +10,12 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertEquals;
 
 @Category(UnitTest.class)
-public class LoggingDriverReporterTest {
+public class LoggingReporterTest {
     @Test
     public void testShow() {
         // Given
         final PrintStreamSpy printStream = new PrintStreamSpy();
-        final LoggingDriverReporter reporter = new LoggingDriverReporter(printStream);
+        final LoggingReporter reporter = new LoggingReporter(printStream);
 
         // When
         reporter.show("https://example.com");

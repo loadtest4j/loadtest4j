@@ -1,6 +1,8 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
-import com.github.loadtest4j.loadtest4j.driver_reporter.DriverReporter;
+import com.github.loadtest4j.loadtest4j.LoadTester;
+import com.github.loadtest4j.loadtest4j.LoadTesterException;
+import com.github.loadtest4j.loadtest4j.driver.*;
 import com.github.loadtest4j.loadtest4j.utils.ClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
 import com.github.loadtest4j.loadtest4j.utils.ReflectiveClassFinder;
@@ -41,12 +43,12 @@ class DriverAdapterFactory {
         final Driver validatingDriver = new ValidatingDriver(driver);
 
         final Map<String, String> reporterProperties = getReporterProperties(properties);
-        final DriverReporter reporter = createReporter(reporterProperties);
+        final Reporter reporter = createReporter(reporterProperties);
         return new ReportingDriver(validatingDriver, reporter);
     }
 
-    private DriverReporter createReporter(Map<String, String> reporterProperties) {
-        return new DriverReporterFactory().create(reporterProperties);
+    private Reporter createReporter(Map<String, String> reporterProperties) {
+        return new ReporterFactory().create(reporterProperties);
     }
 
     private static Map<String, String> getDriverProperties(Map<String, String> properties) {

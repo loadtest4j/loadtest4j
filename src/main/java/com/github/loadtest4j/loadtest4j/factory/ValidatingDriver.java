@@ -1,4 +1,9 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
+
+import com.github.loadtest4j.loadtest4j.LoadTesterException;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverReport;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,24 +18,24 @@ class ValidatingDriver implements Driver {
     }
 
     @Override
-    public DriverResult run(List<DriverRequest> requests) {
-        final DriverResult driverResult = delegate.run(requests);
+    public DriverReport run(List<DriverRequest> requests) {
+        final DriverReport driverReport = delegate.run(requests);
 
-        validateResult(driverResult);
+        validateResult(driverReport);
 
-        return driverResult;
+        return driverReport;
     }
 
-    private static void validateResult(DriverResult driverResult) {
-        if (driverResult.getOk() < 0) {
+    private static void validateResult(DriverReport driverReport) {
+        if (driverReport.getOk() < 0) {
             throw new LoadTesterException("The load test driver returned a negative number of OK requests.");
         }
 
-        if (driverResult.getKo() < 0) {
+        if (driverReport.getKo() < 0) {
             throw new LoadTesterException("The load test driver returned a negative number of KO requests.");
         }
 
-        driverResult.getReportUrl().ifPresent(url -> {
+        driverReport.getUrl().ifPresent(url -> {
             try {
                 new URL(url);
             } catch (MalformedURLException e) {

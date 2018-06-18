@@ -1,5 +1,9 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
+import com.github.loadtest4j.loadtest4j.LoadTester;
+import com.github.loadtest4j.loadtest4j.Request;
+import com.github.loadtest4j.loadtest4j.Result;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
 import com.github.loadtest4j.loadtest4j.test_utils.SpyDriver;
@@ -25,11 +29,12 @@ public class DriverAdapterTest {
         final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
-        final Result result = loadTester.run(list(Request.get("/")));
+        final Result result = loadTester.run(list(Request.get("/")), sla -> {
+            sla.percentKo(0.0);
+        });
 
         // Then
-        assertEquals(0, result.getKo());
-        assertEquals(0, result.getOk());
+        assertEquals(Result.Success, result);
     }
 
     @Test
@@ -39,7 +44,7 @@ public class DriverAdapterTest {
         final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
-        loadTester.run(list(Request.get("/foo"), Request.get("/bar")));
+        loadTester.run(list(Request.get("/foo"), Request.get("/bar")), sla -> {});
 
         // Then
         final List<DriverRequest> actualRequests = driver.getActualRequests();
