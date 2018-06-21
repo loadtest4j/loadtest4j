@@ -1,6 +1,7 @@
 package com.github.loadtest4j.loadtest4j.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesResource {
@@ -12,8 +13,8 @@ public class PropertiesResource {
 
     public Properties getProperties() {
         final Properties properties = new Properties();
-        try {
-            properties.load(PropertiesResource.class.getResourceAsStream(resourceName));
+        try (InputStream is = PropertiesResource.class.getResourceAsStream(resourceName)) {
+            properties.load(is);
         } catch (IOException | NullPointerException e) {
             // Return a new properties instance which we know is clean
             return new Properties();
