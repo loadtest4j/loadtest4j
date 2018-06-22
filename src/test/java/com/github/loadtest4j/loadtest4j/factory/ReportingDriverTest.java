@@ -1,10 +1,10 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
-import com.github.loadtest4j.loadtest4j.driver_reporter.DriverReporter;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
 import com.github.loadtest4j.loadtest4j.test_utils.StubDriver;
-import com.github.loadtest4j.loadtest4j.test_utils.TestDriverResult;
+import com.github.loadtest4j.loadtest4j.test_utils.TestDriverReport;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -18,43 +18,43 @@ public class ReportingDriverTest {
     @Test
     public void testRunWithReport() {
         // Given
-        final SpyDriverReporter spyReporter = new SpyDriverReporter();
-        final String reportUrl = "https://example.com";
+        final SpyReporter spyReporter = new SpyReporter();
+        final String url = "https://example.com";
         final StubDriver stubDriver = new StubDriver();
-        stubDriver.expectRun(new TestDriverResult(0, 0, reportUrl));
+        stubDriver.expectRun(new TestDriverReport(0, 0, url));
         final Driver driver = new ReportingDriver(stubDriver, spyReporter);
 
         // When
         driver.run(Collections.emptyList());
 
         // Then
-        assertEquals(reportUrl, spyReporter.getReportedUrl());
+        assertEquals(url, spyReporter.getUrl());
     }
 
     @Test
     public void testRunWithoutReport() {
         // Given
-        final SpyDriverReporter spyReporter = new SpyDriverReporter();
+        final SpyReporter spyReporter = new SpyReporter();
         final Driver driver = new ReportingDriver(new NopDriver(), spyReporter);
 
         // When
         driver.run(Collections.emptyList());
 
         // Then
-        assertNull(spyReporter.getReportedUrl());
+        assertNull(spyReporter.getUrl());
     }
 
-    private static class SpyDriverReporter implements DriverReporter {
+    private static class SpyReporter implements Reporter {
 
-        private String reportedUrl;
+        private String url;
 
         @Override
         public void show(String reportUrl) {
-            this.reportedUrl = reportUrl;
+            this.url = reportUrl;
         }
 
-        private String getReportedUrl() {
-            return reportedUrl;
+        private String getUrl() {
+            return url;
         }
     }
 }

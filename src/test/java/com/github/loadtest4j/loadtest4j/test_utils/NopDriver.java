@@ -1,8 +1,8 @@
 package com.github.loadtest4j.loadtest4j.test_utils;
 
-import com.github.loadtest4j.loadtest4j.Driver;
-import com.github.loadtest4j.loadtest4j.DriverRequest;
-import com.github.loadtest4j.loadtest4j.DriverResult;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverReport;
 
 import java.time.Duration;
 import java.util.List;
@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class NopDriver implements Driver {
     @Override
-    public DriverResult run(List<DriverRequest> requests) {
-        return new NopDriverResult();
+    public DriverReport run(List<DriverRequest> requests) {
+        return new NopDriverReport();
     }
 
-    private static class NopDriverResult implements DriverResult {
+    private static class NopDriverReport implements DriverReport {
 
         @Override
         public long getOk() {
@@ -32,7 +32,12 @@ public class NopDriver implements Driver {
         }
 
         @Override
-        public Optional<String> getReportUrl() {
+        public Duration getResponseTime(double percentile) {
+            return Duration.ZERO;
+        }
+
+        @Override
+        public Optional<String> getUrl() {
             return Optional.empty();
         }
     }

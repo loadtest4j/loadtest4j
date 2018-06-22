@@ -1,8 +1,11 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
+import com.github.loadtest4j.loadtest4j.LoadTesterException;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverReport;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.StubDriver;
-import com.github.loadtest4j.loadtest4j.test_utils.TestDriverResult;
+import com.github.loadtest4j.loadtest4j.test_utils.TestDriverReport;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -24,14 +27,14 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        final DriverResult expectedResult = new TestDriverResult(0, 0);
-        stubDriver.expectRun(expectedResult);
+        final DriverReport expectedReport = new TestDriverReport(0, 0);
+        stubDriver.expectRun(expectedReport);
 
         // When
-        final DriverResult actualResult = sut.run(Collections.emptyList());
+        final DriverReport actualReport = sut.run(Collections.emptyList());
 
         // Then
-        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedReport, actualReport);
     }
 
     @Test
@@ -40,14 +43,14 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        final DriverResult expectedResult = new TestDriverResult(0, 0, "https://example.com");
-        stubDriver.expectRun(expectedResult);
+        final DriverReport expectedReport = new TestDriverReport(0, 0, "https://example.com");
+        stubDriver.expectRun(expectedReport);
 
         // When
-        final DriverResult actualResult = sut.run(Collections.emptyList());
+        final DriverReport actualReport = sut.run(Collections.emptyList());
 
         // Then
-        assertEquals(expectedResult, actualResult);
+        assertEquals(expectedReport, actualReport);
     }
 
     @Test
@@ -56,7 +59,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(-1, 0));
+        stubDriver.expectRun(new TestDriverReport(-1, 0));
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -72,7 +75,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(0, -1));
+        stubDriver.expectRun(new TestDriverReport(0, -1));
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -88,7 +91,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(0, 0, "foo"));
+        stubDriver.expectRun(new TestDriverReport(0, 0, "foo"));
 
         // Expect
         thrown.expect(LoadTesterException.class);

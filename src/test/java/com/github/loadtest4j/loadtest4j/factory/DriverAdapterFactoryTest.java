@@ -1,5 +1,9 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
+import com.github.loadtest4j.loadtest4j.LoadTester;
+import com.github.loadtest4j.loadtest4j.LoadTesterException;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
 import com.github.loadtest4j.loadtest4j.utils.ClassFinder;

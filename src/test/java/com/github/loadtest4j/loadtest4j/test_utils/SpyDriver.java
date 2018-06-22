@@ -1,8 +1,8 @@
 package com.github.loadtest4j.loadtest4j.test_utils;
 
-import com.github.loadtest4j.loadtest4j.Driver;
-import com.github.loadtest4j.loadtest4j.DriverRequest;
-import com.github.loadtest4j.loadtest4j.DriverResult;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class SpyDriver implements Driver {
     }
 
     @Override
-    public DriverResult run(List<DriverRequest> requests) {
+    public DriverReport run(List<DriverRequest> requests) {
         this.actualRequests = requests;
         return delegate.run(requests);
     }
