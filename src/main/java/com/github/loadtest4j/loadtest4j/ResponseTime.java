@@ -4,13 +4,17 @@ import java.time.Duration;
 
 public interface ResponseTime {
     /**
-     * The nth percentile response time. In other words, n% of HTTP requests finished in less time than this.
+     * Get the nth percentile response time seen in the load test.
+     *
+     * The following common stats can also be derived from percentiles:
      *
      * Max = 100th percentile.
      *
      * Median = 50th percentile.
      *
-     * Min = 0th percentile.
+     * @param percentile The nth percentile of interest.
+     * @return The nth percentile response time.
+     *
      */
     Duration getPercentile(int percentile);
 }

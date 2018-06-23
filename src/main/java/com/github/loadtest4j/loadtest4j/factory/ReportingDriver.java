@@ -1,6 +1,9 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
-import com.github.loadtest4j.loadtest4j.driver_reporter.DriverReporter;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverResult;
+import com.github.loadtest4j.loadtest4j.reporter.Reporter;
 
 import java.util.List;
 
@@ -8,9 +11,9 @@ class ReportingDriver implements Driver {
 
     private final Driver delegate;
 
-    private final DriverReporter reportStrategy;
+    private final Reporter reportStrategy;
 
-    ReportingDriver(Driver delegate, DriverReporter reportStrategy) {
+    ReportingDriver(Driver delegate, Reporter reportStrategy) {
         this.delegate = delegate;
         this.reportStrategy = reportStrategy;
     }

@@ -1,4 +1,4 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.driver;
 
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Before;

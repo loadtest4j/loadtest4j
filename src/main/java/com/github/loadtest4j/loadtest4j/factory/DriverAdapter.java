@@ -1,4 +1,11 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
+
+import com.github.loadtest4j.loadtest4j.LoadTester;
+import com.github.loadtest4j.loadtest4j.Request;
+import com.github.loadtest4j.loadtest4j.Result;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverResult;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,9 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
+
+import com.github.loadtest4j.loadtest4j.LoadTesterException;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverResult;
 
 import java.net.MalformedURLException;
 import java.net.URL;
