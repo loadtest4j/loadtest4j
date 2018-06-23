@@ -1,6 +1,7 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.factory;
 
-import com.github.loadtest4j.loadtest4j.driver_reporter.DriverReporter;
+import com.github.loadtest4j.loadtest4j.driver.Driver;
+import com.github.loadtest4j.loadtest4j.reporter.Reporter;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
 import com.github.loadtest4j.loadtest4j.test_utils.StubDriver;
@@ -18,7 +19,7 @@ public class ReportingDriverTest {
     @Test
     public void testRunWithReport() {
         // Given
-        final SpyDriverReporter spyReporter = new SpyDriverReporter();
+        final SpyReporter spyReporter = new SpyReporter();
         final String reportUrl = "https://example.com";
         final StubDriver stubDriver = new StubDriver();
         stubDriver.expectRun(new TestDriverResult(0, 0, reportUrl));
@@ -34,7 +35,7 @@ public class ReportingDriverTest {
     @Test
     public void testRunWithoutReport() {
         // Given
-        final SpyDriverReporter spyReporter = new SpyDriverReporter();
+        final SpyReporter spyReporter = new SpyReporter();
         final Driver driver = new ReportingDriver(new NopDriver(), spyReporter);
 
         // When
@@ -44,7 +45,7 @@ public class ReportingDriverTest {
         assertNull(spyReporter.getReportedUrl());
     }
 
-    private static class SpyDriverReporter implements DriverReporter {
+    private static class SpyReporter implements Reporter {
 
         private String reportedUrl;
 

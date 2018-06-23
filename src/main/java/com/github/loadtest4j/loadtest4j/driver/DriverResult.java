@@ -1,4 +1,6 @@
-package com.github.loadtest4j.loadtest4j;
+package com.github.loadtest4j.loadtest4j.driver;
+
+import com.github.loadtest4j.loadtest4j.ResponseTime;
 
 import java.time.Duration;
 import java.util.Optional;
