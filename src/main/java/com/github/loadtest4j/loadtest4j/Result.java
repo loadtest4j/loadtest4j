@@ -9,11 +9,13 @@ public final class Result {
     private final long ok;
     private final long ko;
     private final Duration actualDuration;
+    private final ResponseTime responseTime;
 
-    public Result(long ok, long ko, Duration actualDuration) {
+    public Result(long ok, long ko, Duration actualDuration, ResponseTime responseTime) {
         this.ok = ok;
         this.ko = ko;
         this.actualDuration = actualDuration;
+        this.responseTime = responseTime;
     }
 
     public Duration getActualDuration() {
@@ -26,6 +28,10 @@ public final class Result {
 
     public long getOk() {
         return ok;
+    }
+
+    public ResponseTime getResponseTime() {
+        return responseTime;
     }
 
     public long getTotal() {

@@ -13,5 +13,7 @@ public interface DriverResult {
 
     Duration getActualDuration();
 
+    ResponseTime getResponseTime();
+
     Optional<String> getReportUrl();
 }
