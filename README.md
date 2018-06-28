@@ -30,48 +30,47 @@ A simple load test facade for Java.
     ```
 2. If the driver has any external dependencies, install them now.
 3. Configure the driver in `src/test/resources/loadtest4j.properties`:
-```
-loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
-loadtest4j.driver.duration = 60
-loadtest4j.driver.url = https://localhost:3000
-
-loadtest4j.reporter.enabled = true
-```
-
+    ```
+    loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
+    loadtest4j.driver.duration = 60
+    loadtest4j.driver.url = https://localhost:3000
+    
+    loadtest4j.reporter.enabled = true
+    ```
 4. Write a load test:
-```java
-@Category(LoadTest.class)
-public class PetStoreLoadTest {
-
-    private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
-
-    @Test
-    public void testFindPets() {
-        List<Request> requests = List.of(Request.get("/pet/findByStatus")
-                                                .withHeader("Accept", "application/json")
-                                                .withQueryParam("status", "available"));
-
-        Result result = loadTester.run(requests);
-
-        assertEquals(0, result.getKo());
+    ```java
+    @Category(LoadTest.class)
+    public class PetStoreLoadTest {
+    
+        private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
+    
+        @Test
+        public void testFindPets() {
+            List<Request> requests = List.of(Request.get("/pet/findByStatus")
+                                                    .withHeader("Accept", "application/json")
+                                                    .withQueryParam("status", "available"));
+    
+            Result result = loadTester.run(requests);
+    
+            assertEquals(0, result.getKo());
+        }
+    
+        @Test
+        public void testAddPet() {
+            Map<String, String> headers = Map.of(
+                    "Accept", "application/json",
+                    "Content-Type", "application/json");
+    
+            List<Request> requests = List.of(Request.post("/pet")
+                                                    .withHeaders(headers)
+                                                    .withBody("{}"));
+    
+            Result result = loadTester.run(requests);
+    
+            assertEquals(0, result.getKo());
+        }
     }
-
-    @Test
-    public void testAddPet() {
-        Map<String, String> headers = Map.of(
-                "Accept", "application/json",
-                "Content-Type", "application/json");
-
-        List<Request> requests = List.of(Request.post("/pet")
-                                                .withHeaders(headers)
-                                                .withBody("{}"));
-
-        Result result = loadTester.run(requests);
-
-        assertEquals(0, result.getKo());
-    }
-}
-```
+    ```
 
 ## More examples
 
