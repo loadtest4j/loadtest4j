@@ -8,39 +8,37 @@ A simple load test facade for Java.
 
 ## Regular usage
 
-Add a load test driver to your `pom.xml` (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
-
-```xml
-<project>
-    <dependencies>
-        <dependency>
-            <groupId>com.github.loadtest4j</groupId>
-            <artifactId>loadtest4j-wrk</artifactId>
-            <version>[git tag]</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+1. Add a load test driver to your `pom.xml` (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
+    ```xml
+    <project>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.loadtest4j</groupId>
+                <artifactId>loadtest4j-wrk</artifactId>
+                <version>[git tag]</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
     
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-</project>
-```
-
-Configure the load test driver in `src/test/resources/loadtest4j.properties`:
-
+        <repositories>
+            <repository>
+                <id>jitpack.io</id>
+                <url>https://jitpack.io</url>
+            </repository>
+        </repositories>
+    </project>
+    ```
+2. If the driver has any external dependencies, install them now.
+3. Configure the driver in `src/test/resources/loadtest4j.properties`:
 ```
 loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
+loadtest4j.driver.duration = 60
 loadtest4j.driver.url = https://localhost:3000
 
 loadtest4j.reporter.enabled = true
 ```
 
-Then write a load test:
-
+4. Write a load test:
 ```java
 @Category(LoadTest.class)
 public class PetStoreLoadTest {
@@ -75,31 +73,7 @@ public class PetStoreLoadTest {
 }
 ```
 
-## To write a driver
+## More examples
 
-Add this library to your `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>com.github.loadtest4j</groupId>
-    <artifactId>loadtest4j</artifactId>
-    <version>[git tag]</version>
-</dependency>
-```
-
-Then write your driver and its counterpart factory:
-
-```java
-class MyDriver implements Driver {
-    public DriverResult run(Collection<DriverRequest> requests) {
-        // ...
-    }
-}
-
-public class MyDriverFactory implements DriverFactory {
-    public Driver create(Map<String, String> properties) {
-        // ...
-    }
-}
-```
-
+- [loadtest4j-example](https://github.com/loadtest4j/loadtest4j-example): A minimum working example.
+- [loadtest4j-advanced-example](https://github.com/loadtest4j/loadtest4j-advanced-example): An advanced example.
