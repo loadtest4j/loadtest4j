@@ -9,6 +9,7 @@ A simple load test facade for Java.
 ## Regular usage
 
 1. Add a load test driver to your `pom.xml` (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
+    
     ```xml
     <project>
         <dependencies>
@@ -28,8 +29,11 @@ A simple load test facade for Java.
         </repositories>
     </project>
     ```
+    
 2. If the driver has any external dependencies, install them now.
+
 3. Configure the driver in `src/test/resources/loadtest4j.properties`:
+    
     ```
     loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
     loadtest4j.driver.duration = 60
@@ -37,7 +41,9 @@ A simple load test facade for Java.
     
     loadtest4j.reporter.enabled = true
     ```
+    
 4. Write a load test:
+    
     ```java
     @Category(LoadTest.class)
     public class PetStoreLoadTest {
