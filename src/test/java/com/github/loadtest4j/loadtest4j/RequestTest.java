@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.*;
 
 @Category(UnitTest.class)
 public class RequestTest {
@@ -17,85 +16,85 @@ public class RequestTest {
     public void testDefaultHeaders() {
         final Request sut = Request.get("/pets");
 
-        assertEquals(Collections.emptyMap(), sut.getHeaders());
+        assertThat(sut.getHeaders()).isEmpty();
     }
 
     @Test
     public void testDefaultBody() {
         final Request sut = Request.get("/pets");
 
-        assertEquals("", sut.getBody());
+        assertThat(sut.getBody()).isEqualTo("");
     }
 
     @Test
     public void testGetPath() {
         final Request sut = Request.get("/pets");
 
-        assertEquals("/pets", sut.getPath());
+        assertThat(sut.getPath()).isEqualTo("/pets");
     }
 
     @Test
     public void testGet() {
-        assertEquals("GET", Request.get("/").getMethod());
+        assertThat(Request.get("/").getMethod()).isEqualTo("GET");
     }
 
     @Test
     public void testPost() {
-        assertEquals("POST", Request.post("/").getMethod());
+        assertThat(Request.post("/").getMethod()).isEqualTo("POST");
     }
 
     @Test
     public void testPut() {
-        assertEquals("PUT", Request.put("/").getMethod());
+        assertThat(Request.put("/").getMethod()).isEqualTo("PUT");
     }
 
     @Test
     public void testDelete() {
-        assertEquals("DELETE", Request.delete("/").getMethod());
+        assertThat(Request.delete("/").getMethod()).isEqualTo("DELETE");
     }
 
     @Test
     public void testOptions() {
-        assertEquals("OPTIONS", Request.options("/").getMethod());
+        assertThat(Request.options("/").getMethod()).isEqualTo("OPTIONS");
     }
 
     @Test
     public void testHead() {
-        assertEquals("HEAD", Request.head("/").getMethod());
+        assertThat(Request.head("/").getMethod()).isEqualTo("HEAD");
     }
 
     @Test
     public void testTrace() {
-        assertEquals("TRACE", Request.trace("/").getMethod());
+        assertThat(Request.trace("/").getMethod()).isEqualTo("TRACE");
     }
 
     @Test
     public void testPatch() {
-        assertEquals("PATCH", Request.patch("/").getMethod());
+        assertThat(Request.patch("/").getMethod()).isEqualTo("PATCH");
     }
 
     @Test
     public void testLink() {
-        assertEquals("LINK", Request.link("/").getMethod());
+        assertThat(Request.link("/").getMethod()).isEqualTo("LINK");
     }
 
     @Test
     public void testUnlink() {
-        assertEquals("UNLINK", Request.unlink("/").getMethod());
+        assertThat(Request.unlink("/").getMethod()).isEqualTo("UNLINK");
     }
 
     @Test
     public void testWithBody() {
         final Request sut = Request.post("/pets").withBody("{}");
 
-        assertEquals("{}", sut.getBody());
+        assertThat(sut.getBody()).isEqualTo("{}");
     }
 
     @Test
     public void testWithHeader() {
         final Request sut = Request.post("/pets").withHeader("Content-Type", "application/json");
 
-        assertEquals(Collections.singletonMap("Content-Type", "application/json"), sut.getHeaders());
+        assertThat(sut.getHeaders()).containsEntry("Content-Type", "application/json");
     }
 
     @Test
@@ -104,8 +103,9 @@ public class RequestTest {
                 .withHeader("Accept", "application/json")
                 .withHeader("Referer", "https://example.com");
 
-        assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
+        assertThat(sut.getHeaders())
+                .containsEntry("Accept", "application/json")
+                .containsEntry("Referer", "https://example.com");
     }
 
     @Test
@@ -116,7 +116,7 @@ public class RequestTest {
 
         sut.withHeader("Foo", "bar");
 
-        assertFalse(headersBefore.containsKey("Foo"));
+        assertThat(headersBefore).doesNotContainKey("Foo");
     }
 
     @Test
@@ -128,8 +128,9 @@ public class RequestTest {
         final Request sut = Request.get("/pets")
                 .withHeaders(headers);
 
-        assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
+        assertThat(sut.getHeaders())
+                .containsEntry("Accept", "application/json")
+                .containsEntry("Referer", "https://example.com");
     }
 
     @Test
@@ -140,7 +141,7 @@ public class RequestTest {
 
         sut.withHeaders(Collections.singletonMap("Foo", "bar"));
 
-        assertFalse(headersBefore.containsKey("Foo"));
+        assertThat(headersBefore).doesNotContainKey("Foo");
     }
 
     @Test
@@ -149,15 +150,16 @@ public class RequestTest {
                 .withHeader("Referer", "https://example.com")
                 .withHeaders(Collections.singletonMap("Accept", "application/json"));
 
-        assertEquals("application/json", sut.getHeaders().get("Accept"));
-        assertEquals("https://example.com", sut.getHeaders().get("Referer"));
+        assertThat(sut.getHeaders())
+                .containsEntry("Accept", "application/json")
+                .containsEntry("Referer", "https://example.com");
     }
 
     @Test
     public void testWithQueryParam() {
         final Request sut = Request.get("/pets").withQueryParam("foo", "1");
 
-        assertEquals(Collections.singletonMap("foo", "1"), sut.getQueryParams());
+        assertThat(sut.getQueryParams()).containsEntry("foo", "1");
     }
 
     @Test
@@ -166,8 +168,9 @@ public class RequestTest {
                 .withQueryParam("foo", "1")
                 .withQueryParam("bar", "2");
 
-        assertEquals("1", sut.getQueryParams().get("foo"));
-        assertEquals("2", sut.getQueryParams().get("bar"));
+        assertThat(sut.getQueryParams())
+                .containsEntry("foo", "1")
+                .containsEntry("bar", "2");
     }
 
     @Test
@@ -178,6 +181,6 @@ public class RequestTest {
 
         sut.withQueryParam("foo", "bar");
 
-        assertFalse(queryParamsBefore.containsKey("foo"));
+        assertThat(queryParamsBefore).doesNotContainKey("foo");
     }
 }

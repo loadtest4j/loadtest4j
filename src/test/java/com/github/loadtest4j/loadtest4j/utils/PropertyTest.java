@@ -4,7 +4,7 @@ import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.*;
 
 @Category(UnitTest.class)
 public class PropertyTest {
@@ -12,13 +12,13 @@ public class PropertyTest {
     public void testGetKey() {
         final Property property = new Property("foo", "bar");
 
-        assertEquals("foo", property.getKey());
+        assertThat(property.getKey()).isEqualTo("foo");
     }
 
     @Test
     public void testGetValue() {
         final Property property = new Property("foo", "bar");
 
-        assertEquals("bar", property.getValue());
+        assertThat(property.getValue()).isEqualTo("bar");
     }
 }

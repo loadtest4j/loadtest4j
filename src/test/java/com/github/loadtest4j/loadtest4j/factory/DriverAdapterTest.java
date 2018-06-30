@@ -15,7 +15,7 @@ import org.junit.rules.ExpectedException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.*;
 
 @Category(UnitTest.class)
 public class DriverAdapterTest {
@@ -32,8 +32,8 @@ public class DriverAdapterTest {
         final Result result = loadTester.run(list(Request.get("/")));
 
         // Then
-        assertEquals(0, result.getKo());
-        assertEquals(0, result.getOk());
+        assertThat(result.getKo()).isEqualTo(0);
+        assertThat(result.getOk()).isEqualTo(0);
     }
 
     @Test
@@ -46,9 +46,9 @@ public class DriverAdapterTest {
         loadTester.run(list(Request.get("/foo"), Request.get("/bar")));
 
         // Then
-        final List<DriverRequest> actualRequests = driver.getActualRequests();
-        assertEquals("/foo", actualRequests.get(0).getPath());
-        assertEquals("/bar", actualRequests.get(1).getPath());
+        assertThat(driver.getActualRequests())
+                .extracting(DriverRequest::getPath)
+                .containsSequence("/foo", "/bar");
     }
 
     private static List<Request> list(Request... elements) {

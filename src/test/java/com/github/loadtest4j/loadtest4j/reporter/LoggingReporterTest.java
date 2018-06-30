@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.*;
 
 @Category(UnitTest.class)
 public class LoggingReporterTest {
@@ -21,7 +21,7 @@ public class LoggingReporterTest {
         reporter.show("https://example.com");
 
         // Then
-        assertEquals("Load test driver report URL: https://example.com", printStream.getMsg());
+        assertThat(printStream.getMsg()).isEqualTo("Load test driver report URL: https://example.com");
     }
 
     private static class PrintStreamSpy extends PrintStream {
