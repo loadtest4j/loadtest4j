@@ -8,7 +8,7 @@ A simple load test facade for Java.
 
 ## Regular usage
 
-1. **Add a [load test driver](https://github.com/loadtest4j/loadtest4j/wiki/Load-Test-Drivers)** to your `pom.xml`:
+1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
     
     ```xml
     <project>
