@@ -14,36 +14,28 @@ A simple load test facade for Java.
 
 ## Usage
 
-As easy as 1-2-3-4...
-
 1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
     
     ```xml
-    <project>
-        <dependencies>
-            <dependency>
-                <!-- Example: https://github.com/loadtest4j/loadtest4j-wrk -->
-                <groupId>com.github.loadtest4j</groupId>
-                <artifactId>loadtest4j-wrk</artifactId>
-                <version>[git tag]</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
+    <!-- Example: https://github.com/loadtest4j/loadtest4j-wrk -->
+    <dependency>
+        <groupId>com.github.loadtest4j</groupId>
+        <artifactId>loadtest4j-wrk</artifactId>
+        <version>[git tag]</version>
+        <scope>test</scope>
+    </dependency>
     
-        <repositories>
-            <repository>
-                <id>jitpack.io</id>
-                <url>https://jitpack.io</url>
-            </repository>
-        </repositories>
-    </project>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
     ```
     
 2. **Install external driver dependencies** if the driver needs them.
 
 3. **Configure the driver** in `src/test/resources/loadtest4j.properties`:
     
-    ```
+    ```properties
     loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
     loadtest4j.driver.duration = 60
     loadtest4j.driver.url = https://localhost:3000
