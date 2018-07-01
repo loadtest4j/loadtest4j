@@ -8,12 +8,13 @@ A simple load test facade for Java.
 
 ## Regular usage
 
-1. Add a load test driver to your `pom.xml` (in this example we use the [Wrk driver](https://github.com/loadtest4j/loadtest4j-wrk)):
+1. **Add a [load test driver](https://github.com/loadtest4j/loadtest4j/wiki/Load-Test-Drivers)** to your `pom.xml`:
     
     ```xml
     <project>
         <dependencies>
             <dependency>
+                <!-- Example: https://github.com/loadtest4j/loadtest4j-wrk -->
                 <groupId>com.github.loadtest4j</groupId>
                 <artifactId>loadtest4j-wrk</artifactId>
                 <version>[git tag]</version>
@@ -30,9 +31,9 @@ A simple load test facade for Java.
     </project>
     ```
     
-2. If the driver has any external dependencies, install them now.
+2. **Install external driver dependencies** if the driver needs them.
 
-3. Configure the driver in `src/test/resources/loadtest4j.properties`:
+3. **Configure the driver** in `src/test/resources/loadtest4j.properties`:
     
     ```
     loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
@@ -42,7 +43,7 @@ A simple load test facade for Java.
     loadtest4j.reporter.enabled = true
     ```
     
-4. Write a load test:
+4. **Write a load test** in your favorite test framework, with your favorite assertions:
     
     ```java
     @Category(LoadTest.class)
@@ -58,22 +59,7 @@ A simple load test facade for Java.
     
             Result result = loadTester.run(requests);
     
-            assertEquals(0, result.getKo());
-        }
-    
-        @Test
-        public void testAddPet() {
-            Map<String, String> headers = Map.of(
-                    "Accept", "application/json",
-                    "Content-Type", "application/json");
-    
-            List<Request> requests = List.of(Request.post("/pet")
-                                                    .withHeaders(headers)
-                                                    .withBody("{}"));
-    
-            Result result = loadTester.run(requests);
-    
-            assertEquals(0, result.getKo());
+            assertThat(result.getPercentKo()).isEqualTo(0);
         }
     }
     ```
