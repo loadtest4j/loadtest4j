@@ -9,7 +9,7 @@ import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class ReporterFactoryTest {
@@ -23,7 +23,7 @@ public class ReporterFactoryTest {
         final Reporter reporter = factory.create(Collections.singletonMap("enabled", "true"));
 
         // Then
-        assertTrue(reporter instanceof LoggingReporter);
+        assertThat(reporter).isInstanceOf(LoggingReporter.class);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class ReporterFactoryTest {
         final Reporter reporter = factory.create(Collections.emptyMap());
 
         // Then
-        assertTrue(reporter instanceof NopReporter);
+        assertThat(reporter).isInstanceOf(NopReporter.class);
     }
 
     @Test
@@ -47,6 +47,6 @@ public class ReporterFactoryTest {
         final Reporter reporter = factory.create(Collections.singletonMap("enabled", "foo"));
 
         // Then
-        assertTrue(reporter instanceof NopReporter);
+        assertThat(reporter).isInstanceOf(NopReporter.class);
     }
 }

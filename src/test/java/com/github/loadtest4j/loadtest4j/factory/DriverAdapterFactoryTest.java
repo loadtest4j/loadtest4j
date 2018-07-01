@@ -15,7 +15,7 @@ import org.junit.rules.ExpectedException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class DriverAdapterFactoryTest {
@@ -36,7 +36,7 @@ public class DriverAdapterFactoryTest {
         final LoadTester loadTester = factory.create(properties);
 
         // Then
-        assertNotNull(loadTester);
+        assertThat(loadTester).isNotNull();
     }
 
     @Test

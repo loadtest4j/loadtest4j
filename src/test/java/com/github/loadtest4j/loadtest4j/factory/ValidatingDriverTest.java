@@ -13,7 +13,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class ValidatingDriverTest {
@@ -34,7 +34,7 @@ public class ValidatingDriverTest {
         final DriverResult actualResult = sut.run(Collections.emptyList());
 
         // Then
-        assertEquals(expectedResult, actualResult);
+        assertThat(expectedResult).isEqualTo(actualResult);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ValidatingDriverTest {
         final DriverResult actualResult = sut.run(Collections.emptyList());
 
         // Then
-        assertEquals(expectedResult, actualResult);
+        assertThat(expectedResult).isEqualTo(actualResult);
     }
 
     @Test

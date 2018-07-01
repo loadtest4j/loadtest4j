@@ -5,7 +5,7 @@ import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class LoadTesterFactoryTest {
@@ -15,6 +15,6 @@ public class LoadTesterFactoryTest {
         // The static factory method will reference loadtest4j.properties in the test resources
         final LoadTester loadTester = LoadTesterFactory.getLoadTester();
 
-        assertNotNull(loadTester);
+        assertThat(loadTester).isNotNull();
     }
 }

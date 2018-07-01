@@ -1,46 +1,40 @@
 package com.github.loadtest4j.loadtest4j.driver;
 
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class DriverRequestTest {
 
-    private DriverRequest request;
-
-    @Before
-    public void setUp() {
-        request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
-    }
+    private final DriverRequest request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
 
     @Test
     public void testGetBody() {
-        assertEquals("{}", request.getBody());
+        assertThat(request.getBody()).isEqualTo("{}");
     }
 
     @Test
     public void testGetHeaders() {
-        assertEquals(Collections.singletonMap("Accept", "application/json"), request.getHeaders());
+        assertThat(request.getHeaders()).containsEntry("Accept", "application/json");
     }
 
     @Test
     public void testGetMethod() {
-        assertEquals("GET", request.getMethod());
+        assertThat(request.getMethod()).isEqualTo("GET");
     }
 
     @Test
     public void testGetPath() {
-        assertEquals("/", request.getPath());
+        assertThat(request.getPath()).isEqualTo("/");
     }
 
     @Test
     public void testGetQueryParams() {
-        assertEquals(Collections.singletonMap("foo", "bar"), request.getQueryParams());
+        assertThat(request.getQueryParams()).containsEntry("foo", "bar");
     }
 }

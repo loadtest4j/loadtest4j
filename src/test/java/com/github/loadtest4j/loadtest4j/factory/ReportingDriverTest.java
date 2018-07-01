@@ -11,8 +11,7 @@ import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class ReportingDriverTest {
@@ -29,7 +28,7 @@ public class ReportingDriverTest {
         driver.run(Collections.emptyList());
 
         // Then
-        assertEquals(reportUrl, spyReporter.getReportedUrl());
+        assertThat(spyReporter.getReportedUrl()).isEqualTo(reportUrl);
     }
 
     @Test
@@ -42,7 +41,7 @@ public class ReportingDriverTest {
         driver.run(Collections.emptyList());
 
         // Then
-        assertNull(spyReporter.getReportedUrl());
+        assertThat(spyReporter.getReportedUrl()).isNull();
     }
 
     private static class SpyReporter implements Reporter {

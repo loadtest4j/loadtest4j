@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(IntegrationTest.class)
 public class PropertiesResourceTest {
@@ -18,7 +18,7 @@ public class PropertiesResourceTest {
 
         final Properties expectedProperties = new Properties();
         expectedProperties.put("foo", "bar");
-        assertEquals(expectedProperties, properties);
+        assertThat(properties).isEqualTo(expectedProperties);
     }
 
     @Test
@@ -27,6 +27,6 @@ public class PropertiesResourceTest {
 
         final Properties properties = sut.getProperties();
 
-        assertEquals(new Properties(), properties);
+        assertThat(properties).isEqualTo(new Properties());
     }
 }
