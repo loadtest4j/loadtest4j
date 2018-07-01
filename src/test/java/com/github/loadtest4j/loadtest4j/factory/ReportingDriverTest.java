@@ -11,7 +11,7 @@ import org.junit.experimental.categories.Category;
 
 import java.util.Collections;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class ReportingDriverTest {

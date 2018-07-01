@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class PropertiesSubsetTest {

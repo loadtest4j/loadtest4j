@@ -1,21 +1,15 @@
 package com.github.loadtest4j.loadtest4j.utils;
 
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.rules.ExpectedException;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class ReflectiveClassFinderTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private ClassFinder<A> sut() {
         return new ReflectiveClassFinder<>(A.class);
@@ -27,15 +21,12 @@ public class ReflectiveClassFinderTest {
 
         final Optional<A> found = finder.find(AImpl.class.getName());
 
-        assertTrue(found.isPresent());
-        assertTrue(found.get() instanceof AImpl);
+        assertThat(found).containsInstanceOf(AImpl.class);
     }
 
-    @Test
+    @Test(expected = ClassCastException.class)
     public void testFindWithWrongClass() {
         final ClassFinder<A> finder = sut();
-
-        thrown.expect(ClassCastException.class);
 
         finder.find("java.lang.String");
     }
@@ -46,7 +37,7 @@ public class ReflectiveClassFinderTest {
 
         final Optional<A> found = finder.find("foo");
 
-        assertEquals(Optional.empty(), found);
+        assertThat(found).isEmpty();
     }
 
     public interface A {

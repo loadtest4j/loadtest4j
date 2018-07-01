@@ -4,7 +4,7 @@ import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class PropertyTest {

@@ -15,7 +15,7 @@ import org.junit.rules.ExpectedException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class DriverAdapterTest {

@@ -6,7 +6,7 @@ import org.junit.experimental.categories.Category;
 
 import java.util.Properties;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(IntegrationTest.class)
 public class PropertiesResourceTest {

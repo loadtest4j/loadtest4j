@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.PrintStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class LoggingReporterTest {
