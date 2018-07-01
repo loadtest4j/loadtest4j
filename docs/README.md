@@ -6,7 +6,15 @@
 
 A simple load test facade for Java.
 
-## Regular usage
+## Contents
+
+- [Drivers](drivers.md)
+- [Environments](environments.md)
+- [Manifesto](manifesto.md)
+
+## Usage
+
+As easy as 1-2-3-4...
 
 1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
     
@@ -64,7 +72,6 @@ A simple load test facade for Java.
     }
     ```
 
-## More examples
+## Example Project
 
-- [loadtest4j-example](https://github.com/loadtest4j/loadtest4j-example): A minimum working example.
-- [loadtest4j-advanced-example](https://github.com/loadtest4j/loadtest4j-advanced-example): An advanced example.
+[loadtest4j-example](https://github.com/loadtest4j/loadtest4j-example): A full working example.
