@@ -1,4 +1,4 @@
-# Multiple Drivers example
+# Multiple Drivers
 
 Basic support is available for running your load test suite using a different driver in each environment.
 
