@@ -11,6 +11,7 @@ A simple load test facade for Java.
 - [Drivers](drivers.md)
 - [Environments](environments.md)
 - [Manifesto](manifesto.md)
+- [Scala example](scala.md)
 
 ## Usage
 
