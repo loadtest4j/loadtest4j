@@ -9,20 +9,21 @@ A simple load test facade for Java.
 ## Contents
 
 - [Drivers](drivers.md)
-- [Environments](environments.md)
 - [Manifesto](manifesto.md)
-- [Scala example](scala.md)
+- [Multiple Drivers support](multiple-drivers.md)
+- [Multiple Environments support](multiple-environments.md)
+- [Scala support](scala.md)
 
 ## Usage
 
 1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
     
     ```xml
-    <!-- Example: https://github.com/loadtest4j/loadtest4j-wrk -->
+    <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
         <groupId>com.github.loadtest4j</groupId>
-        <artifactId>loadtest4j-wrk</artifactId>
-        <version>[git tag]</version>
+        <artifactId>loadtest4j-gatling</artifactId>
+        <version>[version]</version>
         <scope>test</scope>
     </dependency>
     
@@ -37,9 +38,9 @@ A simple load test facade for Java.
 3. **Configure the driver** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
-    loadtest4j.driver = com.github.loadtest4j.drivers.wrk.WrkFactory
+    loadtest4j.driver = com.github.loadtest4j.drivers.gatling.GatlingFactory
     loadtest4j.driver.duration = 60
-    loadtest4j.driver.url = https://localhost:3000
+    loadtest4j.driver.url = https://example.com
     
     loadtest4j.reporter.enabled = true
     ```
