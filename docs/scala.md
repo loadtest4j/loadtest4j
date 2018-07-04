@@ -38,7 +38,7 @@ class FindPetsLoadSpec extends FlatSpec with Matchers {
   }
   
   it should "meet the Requests Per Second threshold" in {
-    result.getRequestsPerSecond should be >= 100
+    result.getRequestsPerSecond should be >= 150
   }
   
   it should "meet the p90 Response Time threshold" in {
