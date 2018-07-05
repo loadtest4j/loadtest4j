@@ -1,5 +1,7 @@
 # Multiple Drivers
 
+**Note: This is an advanced feature. Ensure that you are comfortable with Maven and loadtest4j before using this.**
+
 Basic support is available for running your load test suite using a different driver in each environment.
 
 Multiple Driver support will be improved in future, most likely in the form of a custom Maven plugin.
