@@ -13,6 +13,7 @@ A simple load test facade for Java.
 - [Multiple Drivers support](multiple-drivers.md)
 - [Multiple Environments support](multiple-environments.md)
 - [Scala support](scala.md)
+- [SLA design](sla.md)
 
 ## Usage
 
