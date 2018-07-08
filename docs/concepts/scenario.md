@@ -1,4 +1,4 @@
-# The Scenario
+# Scenario
 
 A scenario is a service usage pattern, defined as a sequence of one or more `Request`s.
 
