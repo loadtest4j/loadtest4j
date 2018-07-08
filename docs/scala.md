@@ -18,12 +18,12 @@ Then write your load test.
 
 We recommend the following pattern of:
 
-- One API endpoint per Spec class
+- One API usage definition per Spec class
 - One SLA assertion per test in that class
 
 ```scala
 class FindPetsLoadSpec extends FlatSpec with Matchers {
-  behavior of "GET /pets/findByStaus"
+  behavior of "Find pets by status"
   
   private val request = Request.get("/pet/findByStatus")
                                .withHeader("Accept", "application/json")
