@@ -1,4 +1,4 @@
-# The Executable SLA
+# Executable SLA
 
 Loadtest4j allows you to make your Service Level Agreement (SLA) **executable**.
 
