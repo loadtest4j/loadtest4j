@@ -20,42 +20,47 @@ The maximum amount of time that requests are allowed to take.
 
 This is measured in terms of **percentiles**. For example, if the SLA defines a 95th percentile response time of 500ms, this means 95% of requests must complete in 500ms or less, while 5% may take longer.
 
-The percentiles measured in the SLA depend on the purpose of the service. Gil Tene provides an excellent introduction to this in his presentatation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls). To illustrate the difference, here are Gil's load test archetypes:
+The percentiles measured in the SLA depend on the purpose of the service.
 
-#### Athlete
+## Archetypes
+
+Gil Tene provides an excellent introduction to service performance archetypes in his presentatation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls). They are summarised below.
+
+### Athlete
 
 **Goal: Win some gold medals.**
 
-Key percentiles:
+Key measurements:
 
 - TODO add
 
-#### Pacemaker (hard real-time)
+### Pacemaker (hard real-time)
 
 **Goal: Keep the heart beating.**
 
-Key percentiles:
+Key measurements:
 
-- Max (p100)
+- Percent KO = 0
+- Max Response Time (p100)
 
-#### Trader (soft real-time)
+### Trader (soft real-time)
 
 **Goals: Be fast enough to make some good trades. Contain risk while you do it.**
 
-Key percentiles:
+Key measurements:
 
-- Median (p50)
-- Max (p100)
+- Median Response Time (p50)
+- Max Response Time (p100)
 
-#### Interactive App (squishy real-time)
+### Interactive App (squishy real-time)
 
 **Goal: Keep users happy (don’t make them leave).**
 
-Key percentiles:
+Key measurements:
 
-- p90
-- p99
-- Max (p100)
+- p90 Response Time
+- p99 Response Time
+- Max Response Time (p100)
 
 ## Sidenote: The executable SLA
 
