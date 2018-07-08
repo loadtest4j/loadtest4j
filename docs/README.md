@@ -8,12 +8,14 @@ A simple load test facade for Java.
 
 ## Contents
 
+- Concepts
+  - [Executable SLA](sla.md)
+  - [Scenario](scenario.md)
 - [Drivers](drivers.md)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers support](multiple-drivers.md)
 - [Multiple Environments support](multiple-environments.md)
 - [Scala support](scala.md)
-- [SLA design](sla.md)
 
 ## Usage
 
