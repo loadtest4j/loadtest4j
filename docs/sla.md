@@ -1,10 +1,10 @@
-# SLA design
+# The Executable SLA
 
-_"What should I test in a load test?"_
+Loadtest4j enables you to write an **Executable Service Level Agreement (SLA)**.
 
-A test case with assertions on the load test `Result` is an executable Service Level Agreement (SLA). It is therefore important to craft your SLA around the measurements that are relevant to your stakeholders.
+Every time that you write a test case with assertions on the load test `Result`, you take a part of the SLA defined with your stakeholders, and reify it in an executable and verifiable form.
 
-Your SLA should include one or more of the following key measurements.
+Your SLA should include one or more of the following measurements. Collaborate with your project stakeholders to choose the right measurements for your service. 
 
 ## Knockout Rate
 
