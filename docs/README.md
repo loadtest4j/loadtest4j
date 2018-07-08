@@ -11,6 +11,7 @@ A simple load test facade for Java.
 - Concepts
   - [Executable SLA](sla.md)
   - [Scenario](scenario.md)
+  - [Service Under Test](sut.md)
 - [Drivers](drivers.md)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers support](multiple-drivers.md)
