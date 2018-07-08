@@ -1,10 +1,10 @@
 # The Executable SLA
 
-Loadtest4j enables you to write an **Executable Service Level Agreement (SLA)**.
+Loadtest4j allows you to make your Service Level Agreement (SLA) **executable**.
 
-Every time that you write a test case with assertions on the load test `Result`, you take a part of the SLA defined with your stakeholders, and reify it in an executable and verifiable form.
+When you write a test case with assertions on the load test `Result`, you reify a part of that SLA in an executable and verifiable form.
 
-Your SLA should include one or more of the following measurements. Collaborate with your project stakeholders to choose the right measurements for your service. 
+An effective SLA should include one or more of the following measurements. Collaborate with your project stakeholders to choose the appropriate measurements for your service. 
 
 ## Knockout Rate
 
