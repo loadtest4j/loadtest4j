@@ -22,7 +22,7 @@ This is measured in terms of **percentiles**. For example, if the SLA defines a 
 
 The percentiles measured in the SLA depend on the purpose of the service.
 
-Response Time SLAs generally fall under one of Gil Tene's archetypes. He provides an excellent introduction to service performance archetypes in his presentatation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls). They are summarised below.
+Service Response Time requirements generally fall under one of the following archetypes. For more detail, see Gil Tene's excellent presentation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls).
 
 #### Archetype: Athlete
 
