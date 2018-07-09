@@ -64,6 +64,8 @@ Inject those parameters from Maven properties:
 
 Run the normal Maven goal to test against development. Then invoke Maven again with each environment profile that you want to test.
 
+**Note:** If you are using custom executions of the Maven Surefire Plugin to run your load test group separately (e.g. `mvn test-compile surefire-test@load`), then you need Maven 3.3.1 or higher.
+
 ```bash
 #!/bin/sh
 
@@ -71,8 +73,8 @@ Run the normal Maven goal to test against development. Then invoke Maven again w
 mvn test
 
 # Load test after deployment to your staging environment
-mvn surefire:test -P staging
+mvn test -P staging
 
 # Load test after deployment to your production environment
-mvn surefire:test -P production
+mvn test -P production
 ```
