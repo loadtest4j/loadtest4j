@@ -22,45 +22,42 @@ This is measured in terms of **percentiles**. For example, if the SLA defines a 
 
 The percentiles measured in the SLA depend on the purpose of the service.
 
-## Archetypes
+Response Time SLAs generally fall under one of Gil Tene's archetypes. He provides an excellent introduction to service performance archetypes in his presentatation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls). They are summarised below.
 
-Gil Tene provides an excellent introduction to service performance archetypes in his presentatation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls). They are summarised below.
+#### Archetype: Athlete
 
-### Athlete
+*Goal: Win some gold medals.*
 
-**Goal: Win some gold medals.**
-
-Key measurements:
+Key percentiles:
 
 - TODO add
 
-### Pacemaker (hard real-time)
+#### Archetype: Pacemaker (hard real-time)
 
-**Goal: Keep the heart beating.**
+*Goal: Keep the heart beating.*
 
-Key measurements:
+Key percentiles:
 
-- Percent KO = 0
-- Max Response Time (p100)
+- Max (p100)
 
-### Trader (soft real-time)
+#### Archetype: Trader (soft real-time)
 
-**Goals: Be fast enough to make some good trades. Contain risk while you do it.**
+*Goals: Be fast enough to make some good trades. Contain risk while you do it.*
 
-Key measurements:
+Key percentiles:
 
-- Median Response Time (p50)
-- Max Response Time (p100)
+- Median (p50)
+- Max (p100)
 
-### Interactive App (squishy real-time)
+#### Archetype: Interactive App (squishy real-time)
 
-**Goal: Keep users happy (don’t make them leave).**
+*Goal: Keep users happy (don’t make them leave).*
 
-Key measurements:
+Key percentiles:
 
-- p90 Response Time
-- p99 Response Time
-- Max Response Time (p100)
+- p90
+- p99
+- Max (p100)
 
 ## Sidenote: The executable SLA
 
