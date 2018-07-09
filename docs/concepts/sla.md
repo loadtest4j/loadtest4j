@@ -28,9 +28,13 @@ Response Time SLAs generally fall under one of Gil Tene's archetypes. He provide
 
 *Goal: Win some gold medals.*
 
+The Athlete needs to be faster than everyone else in N% of races. Where N = desired percentage of races to win.
+
+Example: There are 5 races. The Athlete wants to win 3 gold medals. So they must be faster than all their competitors in 60% of races. N = 60.
+
 Key percentiles:
 
-- TODO add
+- pN
 
 #### Archetype: Pacemaker (hard real-time)
 
