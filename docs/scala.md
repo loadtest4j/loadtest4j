@@ -18,8 +18,8 @@ Then write your load test.
 
 We recommend the following pattern of:
 
-- One API usage definition per Spec class
-- One SLA assertion per test in that class
+- One [Scenario](concepts/scenario.md) per Spec class
+- One [SLA](concepts/sla.md) assertion per test in that class
 
 ```scala
 class FindPetsLoadSpec extends FlatSpec with Matchers {
