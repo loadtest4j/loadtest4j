@@ -20,9 +20,7 @@ The maximum amount of time that requests are allowed to take.
 
 This is measured in terms of **percentiles**. For example, if the SLA defines a 95th percentile response time of 500ms, this means 95% of requests must complete in 500ms or less, while 5% may take longer.
 
-The percentiles measured in the SLA depend on the purpose of the service.
-
-Service Response Time requirements generally fall under one of the following archetypes. For more detail, see Gil Tene's excellent presentation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls).
+The percentiles measured in the SLA depend on the purpose of the service. There is no 'one size fits all' set of percentiles to measure. That said, most services resemble one of the following archetypes, which you can use as a starting point. For more detail, see Gil Tene's excellent presentation ['How not to measure latency'](https://www.infoq.com/presentations/latency-pitfalls).
 
 #### Archetype: Athlete
 
@@ -40,6 +38,8 @@ Key percentiles:
 
 *Goal: Keep the heart beating.*
 
+The worst case is all that matters.
+
 Key percentiles:
 
 - Max (p100)
@@ -47,6 +47,8 @@ Key percentiles:
 #### Archetype: Trader (soft real-time)
 
 *Goals: Be fast enough to make some good trades. Contain risk while you do it.*
+
+The Trader must 'typically' react quickly to open a position. But their 'max' must be reasonable too, to avoid getting stuck with a bad open position.
 
 Key percentiles:
 
@@ -56,6 +58,8 @@ Key percentiles:
 #### Archetype: Interactive App (squishy real-time)
 
 *Goal: Keep users happy (don’t make them leave).*
+
+The App must be 'typically' snappy. It's OK to take longer sometimes - but not too long, and not too often.
 
 Key percentiles:
 
