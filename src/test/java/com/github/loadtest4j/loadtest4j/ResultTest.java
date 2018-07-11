@@ -51,13 +51,6 @@ public class ResultTest {
     }
 
     @Test
-    public void testGetActualDuration() {
-        final Result result = new Result(1, 1, Duration.ofSeconds(2), createResponseTime());
-
-        assertThat(result.getActualDuration()).isEqualTo(Duration.ofSeconds(2));
-    }
-
-    @Test
     public void testGetRequestsPerSecond() {
         final Result result = new Result(5, 5, Duration.ofMillis(2500), createResponseTime());
 

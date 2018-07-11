@@ -2,7 +2,6 @@ package com.github.loadtest4j.loadtest4j.factory;
 
 import com.github.loadtest4j.loadtest4j.LoadTester;
 import com.github.loadtest4j.loadtest4j.Request;
-import com.github.loadtest4j.loadtest4j.Result;
 import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
@@ -25,15 +24,16 @@ public class DriverAdapterTest {
     @Test
     public void testRun() {
         // Given
-        final NopDriver driver = new NopDriver();
+        final SpyDriver driver = new SpyDriver(new NopDriver());
         final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
-        final Result result = loadTester.run(list(Request.get("/")));
+        loadTester.run(list(Request.get("/")));
 
         // Then
-        assertThat(result.getKo()).isEqualTo(0);
-        assertThat(result.getOk()).isEqualTo(0);
+        assertThat(driver.getActualRequests())
+                .extracting(DriverRequest::getPath)
+                .containsSequence("/");
     }
 
     @Test
