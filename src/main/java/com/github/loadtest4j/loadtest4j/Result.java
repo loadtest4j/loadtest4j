@@ -18,24 +18,12 @@ public final class Result {
         this.responseTime = responseTime;
     }
 
-    public Duration getActualDuration() {
-        return actualDuration;
-    }
-
-    public long getKo() {
-        return ko;
-    }
-
-    public long getOk() {
-        return ok;
-    }
-
     public ResponseTime getResponseTime() {
         return responseTime;
     }
 
-    public long getTotal() {
-        return getOk() + getKo();
+    private long getTotal() {
+        return ok + ko;
     }
 
     /**
@@ -46,7 +34,7 @@ public final class Result {
         if (getTotal() == 0) {
             return 0;
         } else {
-            return ((double) getKo()) / ((double) getTotal()) * 100;
+            return ((double) ko) / ((double) getTotal()) * 100;
         }
     }
 
@@ -54,7 +42,7 @@ public final class Result {
      * @return The average requests per second (total / duration)
      */
     public double getRequestsPerSecond() {
-        final double durationSeconds = ((double) getActualDuration().toMillis()) / 1000;
+        final double durationSeconds = ((double) actualDuration.toMillis()) / 1000;
 
         // Do not divide by zero
         if (durationSeconds == 0) {
