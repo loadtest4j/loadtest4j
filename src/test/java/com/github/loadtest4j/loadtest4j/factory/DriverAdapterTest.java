@@ -2,7 +2,6 @@ package com.github.loadtest4j.loadtest4j.factory;
 
 import com.github.loadtest4j.loadtest4j.LoadTester;
 import com.github.loadtest4j.loadtest4j.Request;
-import com.github.loadtest4j.loadtest4j.Result;
 import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
 import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
