@@ -2,8 +2,8 @@ package com.github.loadtest4j.loadtest4j.test_utils;
 
 import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
+import com.github.loadtest4j.loadtest4j.driver.DriverResponseTime;
 import com.github.loadtest4j.loadtest4j.driver.DriverResult;
-import com.github.loadtest4j.loadtest4j.ResponseTime;
 
 import java.time.Duration;
 import java.util.List;
@@ -33,7 +33,7 @@ public class NopDriver implements Driver {
         }
 
         @Override
-        public ResponseTime getResponseTime() {
+        public DriverResponseTime getResponseTime() {
             return new NopResponseTime();
         }
 
