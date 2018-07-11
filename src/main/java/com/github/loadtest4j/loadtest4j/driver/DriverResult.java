@@ -1,7 +1,5 @@
 package com.github.loadtest4j.loadtest4j.driver;
 
-import com.github.loadtest4j.loadtest4j.ResponseTime;
-
 import java.time.Duration;
 import java.util.Optional;
 
@@ -15,7 +13,7 @@ public interface DriverResult {
 
     Duration getActualDuration();
 
-    ResponseTime getResponseTime();
+    DriverResponseTime getResponseTime();
 
     Optional<String> getReportUrl();
 }

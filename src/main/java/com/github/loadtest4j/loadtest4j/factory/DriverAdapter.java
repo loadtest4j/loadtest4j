@@ -2,6 +2,7 @@ package com.github.loadtest4j.loadtest4j.factory;
 
 import com.github.loadtest4j.loadtest4j.LoadTester;
 import com.github.loadtest4j.loadtest4j.Request;
+import com.github.loadtest4j.loadtest4j.ResponseTime;
 import com.github.loadtest4j.loadtest4j.Result;
 import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.driver.DriverRequest;
@@ -33,6 +34,7 @@ class DriverAdapter implements LoadTester {
     }
 
     private static Result postprocessResult(DriverResult driverResult) {
-        return new Result(driverResult.getOk(), driverResult.getKo(), driverResult.getActualDuration(), driverResult.getResponseTime());
+        final ResponseTime responseTime = new ResponseTime(driverResult.getResponseTime());
+        return new Result(driverResult.getOk(), driverResult.getKo(), driverResult.getActualDuration(), responseTime);
     }
 }
