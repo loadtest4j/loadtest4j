@@ -1,7 +1,7 @@
 package com.github.loadtest4j.loadtest4j.test_utils;
 
+import com.github.loadtest4j.loadtest4j.driver.DriverResponseTime;
 import com.github.loadtest4j.loadtest4j.driver.DriverResult;
-import com.github.loadtest4j.loadtest4j.ResponseTime;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -10,7 +10,7 @@ public class TestDriverResult implements DriverResult {
 
     private final long ok;
     private final long ko;
-    private final ResponseTime responseTime;
+    private final DriverResponseTime responseTime;
     private final Optional<String> reportUrl;
 
     public TestDriverResult(long ok, long ko) {
@@ -43,7 +43,7 @@ public class TestDriverResult implements DriverResult {
     }
 
     @Override
-    public ResponseTime getResponseTime() {
+    public DriverResponseTime getResponseTime() {
         return responseTime;
     }
 
