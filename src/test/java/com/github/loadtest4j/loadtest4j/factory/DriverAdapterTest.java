@@ -25,15 +25,16 @@ public class DriverAdapterTest {
     @Test
     public void testRun() {
         // Given
-        final NopDriver driver = new NopDriver();
+        final SpyDriver driver = new SpyDriver(new NopDriver());
         final LoadTester loadTester = new DriverAdapter(driver);
 
         // When
-        final Result result = loadTester.run(list(Request.get("/")));
+        loadTester.run(list(Request.get("/")));
 
         // Then
-        assertThat(result.getKo()).isEqualTo(0);
-        assertThat(result.getOk()).isEqualTo(0);
+        assertThat(driver.getActualRequests())
+                .extracting(DriverRequest::getPath)
+                .containsSequence("/");
     }
 
     @Test
