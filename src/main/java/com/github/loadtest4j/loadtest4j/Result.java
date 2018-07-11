@@ -22,7 +22,7 @@ public final class Result {
         return responseTime;
     }
 
-    private long getTotal() {
+    protected long getTotal() {
         return ok + ko;
     }
 
