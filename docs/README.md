@@ -13,12 +13,11 @@ A simple load test facade for Java.
   - [Service Level Agreement (SLA)](concepts/sla.md)
   - [Service Under Test (SUT)](concepts/sut.md)
 - [Drivers](drivers.md)
-- Examples
-  - [AssertJ](examples/assertj.md)
-  - [ScalaTest](examples/scalatest.md)
+- [Java guide](java.md)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers](multiple-drivers.md)
 - [Multiple Environments](multiple-environments.md)
+- [Scala guide](scala.md)
 
 ## Usage
 
@@ -51,7 +50,7 @@ A simple load test facade for Java.
     loadtest4j.reporter.enabled = true
     ```
     
-4. **Write a load test** in your favorite test framework, with your favorite assertions:
+4. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
     @Category(LoadTest.class)

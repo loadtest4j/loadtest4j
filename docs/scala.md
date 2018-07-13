@@ -1,6 +1,6 @@
-# Scala example
+# Scala guide
 
-An example in ScalaTest.
+A load test style guide for Scala (using ScalaTest).
 
 First write a companion object which will encapsulate loadtest4j and the Java conversions:
 
@@ -18,8 +18,8 @@ Then write your load test.
 
 We recommend the following pattern of:
 
-- One [Scenario](../concepts/scenario.md) per Spec class
-- One [SLA](../concepts/sla.md) assertion per test in that class
+- One [Scenario](concepts/scenario.md) per Spec class
+- One [SLA](concepts/sla.md) assertion per test in that class
 
 ```scala
 class FindPetsLoadSpec extends FlatSpec with Matchers {
