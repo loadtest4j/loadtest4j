@@ -1,6 +1,6 @@
-# Scala example
+# Scala guide
 
-An example in ScalaTest.
+A load test style guide for Scala (using ScalaTest).
 
 First write a companion object which will encapsulate loadtest4j and the Java conversions:
 

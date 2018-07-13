@@ -2,6 +2,8 @@
 
 The performance guarantees that you provide to clients of your service.
 
+Side note: loadtest4j makes your SLA **executable**. When you write a test case with assertions on the load test `Result`, you reify a part of that SLA in an executable and verifiable form.
+
 ## Measurements
 
 An effective SLA should include one or more of the following measurements. Collaborate with your project stakeholders to choose the appropriate measurements for your service. 
@@ -66,9 +68,3 @@ Key percentiles:
 - p90
 - p99
 - Max (p100)
-
-## Sidenote: The executable SLA
-
-Loadtest4j makes your Service Level Agreement (SLA) **executable**.
-
-When you write a test case with assertions on the load test `Result`, you reify a part of that SLA in an executable and verifiable form.
