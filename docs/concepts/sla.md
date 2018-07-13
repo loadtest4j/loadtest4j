@@ -8,9 +8,9 @@ Side note: loadtest4j makes your SLA **executable**. When you write a test case 
 
 An effective SLA should include one or more of the following measurements. Collaborate with your project stakeholders to choose the appropriate measurements for your service. 
 
-### Knockout Rate
+### Success Rate
 
-The percentage of requests that are allowed to fail (also called the 'percent KO').
+The minimum percentage of requests that must work (also called the 'percent OK').
 
 ### Requests Per Second
 

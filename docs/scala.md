@@ -33,8 +33,8 @@ class FindPetsLoadSpec extends FlatSpec with Matchers {
   // You do not want this to block class initialization.
   private lazy val result = LoadTester.run(Seq(request))        
   
-  it should "meet the Percent KO threshold" in {
-    result.getPercentKo should be <= 0.01
+  it should "meet the Percent OK threshold" in {
+    result.getPercentOk should be >= 99.99
   }
   
   it should "meet the Requests Per Second threshold" in {

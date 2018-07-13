@@ -27,14 +27,14 @@ public final class Result {
     }
 
     /**
-     * @return The percent of requests that were KO (represented as a number between 0 and 100)
+     * @return The percent of requests that were OK (represented as a number between 0 and 100)
      */
-    public double getPercentKo() {
+    public double getPercentOk() {
         // Do not divide by zero
         if (getTotal() == 0) {
             return 0;
         } else {
-            return ((double) ko) / ((double) getTotal()) * 100;
+            return ((double) ok) / ((double) getTotal()) * 100;
         }
     }
 
