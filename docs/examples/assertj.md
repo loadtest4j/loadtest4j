@@ -7,14 +7,22 @@ Use one of the following AssertJ styles.
 AssertJ assertions are 'hard' by default - the first failing assertion stops the test. This is unhelpful when asserting on a POJO, so use [`SoftAssertions`](https://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html#soft-assertions) instead.
 
 ```java
-
-final Result result = loadTester.run(requests);
-
-assertSoftly(s -> {
-    s.assertThat(result.getRequestsPerSecond()).as("Requests Per Second").isGreaterThanOrEqualTo(1);
-    s.assertThat(result.getResponseTime().getPercentile(75)).as("p75 Response Time").isLessThanOrEqualTo(Duration.ofMillis(500));
-    // and so on...
-})
+@Category(LoadTest.class)
+public class PetStoreTest {
+    
+    private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
+    
+    @Test
+    public void testFindPets() {
+        final Result result = loadTester.run(requests);
+        
+        assertSoftly(s -> {
+            s.assertThat(result.getRequestsPerSecond()).as("Requests Per Second").isGreaterThanOrEqualTo(1);
+            s.assertThat(result.getResponseTime().getPercentile(75)).as("p75 Response Time").isLessThanOrEqualTo(Duration.ofMillis(500));
+            // and so on...
+        });
+    }
+}
 ```
 
 ## Custom assertions
@@ -27,9 +35,26 @@ Note: The custom assertions class must be proxied through `SoftAssertions` for t
 
 This style might be more readable if your SLA has many requirements. 
 
-To replicate the style in the [ScalaTest example](scalatest.md) you need to make up for the lack of lazy evaluation in Java.
+```java
+@Category(LoadTest.class)
+public class FindPetsTest {
+    private static final List<Request> requests = Arrays.asList(Request.get("/"), Request.get("/pets"));
+    
+    private static final Supplier<Result> result = LazyLoadTester.run(requests);
+    
+    @Test
+    public void testRequestsPerSecond() {
+        assertThat(result.get().getRequestsPerSecond()).isGreaterThanOrEqualTo(1);
+    }
+   
+    @Test
+    public void testP75ResponseTime() {
+        assertThat(result.get().getResponseTime().getPercentile(75)).isLessThanOrEqualTo(Duration.ofMillis(500));
+    }
+}
+```
 
-First encapsulate the `lazy val` emulation in a utility class:
+To use this style you need to make up for the lack of lazy evaluation in Java. You should encapsulate the `lazy val` emulation in a utility class like this:
 
 ```java
 public class LazyLoadTester {
@@ -63,24 +88,3 @@ public class LazyLoadTester {
     }
 }
 ```
-
-Then write the test:
-
-```java
-@Category(LoadTest.class)
-public class FindPetsTest {
-    private static final List<Request> requests = Arrays.asList(Request.get("/"), Request.get("/pets"));
-    
-    private static final Supplier<Result> result = LazyLoadTester.run(requests);
-    
-    @Test
-    public void testRequestsPerSecond() {
-        assertThat(result.get().getRequestsPerSecond()).isGreaterThanOrEqualTo(1);
-    }
-   
-    @Test
-    public void testP75ResponseTime() {
-        assertThat(result.get().getResponseTime().getPercentile(75)).isLessThanOrEqualTo(Duration.ofMillis(500));
-    }
-}
-``` 
