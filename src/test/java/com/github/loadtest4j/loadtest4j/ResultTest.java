@@ -20,34 +20,34 @@ public class ResultTest {
     }
 
     @Test
-    public void testGetPercentKo() {
-        final Result result = new Result(0, 2, Duration.ZERO, createResponseTime());
+    public void testGetPercentOk() {
+        final Result result = new Result(2, 0, Duration.ZERO, createResponseTime());
 
-        assertThat(result.getPercentKo()).isEqualTo(100);
+        assertThat(result.getPercentOk()).isEqualTo(100);
     }
 
     @Test
-    public void testGetPercentKoAvoidsDivideByZero() {
+    public void testGetPercentOkAvoidsDivideByZero() {
         final Result result = new Result(0, 0, Duration.ZERO, createResponseTime());
 
-        assertThat(result.getPercentKo()).isEqualTo(0);
+        assertThat(result.getPercentOk()).isEqualTo(0);
     }
 
     @Test
-    public void testGetPercentKoWithErrors() {
-        final Result result = new Result(3, 1, Duration.ZERO, createResponseTime());
+    public void testGetPercentOkWithErrors() {
+        final Result result = new Result(1, 3, Duration.ZERO, createResponseTime());
 
-        assertThat(result.getPercentKo()).isEqualTo(25);
+        assertThat(result.getPercentOk()).isEqualTo(25);
     }
 
     @Test
-    public void testGetPercentKoWithHugeNumbers() {
+    public void testGetPercentOkWithHugeNumbers() {
         final long ok = Long.MAX_VALUE / 2;
         final long ko = Long.MAX_VALUE / 2;
 
         final Result result = new Result(ok, ko, Duration.ZERO, createResponseTime());
 
-        assertThat(result.getPercentKo()).isEqualTo(50);
+        assertThat(result.getPercentOk()).isEqualTo(50);
     }
 
     @Test

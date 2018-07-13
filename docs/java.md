@@ -19,6 +19,7 @@ public class PetStoreTest {
         assertSoftly(s -> {
             s.assertThat(result.getRequestsPerSecond()).as("Requests Per Second").isGreaterThanOrEqualTo(1);
             s.assertThat(result.getResponseTime().getPercentile(75)).as("p75 Response Time").isLessThanOrEqualTo(Duration.ofMillis(500));
+            s.assertThat(result.getPercentOk()).as("Percent OK").isGreaterThanOrEqualTo(99.99);
             // and so on...
         });
     }
@@ -51,10 +52,17 @@ public class FindPetsTest {
     public void testP75ResponseTime() {
         assertThat(result.get().getResponseTime().getPercentile(75)).isLessThanOrEqualTo(Duration.ofMillis(500));
     }
+    
+    @Test
+    public void testPercentOk() {
+        assertThat(result.get().getPercentOk()).isGreaterThanOrEqualTo(99.99);
+    }
 }
 ```
 
-To use this style you need to make up for the lack of lazy evaluation in Java. You should encapsulate the `lazy val` emulation in a utility class like this:
+To use this style you need to defer load test execution until a test requires it, to avoid blocking test suite initialization while the LoadTester executes.
+
+Java does not yet support lazy evaluation, so we must emulate this with a utility function that returns a `Supplier<Result>`. Here is an example:
 
 ```java
 public class LazyLoadTester {
