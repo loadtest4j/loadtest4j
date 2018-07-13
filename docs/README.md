@@ -13,10 +13,12 @@ A simple load test facade for Java.
   - [Service Level Agreement (SLA)](concepts/sla.md)
   - [Service Under Test (SUT)](concepts/sut.md)
 - [Drivers](drivers.md)
+- Examples
+  - [AssertJ](examples/assertj.md)
+  - [ScalaTest](examples/scalatest.md)
 - [Manifesto](manifesto.md)
-- [Multiple Drivers support](multiple-drivers.md)
-- [Multiple Environments support](multiple-environments.md)
-- [Scala support](scala.md)
+- [Multiple Drivers](multiple-drivers.md)
+- [Multiple Environments](multiple-environments.md)
 
 ## Usage
 
@@ -65,7 +67,7 @@ A simple load test facade for Java.
     
             Result result = loadTester.run(requests);
     
-            assertThat(result.getPercentKo()).isEqualTo(0);
+            assertThat(result.getResponseTime().getPercentile(90)).isLessThanOrEqualTo(Duration.ofMillis(500));
         }
     }
     ```
