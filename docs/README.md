@@ -31,7 +31,9 @@ A simple load test facade for Java.
         <version>[version]</version>
         <scope>test</scope>
     </dependency>
+    ```
     
+    ```xml
     <repository>
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
@@ -46,6 +48,7 @@ A simple load test facade for Java.
     loadtest4j.driver = com.github.loadtest4j.drivers.gatling.GatlingFactory
     loadtest4j.driver.duration = 60
     loadtest4j.driver.url = https://example.com
+    loadtest4j.driver.usersPerSecond = 1
     
     loadtest4j.reporter.enabled = true
     ```
