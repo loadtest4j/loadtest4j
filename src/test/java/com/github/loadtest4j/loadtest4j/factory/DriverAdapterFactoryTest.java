@@ -2,17 +2,18 @@ package com.github.loadtest4j.loadtest4j.factory;
 
 import com.github.loadtest4j.loadtest4j.LoadTester;
 import com.github.loadtest4j.loadtest4j.LoadTesterException;
-import com.github.loadtest4j.loadtest4j.driver.Driver;
-import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.junit.UnitTest;
-import com.github.loadtest4j.loadtest4j.test_utils.NopDriver;
+import com.github.loadtest4j.loadtest4j.test_utils.NopDriverFactory;
 import com.github.loadtest4j.loadtest4j.utils.ClassFinder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +30,6 @@ public class DriverAdapterFactoryTest {
 
         // When
         final Map<String, String> properties = new ConcurrentHashMap<>();
-        properties.put("loadtest4j.driver", StubDriverFactory.class.getName());
         properties.put("loadtest4j.driver.bar", "1");
         properties.put("loadtest4j.driver.foo", "2");
         properties.put("loadtest4j.reporter.enabled", "true");
@@ -40,22 +40,23 @@ public class DriverAdapterFactoryTest {
     }
 
     @Test
-    public void testCreateDriverWithFindError() {
-        final ClassFinder<DriverFactory> finder = new EmptyClassFinder<>();
+    public void testCreateDriverWithNoDriverFactories() {
+        final ClassFinder finder = new EmptyClassFinder();
         final DriverAdapterFactory factory = new DriverAdapterFactory(finder);
 
         thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("Invalid load test driver type.");
+        thrown.expectMessage("No load test drivers were found on the classpath. Please add one to your project.");
 
-        factory.create(Collections.singletonMap("loadtest4j.driver", "foo"));
+        factory.create(Collections.emptyMap());
     }
 
     @Test
-    public void testCreateDriverWithNoConfig() {
-        final DriverAdapterFactory factory = DriverAdapterFactory.defaultFactory();
+    public void testCreateDriverWithMoreThanOneDriverFactory() {
+        final ClassFinder finder = new DuplicateClassFinder();
+        final DriverAdapterFactory factory = new DriverAdapterFactory(finder);
 
         thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("The driver config is missing. Add it to /loadtest4j.properties or the JVM properties.");
+        thrown.expectMessage("Only 1 load test driver may be on the classpath at a time, but 2 were found.");
 
         factory.create(Collections.emptyMap());
     }
@@ -67,25 +68,21 @@ public class DriverAdapterFactoryTest {
         thrown.expect(LoadTesterException.class);
         thrown.expectMessage("The following driver properties are missing: [loadtest4j.driver.bar, loadtest4j.driver.foo]. Add them to /loadtest4j.properties or the JVM properties.");
 
-        factory.create(Collections.singletonMap("loadtest4j.driver", StubDriverFactory.class.getName()));
+        factory.create(Collections.emptyMap());
     }
 
-    public static class StubDriverFactory implements DriverFactory {
+    private static class EmptyClassFinder implements ClassFinder {
         @Override
-        public Set<String> getMandatoryProperties() {
-            return new HashSet<>(Arrays.asList("bar", "foo"));
-        }
-
-        @Override
-        public Driver create(Map<String, String> properties) {
-            return new NopDriver();
+        public <T> Collection<T> findImplementationsOf(Class<T> anInterface) {
+            return Collections.emptyList();
         }
     }
 
-    private static class EmptyClassFinder<DriverFactory> implements ClassFinder<DriverFactory> {
+    private static class DuplicateClassFinder implements ClassFinder {
+
         @Override
-        public Optional<DriverFactory> find(String className) {
-            return Optional.empty();
+        public <T> Collection<T> findImplementationsOf(Class<T> anInterface) {
+            return Arrays.asList((T) new NopDriverFactory(), (T) new NopDriverFactory());
         }
     }
 }

@@ -8,7 +8,7 @@ import java.util.*;
 public class NopDriverFactory implements DriverFactory {
     @Override
     public Set<String> getMandatoryProperties() {
-        return Collections.emptySet();
+        return new HashSet<>(Arrays.asList("bar", "foo"));
     }
 
     @Override

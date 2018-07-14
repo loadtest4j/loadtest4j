@@ -6,22 +6,22 @@ import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.reporter.Reporter;
 import com.github.loadtest4j.loadtest4j.utils.ClassFinder;
+import com.github.loadtest4j.loadtest4j.utils.FastClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
-import com.github.loadtest4j.loadtest4j.utils.ReflectiveClassFinder;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final ClassFinder<DriverFactory> FINDER = new ReflectiveClassFinder<>(DriverFactory.class);
+    private static final ClassFinder FINDER = new FastClassFinder();
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
     private static final String REPORTER_PROPERTY_NAMESPACE = "loadtest4j.reporter";
 
-    private final ClassFinder<DriverFactory> classFinder;
+    private final ClassFinder classFinder;
 
-    DriverAdapterFactory(ClassFinder<DriverFactory> classFinder) {
+    DriverAdapterFactory(ClassFinder classFinder) {
         this.classFinder = classFinder;
     }
 
@@ -36,7 +36,7 @@ class DriverAdapterFactory {
     }
 
     private Driver createDriver(Map<String, String> properties) {
-        final DriverFactory driverFactory = getDriverFactory(properties);
+        final DriverFactory driverFactory = getDriverFactory();
 
         final Map<String, String> driverProperties = getDriverProperties(properties);
         validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
@@ -73,14 +73,15 @@ class DriverAdapterFactory {
         }
     }
 
-    private DriverFactory getDriverFactory(Map<String, String> properties) {
-        if (!properties.containsKey(DRIVER_PROPERTY_NAMESPACE)) {
-            throw new LoadTesterException("The driver config is missing. Add it to /loadtest4j.properties or the JVM properties.");
-        }
+    private DriverFactory getDriverFactory() {
+        final Collection<DriverFactory> found = classFinder.findImplementationsOf(DriverFactory.class);
 
-        final String driverType = properties.get(DRIVER_PROPERTY_NAMESPACE);
+        final int numFound = found.size();
+        if (numFound > 1) throw new LoadTesterException(String.format("Only 1 load test driver may be on the classpath at a time, but %d were found.", numFound));
 
-        return classFinder.find(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
+        final Optional<DriverFactory> first = found.stream().findFirst();
+
+        return first.orElseThrow(() -> new LoadTesterException("No load test drivers were found on the classpath. Please add one to your project."));
     }
 
 }
