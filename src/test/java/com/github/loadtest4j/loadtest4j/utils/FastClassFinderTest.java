@@ -1,6 +1,6 @@
 package com.github.loadtest4j.loadtest4j.utils;
 
-import com.github.loadtest4j.loadtest4j.junit.UnitTest;
+import com.github.loadtest4j.loadtest4j.junit.IntegrationTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Category(UnitTest.class)
+@Category(IntegrationTest.class)
 public class FastClassFinderTest {
 
     private ClassFinder sut() {
@@ -35,6 +35,15 @@ public class FastClassFinderTest {
         assertThat(found).isEmpty();
     }
 
+    @Test
+    public void testFindWithInstantiationErrors() {
+        final ClassFinder classFinder = sut();
+
+        final Collection<C> found = classFinder.findImplementationsOf(C.class);
+
+        assertThat(found).isEmpty();
+    }
+
     public interface A {
         void foo();
     }
@@ -49,5 +58,20 @@ public class FastClassFinderTest {
 
     public interface B {
         void bar();
+    }
+
+    public interface C {
+        void qux();
+    }
+
+    private static class CImpl implements C {
+
+        // Cannot instantiate with a private constructor
+        private CImpl() {}
+
+        @Override
+        public void qux() {
+            // No-op
+        }
     }
 }

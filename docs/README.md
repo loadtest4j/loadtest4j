@@ -24,6 +24,7 @@ A simple load test facade for Java.
 1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
     
     ```xml
+    <!-- Loadtest4j scans the classpath to find your driver. -->
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
         <groupId>com.github.loadtest4j</groupId>
@@ -45,7 +46,6 @@ A simple load test facade for Java.
 3. **Configure the driver** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
-    loadtest4j.driver = com.github.loadtest4j.drivers.gatling.GatlingFactory
     loadtest4j.driver.duration = 60
     loadtest4j.driver.url = https://example.com
     loadtest4j.driver.usersPerSecond = 1

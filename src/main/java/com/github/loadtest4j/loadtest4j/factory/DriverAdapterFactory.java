@@ -5,7 +5,6 @@ import com.github.loadtest4j.loadtest4j.LoadTesterException;
 import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.reporter.Reporter;
-import com.github.loadtest4j.loadtest4j.utils.ClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.FastClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
 
@@ -13,16 +12,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final ClassFinder FINDER = new FastClassFinder();
+    private static final DriverFactoryFinder FINDER = new DriverFactoryFinder(new FastClassFinder());
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
     private static final String REPORTER_PROPERTY_NAMESPACE = "loadtest4j.reporter";
 
-    private final ClassFinder classFinder;
+    private final DriverFactoryFinder driverFactoryFinder;
 
-    DriverAdapterFactory(ClassFinder classFinder) {
-        this.classFinder = classFinder;
+    private DriverAdapterFactory(DriverFactoryFinder driverFactoryFinder) {
+        this.driverFactoryFinder = driverFactoryFinder;
     }
 
     protected static DriverAdapterFactory defaultFactory() {
@@ -74,14 +73,6 @@ class DriverAdapterFactory {
     }
 
     private DriverFactory getDriverFactory() {
-        final Collection<DriverFactory> found = classFinder.findImplementationsOf(DriverFactory.class);
-
-        final int numFound = found.size();
-        if (numFound > 1) throw new LoadTesterException(String.format("Only 1 load test driver may be on the classpath at a time, but %d were found.", numFound));
-
-        final Optional<DriverFactory> first = found.stream().findFirst();
-
-        return first.orElseThrow(() -> new LoadTesterException("No load test drivers were found on the classpath. Please add one to your project."));
+        return driverFactoryFinder.find();
     }
-
 }
