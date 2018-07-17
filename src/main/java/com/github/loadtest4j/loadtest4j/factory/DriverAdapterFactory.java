@@ -12,20 +12,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final DriverFactoryFinder FINDER = new DriverFactoryFinder(new FastClassFinder());
+    private static final DriverFactorySupplier SUPPLIER = new DriverFactorySupplier(new FastClassFinder());
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
     private static final String REPORTER_PROPERTY_NAMESPACE = "loadtest4j.reporter";
 
-    private final DriverFactoryFinder driverFactoryFinder;
+    private final DriverFactorySupplier driverFactorySupplier;
 
-    private DriverAdapterFactory(DriverFactoryFinder driverFactoryFinder) {
-        this.driverFactoryFinder = driverFactoryFinder;
+    private DriverAdapterFactory(DriverFactorySupplier driverFactorySupplier) {
+        this.driverFactorySupplier = driverFactorySupplier;
     }
 
     protected static DriverAdapterFactory defaultFactory() {
-        return new DriverAdapterFactory(FINDER);
+        return new DriverAdapterFactory(SUPPLIER);
     }
 
     protected LoadTester create(Map<String, String> properties) {
@@ -73,6 +73,6 @@ class DriverAdapterFactory {
     }
 
     private DriverFactory getDriverFactory() {
-        return driverFactoryFinder.find();
+        return driverFactorySupplier.get();
     }
 }

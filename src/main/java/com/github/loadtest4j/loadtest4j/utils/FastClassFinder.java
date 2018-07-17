@@ -6,12 +6,11 @@ import io.github.lukehutch.fastclasspathscanner.scanner.ScanResult;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FastClassFinder implements ClassFinder {
 
     @Override
-    public <T> Collection<T> findImplementationsOf(Class<T> anInterface) {
+    public <T> Collection<Class<T>> findImplementationsOf(Class<T> anInterface) {
         final ScanResult scanResult = new FastClasspathScanner().scan();
 
         final List<String> implementorNames = scanResult.getNamesOfClassesImplementing(anInterface.getName());
@@ -19,13 +18,7 @@ public class FastClassFinder implements ClassFinder {
         final List<Class<?>> implementorRefs = scanResult.classNamesToClassRefs(implementorNames);
 
         return implementorRefs.stream()
-                .flatMap(ref -> {
-                    try {
-                        return Stream.of((T) ref.newInstance());
-                    } catch (InstantiationException | IllegalAccessException e) {
-                        return Stream.empty();
-                    }
-                })
+                .map(ref -> (Class<T>) ref)
                 .collect(Collectors.toList());
     }
 }

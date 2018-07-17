@@ -19,27 +19,16 @@ public class FastClassFinderTest {
     public void testFind() {
         final ClassFinder classFinder = sut();
 
-        final Collection<A> found = classFinder.findImplementationsOf(A.class);
+        final Collection<Class<A>> found = classFinder.findImplementationsOf(A.class);
 
-        assertThat(found)
-                .isNotEmpty()
-                .hasOnlyElementsOfType(AImpl.class);
+        assertThat(found).hasSize(1);
     }
 
     @Test
     public void testFindWithNoImplementations() {
         final ClassFinder classFinder = sut();
 
-        final Collection<B> found = classFinder.findImplementationsOf(B.class);
-
-        assertThat(found).isEmpty();
-    }
-
-    @Test
-    public void testFindWithInstantiationErrors() {
-        final ClassFinder classFinder = sut();
-
-        final Collection<C> found = classFinder.findImplementationsOf(C.class);
+        final Collection<Class<B>> found = classFinder.findImplementationsOf(B.class);
 
         assertThat(found).isEmpty();
     }
@@ -58,20 +47,5 @@ public class FastClassFinderTest {
 
     public interface B {
         void bar();
-    }
-
-    public interface C {
-        void qux();
-    }
-
-    private static class CImpl implements C {
-
-        // Cannot instantiate with a private constructor
-        private CImpl() {}
-
-        @Override
-        public void qux() {
-            // No-op
-        }
     }
 }
