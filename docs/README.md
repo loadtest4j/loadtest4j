@@ -43,7 +43,7 @@ A simple load test facade for Java.
     
 2. **Install external driver dependencies** if the driver needs them.
 
-3. **Configure the driver** in `src/test/resources/loadtest4j.properties`:
+3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
     loadtest4j.driver.duration = 60
