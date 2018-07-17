@@ -7,13 +7,14 @@ import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.reporter.Reporter;
 import com.github.loadtest4j.loadtest4j.utils.FastClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
+import com.github.loadtest4j.loadtest4j.utils.Suppliers;
 
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final Supplier<DriverFactory> SUPPLIER = new DriverFactorySupplier(new FastClassFinder());
+    private static final Supplier<DriverFactory> SUPPLIER = Suppliers.memoize(new DriverFactorySupplier(new FastClassFinder()));
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
