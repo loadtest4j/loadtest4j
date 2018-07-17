@@ -39,6 +39,10 @@ public final class Suppliers {
      *
      * Serialization: NO GUARANTEES are made about behavior in a serialized context. Loadtest4j does not use this
      * utility in a serialized context, so serialization handling has been removed to make the implementation simpler.
+     *
+     * @param <T> The type returned by the Supplier function
+     * @param delegate The Supplier to memoize
+     * @return A memoized version of the delegate
      */
     public static <T> Supplier<T> memoize(Supplier<T> delegate) {
         if (delegate instanceof NonSerializableMemoizingSupplier) {
@@ -49,10 +53,7 @@ public final class Suppliers {
 
     private static class NonSerializableMemoizingSupplier<T> implements Supplier<T> {
         private volatile Supplier<T> delegate;
-        private volatile boolean initialized;
-        // "value" does not need to be volatile; visibility piggy-backs
-        // on volatile read of "initialized".
-        private T value;
+        private volatile T value;
 
         NonSerializableMemoizingSupplier(Supplier<T> delegate) {
             this.delegate = delegate;
@@ -60,13 +61,13 @@ public final class Suppliers {
 
         @Override
         public T get() {
-            // A 2-field variant of Double Checked Locking.
-            if (!initialized) {
+            // Double-checked locking (https://en.wikipedia.org/wiki/Double-checked_locking)
+            if (value == null) {
                 synchronized (this) {
-                    if (!initialized) {
+                    if (value == null) {
                         T t = delegate.get();
                         value = t;
-                        initialized = true;
+
                         // Release the delegate to GC.
                         delegate = null;
                         return t;
