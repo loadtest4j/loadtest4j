@@ -9,18 +9,19 @@ import com.github.loadtest4j.loadtest4j.utils.FastClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final DriverFactorySupplier SUPPLIER = new DriverFactorySupplier(new FastClassFinder());
+    private static final Supplier<DriverFactory> SUPPLIER = new DriverFactorySupplier(new FastClassFinder());
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
     private static final String REPORTER_PROPERTY_NAMESPACE = "loadtest4j.reporter";
 
-    private final DriverFactorySupplier driverFactorySupplier;
+    private final Supplier<DriverFactory> driverFactorySupplier;
 
-    private DriverAdapterFactory(DriverFactorySupplier driverFactorySupplier) {
+    private DriverAdapterFactory(Supplier<DriverFactory> driverFactorySupplier) {
         this.driverFactorySupplier = driverFactorySupplier;
     }
 
@@ -35,7 +36,7 @@ class DriverAdapterFactory {
     }
 
     private Driver createDriver(Map<String, String> properties) {
-        final DriverFactory driverFactory = getDriverFactory();
+        final DriverFactory driverFactory = driverFactorySupplier.get();
 
         final Map<String, String> driverProperties = getDriverProperties(properties);
         validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
@@ -70,9 +71,5 @@ class DriverAdapterFactory {
             final String msg = String.format("The following driver properties are missing: %s. Add them to /loadtest4j.properties or the JVM properties.", missingKeys);
             throw new LoadTesterException(msg);
         }
-    }
-
-    private DriverFactory getDriverFactory() {
-        return driverFactorySupplier.get();
     }
 }
