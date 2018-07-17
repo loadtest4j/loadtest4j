@@ -67,8 +67,8 @@ Java does not yet support lazy evaluation, so we must emulate this with a utilit
 ```java
 public class LazyLoadTester {
     public static Supplier<Result> run(List<Request> requests) {
-        // The memoize step is critical. It ensures that a given LoadTest4jSupplier is only run ONCE.
-        // Either use the memoizer included with loadtest4j, or use your favorite library.
+        // The memoize step is critical: it ensures that a given LoadTest4jSupplier is only run ONCE.
+        // Either write your own memoizer, or use your favorite library.
         return Suppliers.memoize(new Loadtest4jSupplier(requests));
     }
     
