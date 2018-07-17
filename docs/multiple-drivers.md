@@ -17,41 +17,17 @@ In a nutshell:
 3. Define each environment as a Maven profile. Pass driver config to Maven Surefire plugin in each environment.
 
 ```xml
-<dependencies>
-    <!-- Bring in the loadtest4j API jar first. -->
-    <dependency>
-        <groupId>com.github.loadtest4j</groupId>
-        <artifactId>loadtest4j</artifactId>
-        <version>[version]</version>
-    </dependency>
-    <!-- Bring in loadtest4j driver Foo. Exclude the loadtest4j API. -->
-    <dependency>
-        <groupId>com.github.loadtest4j</groupId>
-        <artifactId>loadtest4j-foo</artifactId>
-        <version>[version]</version>
-        <exclusions>
-            <exclusion>
-                <groupId>com.github.loadtest4j</groupId>
-                <artifactId>loadtest4j</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <!-- Bring in loadtest4j driver Bar. Exclude the loadtest4j API. -->
-    <dependency>
-        <groupId>com.github.loadtest4j</groupId>
-        <artifactId>loadtest4j-bar</artifactId>
-        <version>[version]</version>
-        <exclusions>
-            <exclusion>
-                <groupId>com.github.loadtest4j</groupId>
-                <artifactId>loadtest4j</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-</dependencies>
+<!-- Bring in the loadtest4j API jar first. -->
+<dependency>
+    <groupId>com.github.loadtest4j</groupId>
+    <artifactId>loadtest4j</artifactId>
+    <version>[version]</version>
+</dependency>
+```
 
+```xml
+<!-- Define each loadtest4j environment in a Maven profile. -->
 <profiles>
-    <!-- Define each loadtest4j environment in a Maven profile. -->
     <profile>
         <id>development</id>
         <!-- Make your development profile active by default, so that your load tests work on your laptop. -->
@@ -76,6 +52,20 @@ In a nutshell:
                 </plugin>
             </plugins>
         </build>
+        <dependencies>
+            <!-- Bring in loadtest4j driver Foo. Exclude the loadtest4j API. -->
+            <dependency>
+                <groupId>com.github.loadtest4j</groupId>
+                <artifactId>loadtest4j-foo</artifactId>
+                <version>[version]</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.loadtest4j</groupId>
+                        <artifactId>loadtest4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
     </profile>
     <profile>
         <id>production</id>
@@ -95,33 +85,46 @@ In a nutshell:
                 </plugin>
             </plugins>
         </build>
+        <dependencies>
+            <!-- Bring in loadtest4j driver Bar. Exclude the loadtest4j API. -->
+            <dependency>
+                <groupId>com.github.loadtest4j</groupId>
+                <artifactId>loadtest4j-bar</artifactId>
+                <version>[version]</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.loadtest4j</groupId>
+                        <artifactId>loadtest4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
     </profile>
 </profiles>
+```
 
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.12.4</version>
+```xml
+<!-- Separate (slow) load tests from (fast) unit tests. -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.12.4</version>
+    <configuration>
+        <!-- Run unit tests by default. -->
+        <groups>com.github.loadtest4j.example.junit.UnitTest</groups>
+    </configuration>
+    <executions>
+        <execution>
+            <id>load</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
             <configuration>
-                <!-- Run unit tests by default. -->
-                <groups>com.github.loadtest4j.example.junit.UnitTest</groups>
+                <!-- Run load tests in the verify phase. -->
+                <groups>com.github.loadtest4j.example.junit.LoadTest</groups>
             </configuration>
-            <executions>
-                <execution>
-                    <id>load</id>
-                    <phase>integration-test</phase>
-                    <goals>
-                        <goal>test</goal>
-                    </goals>
-                    <configuration>
-                        <!-- Run load tests in the verify phase. -->
-                        <groups>com.github.loadtest4j.example.junit.LoadTest</groups>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
+        </execution>
+    </executions>
+</plugin>
 ```

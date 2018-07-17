@@ -67,7 +67,9 @@ Java does not yet support lazy evaluation, so we must emulate this with a utilit
 ```java
 public class LazyLoadTester {
     public static Supplier<Result> run(List<Request> requests) {
-        return memoize(new Loadtest4jSupplier(requests));
+        // The memoize step is critical: it ensures that a given LoadTest4jSupplier is only run ONCE.
+        // Either write your own memoizer, or use your favorite library.
+        return Suppliers.memoize(new Loadtest4jSupplier(requests));
     }
     
     private static class Loadtest4jSupplier implements Supplier<Result> {
@@ -83,16 +85,6 @@ public class LazyLoadTester {
         public Result get() {
             return loadTester.run(requests);
         }
-    }
-    
-    // The memoize step is critical. It ensures that a given LoadTest4jSupplier is only run ONCE.
-    private static <T> Supplier<T> memoize(Supplier<T> delegate) {
-        return new MemoizingSupplier<>(delegate);
-    }
-    
-    // Either roll your own, or use your favorite library for this.
-    private static class MemoizingSupplier<T> implements Supplier<T> {
-        // ...
     }
 }
 ```

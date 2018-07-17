@@ -5,28 +5,29 @@ import com.github.loadtest4j.loadtest4j.LoadTesterException;
 import com.github.loadtest4j.loadtest4j.driver.Driver;
 import com.github.loadtest4j.loadtest4j.driver.DriverFactory;
 import com.github.loadtest4j.loadtest4j.reporter.Reporter;
-import com.github.loadtest4j.loadtest4j.utils.ClassFinder;
+import com.github.loadtest4j.loadtest4j.utils.FastClassFinder;
 import com.github.loadtest4j.loadtest4j.utils.PropertiesSubset;
-import com.github.loadtest4j.loadtest4j.utils.ReflectiveClassFinder;
+import com.github.loadtest4j.loadtest4j.utils.Suppliers;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final ClassFinder<DriverFactory> FINDER = new ReflectiveClassFinder<>(DriverFactory.class);
+    private static final Supplier<DriverFactory> SUPPLIER = Suppliers.memoize(new DriverFactorySupplier(new FastClassFinder()));
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
     private static final String REPORTER_PROPERTY_NAMESPACE = "loadtest4j.reporter";
 
-    private final ClassFinder<DriverFactory> classFinder;
+    private final Supplier<DriverFactory> driverFactorySupplier;
 
-    DriverAdapterFactory(ClassFinder<DriverFactory> classFinder) {
-        this.classFinder = classFinder;
+    private DriverAdapterFactory(Supplier<DriverFactory> driverFactorySupplier) {
+        this.driverFactorySupplier = driverFactorySupplier;
     }
 
     protected static DriverAdapterFactory defaultFactory() {
-        return new DriverAdapterFactory(FINDER);
+        return new DriverAdapterFactory(SUPPLIER);
     }
 
     protected LoadTester create(Map<String, String> properties) {
@@ -36,7 +37,7 @@ class DriverAdapterFactory {
     }
 
     private Driver createDriver(Map<String, String> properties) {
-        final DriverFactory driverFactory = getDriverFactory(properties);
+        final DriverFactory driverFactory = driverFactorySupplier.get();
 
         final Map<String, String> driverProperties = getDriverProperties(properties);
         validatePresenceOf(driverProperties, driverFactory.getMandatoryProperties());
@@ -72,15 +73,4 @@ class DriverAdapterFactory {
             throw new LoadTesterException(msg);
         }
     }
-
-    private DriverFactory getDriverFactory(Map<String, String> properties) {
-        if (!properties.containsKey(DRIVER_PROPERTY_NAMESPACE)) {
-            throw new LoadTesterException("The driver config is missing. Add it to /loadtest4j.properties or the JVM properties.");
-        }
-
-        final String driverType = properties.get(DRIVER_PROPERTY_NAMESPACE);
-
-        return classFinder.find(driverType).orElseThrow(() -> new LoadTesterException("Invalid load test driver type."));
-    }
-
 }
