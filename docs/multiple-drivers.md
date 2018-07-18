@@ -12,9 +12,11 @@ Multiple Driver support will be improved in future, most likely in the form of a
 
 In a nutshell:
 
-1. Bring in the loadtest4j API jar explicitly. Then bring in all drivers, excluding the API jar.
+1. Bring in the loadtest4j API jar explicitly.
 2. Define base configuration of the Maven Surefire plugin.
-3. Define each environment as a Maven profile. Pass driver config to Maven Surefire plugin in each environment.
+3. Define each environment as a Maven profile. Do the following in each environment.
+    - Bring the driver dependency in, excluding the loadtest4j API jar. 
+    - Pass driver config via the Maven Surefire plugin (not loadtest4j.properties).
 
 ```xml
 <!-- Bring in the loadtest4j API jar first. -->
@@ -40,7 +42,7 @@ In a nutshell:
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
-                        <!-- Pass the Foo driver config as JVM system properties, via the Maven Surefire plugin. (Not via loadtest4j.properties.) --> 
+                        <!-- Pass the Foo driver config as JVM system properties, via the Maven Surefire plugin. --> 
                         <systemPropertyVariables>
                             <loadtest4j.driver>com.github.loadtest4j.drivers.foo.FooFactory</loadtest4j.driver>
                             <loadtest4j.driver.duration>4</loadtest4j.driver.duration>
@@ -111,7 +113,7 @@ In a nutshell:
     <version>2.12.4</version>
     <configuration>
         <!-- Run unit tests by default. -->
-        <groups>com.github.loadtest4j.example.junit.UnitTest</groups>
+        <groups>org.loadtest4j.example.junit.UnitTest</groups>
     </configuration>
     <executions>
         <execution>
@@ -122,7 +124,7 @@ In a nutshell:
             </goals>
             <configuration>
                 <!-- Run load tests in the verify phase. -->
-                <groups>com.github.loadtest4j.example.junit.LoadTest</groups>
+                <groups>org.loadtest4j.example.junit.LoadTest</groups>
             </configuration>
         </execution>
     </executions>
