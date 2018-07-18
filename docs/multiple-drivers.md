@@ -44,7 +44,6 @@ In a nutshell:
                     <configuration>
                         <!-- Pass the Foo driver config as JVM system properties, via the Maven Surefire plugin. --> 
                         <systemPropertyVariables>
-                            <loadtest4j.driver>com.github.loadtest4j.drivers.foo.FooFactory</loadtest4j.driver>
                             <loadtest4j.driver.duration>4</loadtest4j.driver.duration>
                             <loadtest4j.driver.url>http://localhost:3000</loadtest4j.driver.url>
                             
@@ -57,7 +56,7 @@ In a nutshell:
         <dependencies>
             <!-- Bring in loadtest4j driver Foo. Exclude the loadtest4j API. -->
             <dependency>
-                <groupId>com.github.loadtest4j</groupId>
+                <groupId>com.example</groupId>
                 <artifactId>loadtest4j-foo</artifactId>
                 <version>[version]</version>
                 <exclusions>
@@ -79,7 +78,6 @@ In a nutshell:
                     <configuration>
                         <!-- Pass the Bar driver config as JVM system properties, via the Maven Surefire plugin. --> 
                         <systemPropertyVariables>
-                            <loadtest4j.driver>com.github.loadtest4j.drivers.bar.BarFactory</loadtest4j.driver>
                             <loadtest4j.driver.duration>1800</loadtest4j.driver.duration>
                             <loadtest4j.driver.url>https://example.com</loadtest4j.driver.url>
                         </systemPropertyVariables>
@@ -90,7 +88,7 @@ In a nutshell:
         <dependencies>
             <!-- Bring in loadtest4j driver Bar. Exclude the loadtest4j API. -->
             <dependency>
-                <groupId>com.github.loadtest4j</groupId>
+                <groupId>com.example</groupId>
                 <artifactId>loadtest4j-bar</artifactId>
                 <version>[version]</version>
                 <exclusions>
@@ -113,7 +111,7 @@ In a nutshell:
     <version>2.12.4</version>
     <configuration>
         <!-- Run unit tests by default. -->
-        <groups>org.loadtest4j.example.junit.UnitTest</groups>
+        <groups>com.example.junit.UnitTest</groups>
     </configuration>
     <executions>
         <execution>
@@ -124,7 +122,7 @@ In a nutshell:
             </goals>
             <configuration>
                 <!-- Run load tests in the verify phase. -->
-                <groups>org.loadtest4j.example.junit.LoadTest</groups>
+                <groups>com.example.junit.LoadTest</groups>
             </configuration>
         </execution>
     </executions>
