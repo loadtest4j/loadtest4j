@@ -10,7 +10,7 @@ Parameterise the driver configuration file:
 
 ```properties
 # Constant properties
-loadtest4j.driver = com.github.loadtest4j.example.DummyFactory
+loadtest4j.driver.duration = 300
 
 # Environment-specific properties
 loadtest4j.driver.url = ${loadtest4j.driver.url}
