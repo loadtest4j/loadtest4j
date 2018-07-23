@@ -22,7 +22,7 @@ A simple load test facade for Java.
 
 ## Usage
 
-1. **Add a [load test driver](drivers.md)** to your `pom.xml`:
+1. **Add a load test driver** from the [registry](registry.md) to your `pom.xml`:
     
     ```xml
     <!-- Loadtest4j scans the classpath to find your driver. -->
