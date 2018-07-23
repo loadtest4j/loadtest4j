@@ -9,15 +9,16 @@ A simple load test facade for Java.
 ## Contents
 
 - Concepts
+  - [Driver](concepts/driver.md)
   - [Scenario](concepts/scenario.md)
   - [Service Level Agreement (SLA)](concepts/sla.md)
   - [Service Under Test (SUT)](concepts/sut.md)
-- [Drivers](drivers.md)
-- [Java guide](java.md)
+- [Driver List](drivers.md)
+- [Java Guide](java.md)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers](multiple-drivers.md)
 - [Multiple Environments](multiple-environments.md)
-- [Scala guide](scala.md)
+- [Scala Guide](scala.md)
 
 ## Usage
 
