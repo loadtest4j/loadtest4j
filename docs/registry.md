@@ -1,4 +1,4 @@
-# Drivers
+# Driver Registry
 
 A list of known drivers for loadtest4j.
 
