@@ -13,7 +13,7 @@ A simple load test facade for Java.
   - [Scenario](concepts/scenario.md)
   - [Service Level Agreement (SLA)](concepts/sla.md)
   - [Service Under Test (SUT)](concepts/sut.md)
-- [Driver List](drivers.md)
+- [Driver Registry](registry.md)
 - [Java Guide](java.md)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers](multiple-drivers.md)
