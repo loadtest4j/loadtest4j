@@ -1,6 +1,6 @@
 # Driver Registry
 
-A list of known drivers for loadtest4j.
+A list of known [Drivers](concepts/driver.md) for loadtest4j.
 
 | Driver  | Product |
 | ------------- | ------------- |
