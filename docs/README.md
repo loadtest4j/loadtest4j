@@ -19,13 +19,13 @@ A simple load test facade for Java.
 - [Multiple Drivers](multiple-drivers.md)
 - [Multiple Environments](multiple-environments.md)
 - [Scala Guide](scala.md)
+- [Source Code](https://github.com/loadtest4j/loadtest4j)
 
 ## Usage
 
 1. **Add a load test driver** from the [registry](registry.md) to your `pom.xml`:
     
     ```xml
-    <!-- Loadtest4j scans the classpath to find your driver. -->
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
         <groupId>com.github.loadtest4j</groupId>
