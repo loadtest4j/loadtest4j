@@ -19,30 +19,32 @@ Then write your load test.
 We recommend the following pattern of:
 
 - One [Scenario](concepts/scenario.md) per Spec class
-- One [SLA](concepts/sla.md) assertion per test in that class
+- One [SLI](concepts/sli.md) Requirement per test in that class
 
 ```scala
-class FindPetsLoadSpec extends FlatSpec with Matchers {
-  behavior of "Find pets by status"
+class FindPetsLoadSpec extends FlatSpec with Matchers { 
   
-  private val request = Request.get("/pet/findByStatus")
-                               .withHeader("Accept", "application/json")
-                               .withQueryParam("status", "available"))
+  private val requests = Seq(Request.get("/pet/findByStatus")
+                                    .withHeader("Accept", "application/json")
+                                    .withQueryParam("status", "available"))
   
-  // NOTE: Lazy evaluation ensures this executes at test time.
-  // You do not want this to block class initialization.
-  private lazy val result = LoadTester.run(Seq(request))        
+  // NOTE: Lazy evaluation ensures this executes at test time - not at class initialization.
+  private lazy val result = LoadTester.run(requests)        
   
-  it should "meet the Percent OK threshold" in {
-    result.getPercentOk should be >= 99.99
-  }
+  behavior of "Response Time SLO"
   
-  it should "meet the Requests Per Second threshold" in {
-    result.getRequestsPerSecond should be >= 150
-  }
-  
-  it should "meet the p90 Response Time threshold" in {
+  it should "handle 90% of requests in 500ms" in {
     result.getResponseTime.getPercentile(90) should be <= Duration.ofMillis(500)
+  }
+
+  it should "handle 99% of requests in 3s" in {
+    result.getResponseTime.getPercentile(99) should be <= Duration.ofSeconds(3)
+  }
+  
+  behavior of "Survival Rate SLO"
+  
+  it should "successfully handle 99.99% of requests" in {
+    result.getPercentOk should be >= 99.99
   }
 }
 ```

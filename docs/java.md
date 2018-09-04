@@ -28,13 +28,13 @@ public class PetStoreTest {
 
 ## Custom assertions
 
-Follow the AssertJ [custom assertions guide](https://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) to write assertions on `Result` which are relevant to your [SLA](concepts/sla.md).
+Follow the AssertJ [custom assertions guide](https://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) to write assertions on `Result` which are relevant to your [SLO](concepts/slo.md).
 
 Note: The custom assertions class must be proxied through `SoftAssertions` for the same reason as normal assertions.
 
 ## Advanced: One assertion per test
 
-This style might be more readable if your SLA has many requirements. 
+This style might be more readable if your SLO has many requirements. 
 
 ```java
 @Category(LoadTest.class)

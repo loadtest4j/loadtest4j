@@ -12,6 +12,8 @@ A simple load test facade for Java.
   - [Driver](concepts/driver.md)
   - [Scenario](concepts/scenario.md)
   - [Service Level Agreement (SLA)](concepts/sla.md)
+  - [Service Level Indicator (SLI)](concepts/sli.md)
+  - [Service Level Objective (SLO)](concepts/slo.md)
   - [Service Under Test (SUT)](concepts/sut.md)
 - [Driver Registry](registry.md)
 - [Java Guide](java.md)
