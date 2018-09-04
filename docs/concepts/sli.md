@@ -1,6 +1,6 @@
 # Service Level Indicator (SLI)
 
-A measurable indicator of service performance that we choose to measure.
+An SLI is a measurable and relevant indicator of service performance.
 
 An SLI Requirement is a statement about a particular value of that indicator.
 

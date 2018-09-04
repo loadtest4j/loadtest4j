@@ -1,6 +1,6 @@
 # Service Level Agreement (SLA)
 
-An SLA is a contract with your clients explicitly stating:
+A Service Level Agreement is a contract with your clients explicitly stating:
  
 - The [SLOs](slo.md) of interest. 
 - The consequences of failing to achieve these SLOs.
