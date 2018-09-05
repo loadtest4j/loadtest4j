@@ -21,7 +21,18 @@ A simple load test facade for Java.
 - [Multiple Drivers](multiple-drivers.md)
 - [Multiple Environments](multiple-environments.md)
 - [Scala Guide](scala.md)
-- [Source Code](https://github.com/loadtest4j/loadtest4j)
+- [Source Code (Git)](https://github.com/loadtest4j/loadtest4j)
+
+## What it does
+
+Loadtest4j lets you write load tests as plain old xUnit tests.
+
+The benefits include...
+
+- **Executable [SLOs](concepts/slo.md)** - fully automated and verifiable. No longer an inert piece of paper.
+- **Portable load tests** - which will run anywhere that a unit test can run.
+- **Full integration with existing xUnit tools** - coverage reports, trend trackers, test grouping, IDE support, and more.
+- **Quicker detection of performance bugs** in your release pipeline - catch problems before your code hits production.
 
 ## Usage
 
@@ -43,10 +54,8 @@ A simple load test facade for Java.
         <url>https://jitpack.io</url>
     </repository>
     ```
-    
-2. **Install external driver dependencies** if the driver needs them.
 
-3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
+2. **Configure the library** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
     loadtest4j.driver.duration = 60
@@ -56,7 +65,7 @@ A simple load test facade for Java.
     loadtest4j.reporter.enabled = true
     ```
     
-4. **Write a load test** with your favorite language, test framework, and assertions:
+3. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
     @Category(LoadTest.class)
