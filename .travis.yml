@@ -7,7 +7,7 @@ jdk:
 
 before_install: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 
-script: mvn -B verify
+script: mvn -B -s .settings.xml verify gpg:sign
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
