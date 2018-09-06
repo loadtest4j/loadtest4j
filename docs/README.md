@@ -55,7 +55,28 @@ The benefits include...
     </repository>
     ```
 
-2. **Configure the library** in `src/test/resources/loadtest4j.properties`:
+2. **Tell Maven to run load tests separately**:
+
+    ```xml
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+            <groups>com.example.UnitTest</groups>
+        </configuration>
+        <executions>
+            <execution>
+                <id>load</id>
+                <phase>test</phase>
+                <configuration>
+                    <groups>com.example.LoadTest</groups>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    ```
+
+3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
     loadtest4j.driver.duration = 60
@@ -65,7 +86,7 @@ The benefits include...
     loadtest4j.reporter.enabled = true
     ```
     
-3. **Write a load test** with your favorite language, test framework, and assertions:
+4. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
     @Category(LoadTest.class)
@@ -84,6 +105,16 @@ The benefits include...
             assertThat(result.getResponseTime().getPercentile(90)).isLessThanOrEqualTo(Duration.ofMillis(500));
         }
     }
+    ```
+    
+5. **Run the test**:
+
+    ```bash
+    # Run unit tests
+    mvn test
+    
+    # Run load tests
+    mvn surefire:test@load
     ```
 
 ## Example Project
