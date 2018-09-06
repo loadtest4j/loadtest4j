@@ -5,7 +5,15 @@ sudo: false
 jdk:
 - oraclejdk8
 
-script: mvn verify -B
+before_install: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 
-after_success:
-- bash <(curl -s https://codecov.io/bash)
+script: mvn -B verify
+
+after_success: bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  provider: script
+  script: mvn -B -s .settings.xml gpg:sign deploy:deploy
+  skip_cleanup: true
+  on:
+    tags: true
