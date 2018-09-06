@@ -6,13 +6,13 @@ jdk: oraclejdk8
 
 before_script: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 
-script: mvn -B -s .settings.xml verify gpg:sign
+script: mvn -B -s .settings.xml verify
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
-  script: mvn -B -s .settings.xml deploy:deploy
+  script: mvn -B -s .settings.xml clean verify gpg:sign deploy:deploy
   skip_cleanup: true
   on:
     tags: true
