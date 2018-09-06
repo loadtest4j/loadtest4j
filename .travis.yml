@@ -2,10 +2,17 @@ language: java
 
 sudo: false
 
-jdk:
-- oraclejdk8
+jdk: oraclejdk8
 
-script: mvn verify -B
+script: mvn -B verify
 
-after_success:
-- bash <(curl -s https://codecov.io/bash)
+after_success: bash <(curl -s https://codecov.io/bash)
+
+deploy:
+  provider: script
+  script:
+  - echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
+  - mvn -B -s .settings.xml gpg:sign deploy:deploy
+  skip_cleanup: true
+  on:
+    tags: true
