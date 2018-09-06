@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/loadtest4j/loadtest4j.svg?branch=master)](https://travis-ci.com/loadtest4j/loadtest4j)
 [![Codecov](https://codecov.io/gh/loadtest4j/loadtest4j/branch/master/graph/badge.svg)](https://codecov.io/gh/loadtest4j/loadtest4j)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.loadtest4j/loadtest4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.loadtest4j/loadtest4j)
+[![Maven Central](https://img.shields.io/maven-central/v/org.loadtest4j/loadtest4j.svg)](http://repo2.maven.org/maven2/org/loadtest4j/loadtest4j/)
 
 A simple load test facade for Java.
 
