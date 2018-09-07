@@ -41,18 +41,11 @@ The benefits include...
     ```xml
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
-        <groupId>com.github.loadtest4j</groupId>
+        <groupId>org.loadtest4j.drivers</groupId>
         <artifactId>loadtest4j-gatling</artifactId>
         <version>[version]</version>
         <scope>test</scope>
     </dependency>
-    ```
-    
-    ```xml
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
     ```
 
 2. **Configure the library** in `src/test/resources/loadtest4j.properties`:
@@ -81,7 +74,8 @@ The benefits include...
     
             Result result = loadTester.run(requests);
     
-            assertThat(result.getResponseTime().getPercentile(90)).isLessThanOrEqualTo(Duration.ofMillis(500));
+            assertThat(result.getResponseTime().getPercentile(90))
+                .isLessThanOrEqualTo(Duration.ofMillis(500));
         }
     }
     ```
