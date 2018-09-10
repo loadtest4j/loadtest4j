@@ -36,47 +36,18 @@ The benefits include...
 
 ## Usage
 
-1. **Add a load test driver** from the [registry](registry.md) to your `pom.xml`:
+1. **Add a load test driver** from the [registry](registry.md) to the POM:
     
     ```xml
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
-        <groupId>com.github.loadtest4j</groupId>
+        <groupId>org.loadtest4j.drivers</groupId>
         <artifactId>loadtest4j-gatling</artifactId>
-        <version>[version]</version>
         <scope>test</scope>
     </dependency>
     ```
-    
-    ```xml
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-    ```
 
-2. **Tell Maven to run load tests separately**:
-
-    ```xml
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-            <groups>com.example.UnitTest</groups>
-        </configuration>
-        <executions>
-            <execution>
-                <id>load</id>
-                <phase>test</phase>
-                <configuration>
-                    <groups>com.example.LoadTest</groups>
-                </configuration>
-            </execution>
-        </executions>
-    </plugin>
-    ```
-
-3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
+2. **Configure the library** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
     loadtest4j.driver.duration = 60
@@ -86,11 +57,10 @@ The benefits include...
     loadtest4j.reporter.enabled = true
     ```
     
-4. **Write a load test** with your favorite language, test framework, and assertions:
+3. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
-    @Category(LoadTest.class)
-    public class PetStoreLoadTest {
+    public class PetStoreLT {
     
         private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
     
@@ -106,15 +76,50 @@ The benefits include...
         }
     }
     ```
-    
-5. **Run the test**:
+
+4. **Declare your load test** in the POM:
+
+    ```xml
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+            <execution>
+                <id>integration</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+            </execution>
+            <execution>
+                <id>load</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+                <configuration>
+                    <includes>
+                        <include>**/*LT.java</include>
+                    </includes>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    ```
+
+5. **Run the test** in Maven or your IDE:
 
     ```bash
-    # Run unit tests
-    mvn test
+    # Run all tests
+    mvn verify
     
     # Run load tests
-    mvn surefire:test@load
+    mvn test-compile surefire:test@load
     ```
 
 ## Example Project
