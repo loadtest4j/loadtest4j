@@ -112,7 +112,7 @@ The benefits include...
     </plugin>
     ```
 
-5. **Run the test** in Maven or your IDE:
+5. **Run the test** with Maven or your IDE:
 
     ```bash
     # Run all tests
