@@ -36,14 +36,13 @@ The benefits include...
 
 ## Usage
 
-1. **Add a load test driver** from the [registry](registry.md) to your `pom.xml`:
+1. **Add a load test driver** from the [registry](registry.md) to the POM:
     
     ```xml
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
     <dependency>
         <groupId>org.loadtest4j.drivers</groupId>
         <artifactId>loadtest4j-gatling</artifactId>
-        <version>[version]</version>
         <scope>test</scope>
     </dependency>
     ```
@@ -61,8 +60,7 @@ The benefits include...
 3. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
-    @Category(LoadTest.class)
-    public class PetStoreLoadTest {
+    public class PetStoreLT {
     
         private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
     
@@ -78,6 +76,51 @@ The benefits include...
                 .isLessThanOrEqualTo(Duration.ofMillis(500));
         }
     }
+    ```
+
+4. **Declare your load test** in the POM:
+
+    ```xml
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+            <execution>
+                <id>integration</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+            </execution>
+            <execution>
+                <id>load</id>
+                <phase>integration-test</phase>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+                <configuration>
+                    <includes>
+                        <include>**/*LT.java</include>
+                    </includes>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    ```
+
+5. **Run the test** with Maven or your IDE:
+
+    ```bash
+    # Run all tests
+    mvn verify
+    
+    # Run load tests
+    mvn test-compile surefire:test@load
     ```
 
 ## Example Project
