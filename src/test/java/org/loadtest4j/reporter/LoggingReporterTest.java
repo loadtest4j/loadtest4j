@@ -24,7 +24,7 @@ public class LoggingReporterTest {
         reporter.show(new StubDriverResult("https://example.com"));
 
         // Then
-        assertThat(printStream.getMsg()).isEqualTo("Load test driver report URL: https://example.com");
+        assertThat(printStream.getLines()).containsExactly("Load test driver report URL: https://example.com");
     }
 
     @Test
@@ -37,7 +37,7 @@ public class LoggingReporterTest {
         reporter.show(new StubDriverResult());
 
         // Then
-        assertThat(printStream.getMsg()).isNull();
+        assertThat(printStream.getLines()).isEmpty();
     }
 
     private static class StubDriverResult implements DriverResult {

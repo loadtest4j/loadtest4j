@@ -31,6 +31,8 @@ public class VerboseReporter implements Reporter {
         final long max = driverResult.getResponseTime().getPercentile(100).toMillis();
         final double rps = getRequestsPerSecond(count, driverResult.getActualDuration());
 
+        // FIXME log the reportUrl?
+
         println("================================================================================");
         println("---- Global Information --------------------------------------------------------");
         println("> duration              %56d", duration);

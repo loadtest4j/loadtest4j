@@ -16,10 +16,6 @@ public class PrintStreamSpy extends PrintStream {
         this.lines.add(msg);
     }
 
-    public String getMsg() {
-        return String.join("\n", lines);
-    }
-
     public List<String> getLines() {
         return lines;
     }
