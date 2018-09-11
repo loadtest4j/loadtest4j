@@ -1,9 +1,9 @@
 package org.loadtest4j.factory;
 
 import org.loadtest4j.driver.Driver;
+import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.reporter.Reporter;
 import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.NopDriver;
 import org.loadtest4j.test_utils.StubDriver;
 import org.loadtest4j.test_utils.TestDriverResult;
 import org.junit.Test;
@@ -16,45 +16,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class ReportingDriverTest {
     @Test
-    public void testRunWithReport() {
+    public void testRun() {
         // Given
         final SpyReporter spyReporter = new SpyReporter();
-        final String reportUrl = "https://example.com";
         final StubDriver stubDriver = new StubDriver();
-        stubDriver.expectRun(new TestDriverResult(0, 0, reportUrl));
+        final DriverResult driverResult = new TestDriverResult(0, 0);
+        stubDriver.expectRun(driverResult);
         final Driver driver = new ReportingDriver(stubDriver, spyReporter);
 
         // When
         driver.run(Collections.emptyList());
 
         // Then
-        assertThat(spyReporter.getReportedUrl()).isEqualTo(reportUrl);
-    }
-
-    @Test
-    public void testRunWithoutReport() {
-        // Given
-        final SpyReporter spyReporter = new SpyReporter();
-        final Driver driver = new ReportingDriver(new NopDriver(), spyReporter);
-
-        // When
-        driver.run(Collections.emptyList());
-
-        // Then
-        assertThat(spyReporter.getReportedUrl()).isNull();
+        assertThat(spyReporter.driverResult).isEqualTo(driverResult);
     }
 
     private static class SpyReporter implements Reporter {
 
-        private String reportedUrl;
+        private DriverResult driverResult;
 
         @Override
-        public void show(String reportUrl) {
-            this.reportedUrl = reportUrl;
-        }
-
-        private String getReportedUrl() {
-            return reportedUrl;
+        public void show(DriverResult driverResult) {
+            this.driverResult = driverResult;
         }
     }
 }

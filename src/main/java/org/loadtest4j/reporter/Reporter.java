@@ -1,5 +1,7 @@
 package org.loadtest4j.reporter;
 
+import org.loadtest4j.driver.DriverResult;
+
 public interface Reporter {
-    void show(String reportUrl);
+    void show(DriverResult driverResult);
 }

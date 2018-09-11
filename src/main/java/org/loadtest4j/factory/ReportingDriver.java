@@ -11,18 +11,18 @@ class ReportingDriver implements Driver {
 
     private final Driver delegate;
 
-    private final Reporter reportStrategy;
+    private final Reporter reporter;
 
-    ReportingDriver(Driver delegate, Reporter reportStrategy) {
+    ReportingDriver(Driver delegate, Reporter reporter) {
         this.delegate = delegate;
-        this.reportStrategy = reportStrategy;
+        this.reporter = reporter;
     }
 
     @Override
     public DriverResult run(List<DriverRequest> requests) {
         final DriverResult driverResult = delegate.run(requests);
 
-        driverResult.getReportUrl().ifPresent(reportStrategy::show);
+        reporter.show(driverResult);
 
         return driverResult;
     }
