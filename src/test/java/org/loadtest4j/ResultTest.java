@@ -51,20 +51,6 @@ public class ResultTest {
     }
 
     @Test
-    public void testGetRequestsPerSecond() {
-        final Result result = new Result(5, 5, Duration.ofMillis(2500), createResponseTime());
-
-        assertThat(result.getRequestsPerSecond()).isEqualTo(4);
-    }
-
-    @Test
-    public void testGetRequestsPerSecondAvoidsDivideByZero() {
-        final Result result = new Result(2, 0, Duration.ZERO, createResponseTime());
-
-        assertThat(result.getRequestsPerSecond()).isEqualTo(0);
-    }
-
-    @Test
     public void testGetResponseTime() {
         final Result result = new Result(2, 0, Duration.ZERO, createResponseTime());
 

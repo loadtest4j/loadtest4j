@@ -3,11 +3,10 @@ package org.loadtest4j.reporter;
 import org.loadtest4j.driver.DriverResponseTime;
 import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.NopOutputStream;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.test_utils.PrintStreamSpy;
 
-import java.io.PrintStream;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -79,20 +78,4 @@ public class LoggingReporterTest {
         }
     }
 
-    private static class PrintStreamSpy extends PrintStream {
-        private String msg;
-
-        private PrintStreamSpy() {
-            super(new NopOutputStream());
-        }
-
-        @Override
-        public void println(String msg) {
-            this.msg = msg;
-        }
-
-        private String getMsg() {
-            return msg;
-        }
-    }
 }
