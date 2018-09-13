@@ -8,22 +8,33 @@ import java.util.Optional;
 
 public class TestDriverResult implements DriverResult {
 
-    private final long ok;
+    private final Duration actualDuration;
     private final long ko;
+    private final long ok;
     private final DriverResponseTime responseTime;
     private final Optional<String> reportUrl;
 
-    public TestDriverResult(long ok, long ko) {
+    public static DriverResult zero() {
+        return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO);
+    }
+
+    public static DriverResult zero(String reportUrl) {
+        return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO, reportUrl);
+    }
+
+    public TestDriverResult(Duration actualDuration, long ok, long ko, DriverResponseTime responseTime) {
         this.ok = ok;
         this.ko = ko;
-        this.responseTime = new NopResponseTime();
+        this.actualDuration = actualDuration;
+        this.responseTime = responseTime;
         this.reportUrl = Optional.empty();
     }
 
-    public TestDriverResult(long ok, long ko, String reportUrl) {
+    public TestDriverResult(Duration actualDuration, long ok, long ko, DriverResponseTime responseTime, String reportUrl) {
         this.ok = ok;
         this.ko = ko;
-        this.responseTime = new NopResponseTime();
+        this.actualDuration = actualDuration;
+        this.responseTime = responseTime;
         this.reportUrl = Optional.of(reportUrl);
     }
 
@@ -39,7 +50,7 @@ public class TestDriverResult implements DriverResult {
 
     @Override
     public Duration getActualDuration() {
-        return Duration.ZERO;
+        return actualDuration;
     }
 
     @Override

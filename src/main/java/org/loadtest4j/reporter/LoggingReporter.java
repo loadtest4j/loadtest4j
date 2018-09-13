@@ -1,22 +1,18 @@
 package org.loadtest4j.reporter;
 
-import java.io.PrintStream;
+import java.util.function.Consumer;
 
 public class LoggingReporter implements Reporter {
 
-    private final PrintStream printStream;
+    private final Consumer<String> logger;
 
-    LoggingReporter(PrintStream printStream) {
-        this.printStream = printStream;
-    }
-
-    public static LoggingReporter stdout() {
-        return new LoggingReporter(System.out);
+    public LoggingReporter(Consumer<String> logger) {
+        this.logger = logger;
     }
 
     @Override
     public void show(String reportUrl) {
-        final String msg = String.format("Load test driver report URL: %s", reportUrl);
-        printStream.println(msg);
+        final String msg = String.format("Driver report URL: %s", reportUrl);
+        logger.accept(msg);
     }
 }

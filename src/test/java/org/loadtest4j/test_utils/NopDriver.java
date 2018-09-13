@@ -34,7 +34,7 @@ public class NopDriver implements Driver {
 
         @Override
         public DriverResponseTime getResponseTime() {
-            return new NopResponseTime();
+            return TestResponseTime.ZERO;
         }
 
         @Override

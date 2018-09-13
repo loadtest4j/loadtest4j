@@ -1,13 +1,11 @@
 package org.loadtest4j.factory;
 
-import org.loadtest4j.LoadTester;
-import org.loadtest4j.Request;
-import org.loadtest4j.ResponseTime;
-import org.loadtest4j.Result;
+import org.loadtest4j.*;
 import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverRequest;
 import org.loadtest4j.driver.DriverResult;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +31,59 @@ class DriverAdapter implements LoadTester {
                 .collect(Collectors.toList());
     }
 
-    private static Result postprocessResult(DriverResult driverResult) {
-        final ResponseTime responseTime = new ResponseTime(driverResult.getResponseTime());
-        return new Result(driverResult.getOk(), driverResult.getKo(), driverResult.getActualDuration(), responseTime);
+    static Result postprocessResult(DriverResult driverResult) {
+        final Diagnostics diagnostics = getDiagnostics(driverResult);
+        final double percentOk = getPercentOk(driverResult);
+        final ResponseTime responseTime = getResponseTime(driverResult);
+        return new Result(diagnostics, percentOk, responseTime);
+    }
+
+    private static Diagnostics getDiagnostics(DriverResult driverResult) {
+        final Duration duration = driverResult.getActualDuration();
+        final RequestCount requestCount = getRequestCount(driverResult);
+        final double requestsPerSecond = getRequestsPerSecond(driverResult);
+        return new Diagnostics(duration, requestCount, requestsPerSecond);
+    }
+
+    private static RequestCount getRequestCount(DriverResult driverResult) {
+        final long ok = driverResult.getOk();
+        final long ko = driverResult.getKo();
+        return new RequestCount(ok, ko);
+    }
+
+    private static double getRequestsPerSecond(DriverResult driverResult) {
+        final Duration duration = driverResult.getActualDuration();
+        final long requests = driverResult.getOk() + driverResult.getKo();
+        return getRequestsPerSecond(requests, duration);
+    }
+
+    private static double getPercentOk(DriverResult driverResult) {
+        final long ok = driverResult.getOk();
+        final long total = driverResult.getOk() + driverResult.getKo();
+        return getPercentOk(ok, total);
+    }
+
+    private static ResponseTime getResponseTime(DriverResult driverResult) {
+        return new ResponseTime(driverResult.getResponseTime());
+    }
+
+    static double getRequestsPerSecond(long requests, Duration duration) {
+        final double durationSeconds = ((double) duration.toMillis()) / 1000;
+
+        // Do not divide by zero
+        if (durationSeconds == 0) {
+            return 0;
+        } else {
+            return requests / durationSeconds;
+        }
+    }
+
+    static double getPercentOk(long ok, long total) {
+        // Do not divide by zero
+        if (total == 0) {
+            return 0;
+        } else {
+            return ((double) ok) / ((double) total) * 100;
+        }
     }
 }

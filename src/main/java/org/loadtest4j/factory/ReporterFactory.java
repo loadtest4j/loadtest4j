@@ -10,9 +10,13 @@ class ReporterFactory {
     protected Reporter create(Map<String, String> properties) {
         final boolean isEnabled = Boolean.valueOf(properties.getOrDefault("enabled", "false"));
         if (isEnabled) {
-            return LoggingReporter.stdout();
+            return stdout();
         } else {
             return new NopReporter();
         }
+    }
+
+    private static LoggingReporter stdout() {
+        return new LoggingReporter(System.out::println);
     }
 }

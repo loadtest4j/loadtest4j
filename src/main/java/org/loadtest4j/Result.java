@@ -1,54 +1,32 @@
 package org.loadtest4j;
 
-import java.time.Duration;
-
 /**
- * The post-processed results of a load test.
+ * The post-processed results of a load test. Top-level objects in this class represent common Service Level Indicators,
+ * with the exception of {@link Diagnostics} which exists only to aid visual test inspection.
  */
 public final class Result {
-    private final long ok;
-    private final long ko;
-    private final Duration actualDuration;
+    private final Diagnostics diagnostics;
+    private final double percentOk;
     private final ResponseTime responseTime;
 
-    public Result(long ok, long ko, Duration actualDuration, ResponseTime responseTime) {
-        this.ok = ok;
-        this.ko = ko;
-        this.actualDuration = actualDuration;
+    public Result(Diagnostics diagnostics, double percentOk, ResponseTime responseTime) {
+        this.diagnostics = diagnostics;
+        this.percentOk = percentOk;
         this.responseTime = responseTime;
     }
 
-    public ResponseTime getResponseTime() {
-        return responseTime;
-    }
-
-    protected long getTotal() {
-        return ok + ko;
+    public Diagnostics getDiagnostics() {
+        return diagnostics;
     }
 
     /**
      * @return The percent of requests that were OK (represented as a number between 0 and 100)
      */
     public double getPercentOk() {
-        // Do not divide by zero
-        if (getTotal() == 0) {
-            return 0;
-        } else {
-            return ((double) ok) / ((double) getTotal()) * 100;
-        }
+        return percentOk;
     }
 
-    /**
-     * @return The average requests per second (total / duration)
-     */
-    public double getRequestsPerSecond() {
-        final double durationSeconds = ((double) actualDuration.toMillis()) / 1000;
-
-        // Do not divide by zero
-        if (durationSeconds == 0) {
-            return 0;
-        } else {
-            return getTotal() / durationSeconds;
-        }
+    public ResponseTime getResponseTime() {
+        return responseTime;
     }
 }
