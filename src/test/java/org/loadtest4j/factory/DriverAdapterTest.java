@@ -90,12 +90,12 @@ public class DriverAdapterTest {
 
     @Test
     public void testPostprocessResult() {
-        final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), 5, 5, new TestResponseTime(Duration.ZERO));
+        final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), 6, 4, new TestResponseTime(Duration.ZERO));
 
         final Result result = DriverAdapter.postprocessResult(input);
 
         assertSoftly(s -> {
-            s.assertThat(result.getPercentOk()).isEqualTo(50);
+            s.assertThat(result.getPercentOk()).isEqualTo(60);
 
             final ResponseTime responseTime = result.getResponseTime();
             s.assertThat(responseTime.getPercentile(0)).isEqualTo(Duration.ZERO);
@@ -107,8 +107,8 @@ public class DriverAdapterTest {
             s.assertThat(diagnostics.getRequestsPerSecond()).isEqualTo(4);
 
             final RequestCount requestCount = diagnostics.getRequestCount();
-            s.assertThat(requestCount.getOk()).isEqualTo(5);
-            s.assertThat(requestCount.getKo()).isEqualTo(5);
+            s.assertThat(requestCount.getOk()).isEqualTo(6);
+            s.assertThat(requestCount.getKo()).isEqualTo(4);
             s.assertThat(requestCount.getTotal()).isEqualTo(10);
         });
 
