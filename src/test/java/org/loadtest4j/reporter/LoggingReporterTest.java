@@ -5,77 +5,70 @@ import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.loadtest4j.test_utils.PrintStreamSpy;
+import org.loadtest4j.test_utils.FixedResponseTime;
+import org.loadtest4j.test_utils.StringPrintStream;
+import org.loadtest4j.test_utils.TestDriverResult;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Optional;
+import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class LoggingReporterTest {
+    private static final Duration ACTUAL_DURATION = Duration.ofMillis(Long.MAX_VALUE);
+    private static final long KO = Long.MAX_VALUE / 2;
+    private static final long OK = Long.MAX_VALUE / 2;
+    private static final DriverResponseTime RESPONSE_TIME = new FixedResponseTime(Duration.ofMillis(Long.MAX_VALUE));
+
     @Test
     public void testShow() {
         // Given
-        final PrintStreamSpy printStream = new PrintStreamSpy();
+        final StringPrintStream printStream = new StringPrintStream();
         final LoggingReporter reporter = new LoggingReporter(printStream);
+        final DriverResult driverResult = new TestDriverResult(ACTUAL_DURATION, OK, KO, RESPONSE_TIME, "file:///path/to/example/report/index.html");
 
         // When
-        reporter.show(new StubDriverResult("https://example.com"));
+        reporter.show(driverResult);
 
         // Then
-        assertThat(printStream.getLines()).containsExactly("Load test driver report URL: https://example.com");
+        assertThat(printStream.getMsg()).isEqualTo(getReport("show"));
     }
 
     @Test
     public void testShowWithoutReportUrl() {
         // Given
-        final PrintStreamSpy printStream = new PrintStreamSpy();
+        final StringPrintStream printStream = new StringPrintStream();
         final LoggingReporter reporter = new LoggingReporter(printStream);
+        final DriverResult driverResult = new TestDriverResult(ACTUAL_DURATION, OK, KO, RESPONSE_TIME);
 
         // When
-        reporter.show(new StubDriverResult());
+        reporter.show(driverResult);
 
         // Then
-        assertThat(printStream.getLines()).isEmpty();
+        assertThat(printStream.getMsg()).isEqualTo(getReport("show-no-report-url"));
     }
 
-    private static class StubDriverResult implements DriverResult {
+    @Test
+    public void testGetRequestsPerSecond() {
+        assertThat(LoggingReporter.getRequestsPerSecond(10, Duration.ofMillis(2500))).isEqualTo(4);
+    }
 
-        private final Optional<String> reportUrl;
+    @Test
+    public void testGetRequestsPerSecondAvoidsDivideByZero() {
+        assertThat(LoggingReporter.getRequestsPerSecond(2, Duration.ZERO)).isEqualTo(0);
+    }
 
-        StubDriverResult() {
-            this.reportUrl = Optional.empty();
-        }
+    private static String streamToString(InputStream is) {
+        // From https://stackoverflow.com/a/5445161
+        final Scanner s = new Scanner(is, StandardCharsets.UTF_8.name()).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
 
-        StubDriverResult(String reportUrl) {
-            this.reportUrl = Optional.of(reportUrl);
-        }
-
-        @Override
-        public long getOk() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public long getKo() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Duration getActualDuration() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public DriverResponseTime getResponseTime() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Optional<String> getReportUrl() {
-            return reportUrl;
-        }
+    private static String getReport(String name) {
+        return streamToString(LoggingReporterTest.class.getClassLoader().getResourceAsStream("reports/" + name + ".md"));
     }
 
 }

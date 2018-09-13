@@ -1,7 +1,7 @@
 package org.loadtest4j;
 
 import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.NopResponseTime;
+import org.loadtest4j.test_utils.FixedResponseTime;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -58,6 +58,6 @@ public class ResultTest {
     }
     
     private static ResponseTime createResponseTime() {
-        return new ResponseTime(new NopResponseTime());
+        return new ResponseTime(FixedResponseTime.ZERO);
     }
 }
