@@ -1,5 +1,6 @@
 package org.loadtest4j.reporter;
 
+import org.loadtest4j.driver.DriverResponseTime;
 import org.loadtest4j.driver.DriverResult;
 
 import java.time.Duration;
@@ -10,12 +11,8 @@ public class LoggingReporter implements Reporter {
 
     private final Consumer<String> logger;
 
-    LoggingReporter(Consumer<String> logger) {
+    public LoggingReporter(Consumer<String> logger) {
         this.logger = logger;
-    }
-
-    public static LoggingReporter stdout() {
-        return new LoggingReporter(System.out::println);
     }
 
     @Override
@@ -24,12 +21,13 @@ public class LoggingReporter implements Reporter {
         final long ok = driverResult.getOk();
         final long ko = driverResult.getKo();
         final long total = ok + ko;
-        final long min = driverResult.getResponseTime().getPercentile(0).toMillis();
-        final long p50 = driverResult.getResponseTime().getPercentile(50).toMillis();
-        final long p75 = driverResult.getResponseTime().getPercentile(75).toMillis();
-        final long p95 = driverResult.getResponseTime().getPercentile(95).toMillis();
-        final long p99 = driverResult.getResponseTime().getPercentile(99).toMillis();
-        final long max = driverResult.getResponseTime().getPercentile(100).toMillis();
+        final DriverResponseTime responseTime = driverResult.getResponseTime();
+        final long min = responseTime.getPercentile(0).toMillis();
+        final long p50 = responseTime.getPercentile(50).toMillis();
+        final long p75 = responseTime.getPercentile(75).toMillis();
+        final long p95 = responseTime.getPercentile(95).toMillis();
+        final long p99 = responseTime.getPercentile(99).toMillis();
+        final long max = responseTime.getPercentile(100).toMillis();
         final double rps = getRequestsPerSecond(total, driverResult.getActualDuration());
         final Optional<String> reportUrl = driverResult.getReportUrl();
 
