@@ -35,6 +35,6 @@ class DriverAdapter implements LoadTester {
 
     private static Result postprocessResult(DriverResult driverResult) {
         final ResponseTime responseTime = new ResponseTime(driverResult.getResponseTime());
-        return new Result(driverResult.getOk(), driverResult.getKo(), driverResult.getActualDuration(), responseTime);
+        return new Result(driverResult.getOk(), driverResult.getKo(), responseTime);
     }
 }

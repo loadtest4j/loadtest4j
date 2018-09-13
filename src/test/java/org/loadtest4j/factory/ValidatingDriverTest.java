@@ -4,6 +4,7 @@ import org.loadtest4j.LoadTesterException;
 import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
+import org.loadtest4j.test_utils.TestResponseTime;
 import org.loadtest4j.test_utils.StubDriver;
 import org.loadtest4j.test_utils.TestDriverResult;
 import org.junit.Rule;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 
+import java.time.Duration;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        final DriverResult expectedResult = new TestDriverResult(0, 0);
+        final DriverResult expectedResult = TestDriverResult.zero();
         stubDriver.expectRun(expectedResult);
 
         // When
@@ -43,7 +45,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        final DriverResult expectedResult = new TestDriverResult(0, 0, "https://example.com");
+        final DriverResult expectedResult = TestDriverResult.zero("https://example.com");
         stubDriver.expectRun(expectedResult);
 
         // When
@@ -59,7 +61,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(-1, 0));
+        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, -1, 0, TestResponseTime.ZERO));
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -75,7 +77,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(0, -1));
+        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, 0, -1, TestResponseTime.ZERO));
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -91,7 +93,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(0, 0, "foo"));
+        stubDriver.expectRun(TestDriverResult.zero("foo"));
 
         // Expect
         thrown.expect(LoadTesterException.class);
