@@ -6,7 +6,7 @@ import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadtest4j.test_utils.TestResponseTime;
-import org.loadtest4j.test_utils.StringPrintStream;
+import org.loadtest4j.test_utils.SpyLogger;
 import org.loadtest4j.test_utils.TestDriverResult;
 
 import java.io.InputStream;
@@ -27,29 +27,29 @@ public class LoggingReporterTest {
     @Test
     public void testShow() {
         // Given
-        final StringPrintStream printStream = new StringPrintStream();
-        final LoggingReporter reporter = new LoggingReporter(printStream);
+        final SpyLogger logger = new SpyLogger();
+        final LoggingReporter reporter = new LoggingReporter(logger);
         final DriverResult driverResult = new TestDriverResult(ACTUAL_DURATION, OK, KO, RESPONSE_TIME, "file:///path/to/example/report/index.html");
 
         // When
         reporter.show(driverResult);
 
         // Then
-        assertThat(printStream.getMsg()).isEqualTo(getReport("show"));
+        assertThat(logger.getMsg()).isEqualTo(getReport("show"));
     }
 
     @Test
     public void testShowWithoutReportUrl() {
         // Given
-        final StringPrintStream printStream = new StringPrintStream();
-        final LoggingReporter reporter = new LoggingReporter(printStream);
+        final SpyLogger logger = new SpyLogger();
+        final LoggingReporter reporter = new LoggingReporter(logger);
         final DriverResult driverResult = new TestDriverResult(ACTUAL_DURATION, OK, KO, RESPONSE_TIME);
 
         // When
         reporter.show(driverResult);
 
         // Then
-        assertThat(printStream.getMsg()).isEqualTo(getReport("show-no-report-url"));
+        assertThat(logger.getMsg()).isEqualTo(getReport("show-no-report-url"));
     }
 
     @Test

@@ -27,4 +27,4 @@ Response Time
 Driver Report URL
 --------------------------------------------------------------------------------
 
-<file:///path/to/example/report/index.html>
+file:///path/to/example/report/index.html

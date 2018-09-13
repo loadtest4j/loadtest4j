@@ -2,20 +2,20 @@ package org.loadtest4j.reporter;
 
 import org.loadtest4j.driver.DriverResult;
 
-import java.io.PrintStream;
 import java.time.Duration;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class LoggingReporter implements Reporter {
 
-    private final PrintStream printStream;
+    private final Consumer<String> logger;
 
-    LoggingReporter(PrintStream printStream) {
-        this.printStream = printStream;
+    LoggingReporter(Consumer<String> logger) {
+        this.logger = logger;
     }
 
     public static LoggingReporter stdout() {
-        return new LoggingReporter(System.out);
+        return new LoggingReporter(System.out::println);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class LoggingReporter implements Reporter {
             println("Driver Report URL");
             println("--------------------------------------------------------------------------------");
             println("");
-            println("<" + url + ">");
+            println(url);
             println("");
         });
     }
@@ -85,6 +85,6 @@ public class LoggingReporter implements Reporter {
     }
 
     private void println(String s) {
-        this.printStream.println(s);
+        this.logger.accept(s);
     }
 }
