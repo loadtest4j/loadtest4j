@@ -1,11 +1,12 @@
 package org.loadtest4j.reporter;
 
-import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.NopOutputStream;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.junit.UnitTest;
 
-import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,30 +15,23 @@ public class LoggingReporterTest {
     @Test
     public void testShow() {
         // Given
-        final PrintStreamSpy printStream = new PrintStreamSpy();
-        final LoggingReporter reporter = new LoggingReporter(printStream);
+        final SpyLogger logger = new SpyLogger();
+        final LoggingReporter reporter = new LoggingReporter(logger);
 
         // When
         reporter.show("https://example.com");
 
         // Then
-        assertThat(printStream.getMsg()).isEqualTo("Load test driver report URL: https://example.com");
+        assertThat(logger.lines).containsExactly("Driver report URL: https://example.com");
     }
 
-    private static class PrintStreamSpy extends PrintStream {
-        private String msg;
+    private static class SpyLogger implements Consumer<String> {
 
-        private PrintStreamSpy() {
-            super(new NopOutputStream());
-        }
+        private final List<String> lines = new ArrayList<>();
 
         @Override
-        public void println(String msg) {
-            this.msg = msg;
-        }
-
-        private String getMsg() {
-            return msg;
+        public void accept(String msg) {
+            this.lines.add(msg);
         }
     }
 }

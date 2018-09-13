@@ -21,7 +21,7 @@ public class ReportingDriverTest {
         final SpyReporter spyReporter = new SpyReporter();
         final String reportUrl = "https://example.com";
         final StubDriver stubDriver = new StubDriver();
-        stubDriver.expectRun(new TestDriverResult(0, 0, reportUrl));
+        stubDriver.expectRun(TestDriverResult.zero(reportUrl));
         final Driver driver = new ReportingDriver(stubDriver, spyReporter);
 
         // When
