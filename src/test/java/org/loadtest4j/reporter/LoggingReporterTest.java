@@ -5,7 +5,7 @@ import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.loadtest4j.test_utils.FixedResponseTime;
+import org.loadtest4j.test_utils.TestResponseTime;
 import org.loadtest4j.test_utils.StringPrintStream;
 import org.loadtest4j.test_utils.TestDriverResult;
 
@@ -18,10 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
 public class LoggingReporterTest {
+
     private static final Duration ACTUAL_DURATION = Duration.ofMillis(Long.MAX_VALUE);
     private static final long KO = Long.MAX_VALUE / 2;
     private static final long OK = Long.MAX_VALUE / 2;
-    private static final DriverResponseTime RESPONSE_TIME = new FixedResponseTime(Duration.ofMillis(Long.MAX_VALUE));
+    private static final DriverResponseTime RESPONSE_TIME = new TestResponseTime(Duration.ofMillis(Long.MAX_VALUE));
 
     @Test
     public void testShow() {

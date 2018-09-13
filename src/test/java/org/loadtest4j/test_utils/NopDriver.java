@@ -9,6 +9,6 @@ import java.util.List;
 public class NopDriver implements Driver {
     @Override
     public DriverResult run(List<DriverRequest> requests) {
-        return TestDriverResult.ZERO;
+        return TestDriverResult.zero();
     }
 }

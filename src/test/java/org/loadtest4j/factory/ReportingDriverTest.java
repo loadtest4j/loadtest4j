@@ -20,7 +20,7 @@ public class ReportingDriverTest {
         // Given
         final SpyReporter spyReporter = new SpyReporter();
         final StubDriver stubDriver = new StubDriver();
-        final DriverResult driverResult = TestDriverResult.ZERO;
+        final DriverResult driverResult = TestDriverResult.zero();
         stubDriver.expectRun(driverResult);
         final Driver driver = new ReportingDriver(stubDriver, spyReporter);
 

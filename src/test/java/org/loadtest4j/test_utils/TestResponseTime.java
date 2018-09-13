@@ -4,15 +4,15 @@ import org.loadtest4j.driver.DriverResponseTime;
 
 import java.time.Duration;
 
-public class FixedResponseTime implements DriverResponseTime {
+public class TestResponseTime implements DriverResponseTime {
 
     private final Duration duration;
 
-    public FixedResponseTime(Duration duration) {
+    public TestResponseTime(Duration duration) {
         this.duration = duration;
     }
 
-    public static final DriverResponseTime ZERO = new FixedResponseTime(Duration.ZERO);
+    public static final DriverResponseTime ZERO = new TestResponseTime(Duration.ZERO);
 
     @Override
     public Duration getPercentile(int percentile) {

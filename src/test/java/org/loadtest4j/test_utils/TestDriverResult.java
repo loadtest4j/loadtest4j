@@ -14,7 +14,13 @@ public class TestDriverResult implements DriverResult {
     private final DriverResponseTime responseTime;
     private final Optional<String> reportUrl;
 
-    public static final DriverResult ZERO = new TestDriverResult(Duration.ZERO, 0, 0, FixedResponseTime.ZERO);
+    public static DriverResult zero() {
+        return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO);
+    }
+
+    public static DriverResult zero(String reportUrl) {
+        return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO, reportUrl);
+    }
 
     public TestDriverResult(Duration actualDuration, long ok, long ko, DriverResponseTime responseTime) {
         this.ok = ok;
