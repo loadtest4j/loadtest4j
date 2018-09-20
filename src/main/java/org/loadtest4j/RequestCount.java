@@ -4,10 +4,12 @@ public final class RequestCount {
 
     private final long ok;
     private final long ko;
+    private final long total;
 
-    public RequestCount(long ok, long ko) {
+    public RequestCount(long ok, long ko, long total) {
         this.ok = ok;
         this.ko = ko;
+        this.total = total;
     }
 
     public long getOk() {
@@ -19,6 +21,6 @@ public final class RequestCount {
     }
 
     public long getTotal() {
-        return ok + ko;
+        return total;
     }
 }
