@@ -1,6 +1,6 @@
-# Java guide
+# JUnit style guide
 
-A load test style guide for Java (using JUnit and AssertJ).
+A load test style guide for JUnit (and AssertJ).
 
 ## Soft assertions
 
@@ -28,7 +28,7 @@ public class PetStoreTest {
 
 ## Custom assertions
 
-Follow the AssertJ [custom assertions guide](https://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) to write assertions on `Result` which are relevant to your [SLO](concepts/slo.md).
+Follow the AssertJ [custom assertions guide](https://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html) to write assertions on `Result` which are relevant to your [SLO](../concepts/slo.md).
 
 Note: The custom assertions class must be proxied through `SoftAssertions` for the same reason as normal assertions.
 

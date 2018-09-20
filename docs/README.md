@@ -16,12 +16,16 @@ A simple load test facade for Java.
   - [Service Level Objective (SLO)](concepts/slo.md)
   - [Service Under Test (SUT)](concepts/sut.md)
 - [Driver Registry](registry.md)
-- [Java Guide](java.md)
+- Example Projects
+  - [Java](https://github.com/loadtest4j/loadtest4j-example-java)
+  - [Scala](https://github.com/loadtest4j/loadtest4j-example-scala)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers](multiple-drivers.md)
 - [Multiple Environments](multiple-environments.md)
-- [Scala Guide](scala.md)
 - [Source Code (Git)](https://github.com/loadtest4j/loadtest4j)
+- Style Guides
+  - [JUnit](guides/junit.md)
+  - [ScalaTest](guides/scalatest.md)
 
 ## What it does
 
@@ -53,8 +57,6 @@ The benefits include...
     loadtest4j.driver.duration = 60
     loadtest4j.driver.url = https://example.com
     loadtest4j.driver.usersPerSecond = 1
-    
-    loadtest4j.reporter.enabled = true
     ```
     
 3. **Write a load test** with your favorite language, test framework, and assertions:
@@ -122,7 +124,3 @@ The benefits include...
     # Run load tests
     mvn test-compile surefire:test@load
     ```
-
-## Example Project
-
-[loadtest4j-example](https://github.com/loadtest4j/loadtest4j-example): A full working example.
