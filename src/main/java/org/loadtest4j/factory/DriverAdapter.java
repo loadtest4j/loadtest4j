@@ -48,7 +48,8 @@ class DriverAdapter implements LoadTester {
     private static RequestCount getRequestCount(DriverResult driverResult) {
         final long ok = driverResult.getOk();
         final long ko = driverResult.getKo();
-        return new RequestCount(ok, ko);
+        final long total =  ok + ko;
+        return new RequestCount(ok, ko, total);
     }
 
     private static double getRequestsPerSecond(DriverResult driverResult) {
