@@ -17,7 +17,7 @@ A simple load test facade for Java.
   - [Service Under Test (SUT)](concepts/sut.md)
 - [Driver Registry](registry.md)
 - Example Projects
-  - [Java](https://github.com/loadtest4j/loadtest4j-example)
+  - [Java](https://github.com/loadtest4j/loadtest4j-example-java)
   - [Scala](https://github.com/loadtest4j/loadtest4j-example-scala)
 - [Manifesto](manifesto.md)
 - [Multiple Drivers](multiple-drivers.md)
