@@ -15,31 +15,18 @@ public final class ResponseTime {
     /**
      * Get the nth percentile response time seen in the load test.
      *
-     * The following common stats can also be derived from percentiles:
-     *
-     * Max = 100th percentile.
-     *
-     * Median = 50th percentile.
-     *
      * @param percentile The nth percentile of interest.
      * @return The nth percentile response time.
      *
      */
-    public Duration getPercentile(int percentile) {
+    public Duration getPercentile(double percentile) {
         return delegate.getPercentile(percentile);
     }
     
     /**
-     * @return The 100th percentile response time.
+     * @return The maximum response time.
      */
     public Duration getMax() {
         return delegate.getPercentile(100);
-    }
-    
-    /**
-     * @return The 50th percentile response time.
-     */
-    public Duration getMedian() {
-        return delegate.getPercentile(50);
     }
 }

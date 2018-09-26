@@ -16,5 +16,5 @@ public interface DriverResponseTime {
      * @return The nth percentile response time.
      *
      */
-    Duration getPercentile(int percentile);
+    Duration getPercentile(double percentile);
 }
