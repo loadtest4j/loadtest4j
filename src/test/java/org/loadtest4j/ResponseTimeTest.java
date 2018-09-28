@@ -15,7 +15,7 @@ public class ResponseTimeTest {
     public void testGetPercentile() {
         final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
         
-        assertThat(responseTime.getPercentile(90)).isEqualTo(Duration.ZERO);
+        assertThat(responseTime.getPercentile(90.5)).isEqualTo(Duration.ZERO);
     }
     
     @Test
@@ -24,11 +24,11 @@ public class ResponseTimeTest {
         
         assertThat(responseTime.getMax()).isEqualTo(Duration.ZERO);
     }
-    
+
     @Test
     public void testGetMedian() {
         final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
-        
+
         assertThat(responseTime.getMedian()).isEqualTo(Duration.ZERO);
     }
 }

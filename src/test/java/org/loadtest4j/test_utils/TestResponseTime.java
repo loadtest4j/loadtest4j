@@ -15,7 +15,7 @@ public class TestResponseTime implements DriverResponseTime {
     public static final DriverResponseTime ZERO = new TestResponseTime(Duration.ZERO);
 
     @Override
-    public Duration getPercentile(int percentile) {
+    public Duration getPercentile(double percentile) {
         return duration;
     }
 }
