@@ -29,4 +29,11 @@ public final class ResponseTime {
     public Duration getMax() {
         return delegate.getPercentile(100);
     }
+
+    /**
+     * @return The median response time.
+     */
+    public Duration getMedian() {
+        return delegate.getPercentile(50);
+    }
 }

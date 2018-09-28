@@ -24,4 +24,11 @@ public class ResponseTimeTest {
         
         assertThat(responseTime.getMax()).isEqualTo(Duration.ZERO);
     }
+
+    @Test
+    public void testGetMedian() {
+        final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
+
+        assertThat(responseTime.getMedian()).isEqualTo(Duration.ZERO);
+    }
 }
