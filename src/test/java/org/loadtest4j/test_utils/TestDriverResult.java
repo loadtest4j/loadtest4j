@@ -4,7 +4,6 @@ import org.loadtest4j.driver.DriverResponseTime;
 import org.loadtest4j.driver.DriverResult;
 
 import java.time.Duration;
-import java.util.Optional;
 
 public class TestDriverResult implements DriverResult {
 
@@ -12,14 +11,9 @@ public class TestDriverResult implements DriverResult {
     private final long ko;
     private final long ok;
     private final DriverResponseTime responseTime;
-    private final Optional<String> reportUrl;
 
     public static DriverResult zero() {
         return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO);
-    }
-
-    public static DriverResult zero(String reportUrl) {
-        return new TestDriverResult(Duration.ZERO, 0, 0, TestResponseTime.ZERO, reportUrl);
     }
 
     public TestDriverResult(Duration actualDuration, long ok, long ko, DriverResponseTime responseTime) {
@@ -27,15 +21,6 @@ public class TestDriverResult implements DriverResult {
         this.ko = ko;
         this.actualDuration = actualDuration;
         this.responseTime = responseTime;
-        this.reportUrl = Optional.empty();
-    }
-
-    public TestDriverResult(Duration actualDuration, long ok, long ko, DriverResponseTime responseTime, String reportUrl) {
-        this.ok = ok;
-        this.ko = ko;
-        this.actualDuration = actualDuration;
-        this.responseTime = responseTime;
-        this.reportUrl = Optional.of(reportUrl);
     }
 
     @Override
@@ -56,10 +41,5 @@ public class TestDriverResult implements DriverResult {
     @Override
     public DriverResponseTime getResponseTime() {
         return responseTime;
-    }
-
-    @Override
-    public Optional<String> getReportUrl() {
-        return reportUrl;
     }
 }

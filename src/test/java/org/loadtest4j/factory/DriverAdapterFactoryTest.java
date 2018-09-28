@@ -28,7 +28,6 @@ public class DriverAdapterFactoryTest {
         final Map<String, String> properties = new ConcurrentHashMap<>();
         properties.put("loadtest4j.driver.bar", "1");
         properties.put("loadtest4j.driver.foo", "2");
-        properties.put("loadtest4j.reporter.enabled", "true");
         final LoadTester loadTester = factory.create(properties);
 
         // Then

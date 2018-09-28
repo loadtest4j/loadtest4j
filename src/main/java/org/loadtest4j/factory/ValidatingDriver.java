@@ -5,8 +5,6 @@ import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverRequest;
 import org.loadtest4j.driver.DriverResult;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 class ValidatingDriver implements Driver {
@@ -34,13 +32,5 @@ class ValidatingDriver implements Driver {
         if (driverResult.getKo() < 0) {
             throw new LoadTesterException("The load test driver returned a negative number of KO requests.");
         }
-
-        driverResult.getReportUrl().ifPresent(url -> {
-            try {
-                new URL(url);
-            } catch (MalformedURLException e) {
-                throw new LoadTesterException("The load test driver returned an invalid report URL.");
-            }
-        });
     }
 }

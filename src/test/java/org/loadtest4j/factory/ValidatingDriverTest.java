@@ -40,22 +40,6 @@ public class ValidatingDriverTest {
     }
 
     @Test
-    public void testRunWithReportUrl() {
-        // Given
-        final StubDriver stubDriver = new StubDriver();
-        final Driver sut = new ValidatingDriver(stubDriver);
-        // And
-        final DriverResult expectedResult = TestDriverResult.zero("https://example.com");
-        stubDriver.expectRun(expectedResult);
-
-        // When
-        final DriverResult actualResult = sut.run(Collections.emptyList());
-
-        // Then
-        assertThat(expectedResult).isEqualTo(actualResult);
-    }
-
-    @Test
     public void testRunWithNegativeOkValue() {
         // Given
         final StubDriver stubDriver = new StubDriver();
@@ -82,22 +66,6 @@ public class ValidatingDriverTest {
         // Expect
         thrown.expect(LoadTesterException.class);
         thrown.expectMessage("The load test driver returned a negative number of KO requests.");
-
-        // When
-        sut.run(Collections.emptyList());
-    }
-
-    @Test
-    public void testRunWithInvalidReportUrl() {
-        // Given
-        final StubDriver stubDriver = new StubDriver();
-        final Driver sut = new ValidatingDriver(stubDriver);
-        // And
-        stubDriver.expectRun(TestDriverResult.zero("foo"));
-
-        // Expect
-        thrown.expect(LoadTesterException.class);
-        thrown.expectMessage("The load test driver returned an invalid report URL.");
 
         // When
         sut.run(Collections.emptyList());

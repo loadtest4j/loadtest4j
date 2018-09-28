@@ -17,7 +17,6 @@ public class PetStoreTest {
         final Result result = loadTester.run(requests);
         
         assertSoftly(s -> {
-            s.assertThat(result.getRequestsPerSecond()).as("Requests Per Second").isGreaterThanOrEqualTo(1);
             s.assertThat(result.getResponseTime().getPercentile(75)).as("p75 Response Time").isLessThanOrEqualTo(Duration.ofMillis(500));
             s.assertThat(result.getPercentOk()).as("Percent OK").isGreaterThanOrEqualTo(99.99);
             // and so on...
@@ -42,11 +41,6 @@ public class FindPetsTest {
     private static final List<Request> requests = Arrays.asList(Request.get("/"), Request.get("/pets"));
     
     private static final Supplier<Result> result = LazyLoadTester.run(requests);
-    
-    @Test
-    public void testRequestsPerSecond() {
-        assertThat(result.get().getRequestsPerSecond()).isGreaterThanOrEqualTo(1);
-    }
    
     @Test
     public void testP75ResponseTime() {
