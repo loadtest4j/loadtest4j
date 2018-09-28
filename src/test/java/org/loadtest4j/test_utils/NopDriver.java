@@ -7,7 +7,6 @@ import org.loadtest4j.driver.DriverResult;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Optional;
 
 public class NopDriver implements Driver {
     @Override
@@ -35,11 +34,6 @@ public class NopDriver implements Driver {
         @Override
         public DriverResponseTime getResponseTime() {
             return TestResponseTime.ZERO;
-        }
-
-        @Override
-        public Optional<String> getReportUrl() {
-            return Optional.empty();
         }
     }
 }

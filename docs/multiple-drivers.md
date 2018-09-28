@@ -45,9 +45,7 @@ In a nutshell:
                         <!-- Pass the Foo driver config as JVM system properties, via the Maven Surefire plugin. --> 
                         <systemPropertyVariables>
                             <loadtest4j.driver.duration>4</loadtest4j.driver.duration>
-                            <loadtest4j.driver.url>http://localhost:3000</loadtest4j.driver.url>
-                            
-                            <loadtest4j.reporter.enabled>true</loadtest4j.reporter.enabled>
+                            <loadtest4j.driver.url>http://localhost:3000</loadtest4j.driver.url>                            
                         </systemPropertyVariables>
                     </configuration>
                 </plugin>
