@@ -2,44 +2,46 @@ package org.loadtest4j;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.driver.DriverApdex;
 import org.loadtest4j.junit.UnitTest;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Valid tests for the apdex are based on the following example.
+ *
+ * If there are 100 samples with a target time of 3 seconds,
+ * where 60 are below 3 seconds,
+ * 30 are between 3 and 12 seconds,
+ * and the remaining 10 are above 12 seconds,
+ * the Apdex score is 0.75.
+ */
 @Category(UnitTest.class)
 public class ApdexTest {
 
     @Test
-    public void testCalculateWithInvalidPrecondition() {
-        final Apdex apdex = new Apdex((min, max) -> 0, 1);
-
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> apdex.calculate(Duration.ofSeconds(2), Duration.ofSeconds(1)))
-                .withMessage("toleratedThreshold must be greater than satisfiedThreshold.");
-    }
-
-    @Test
     public void testCalculate() {
-        fail("Implement me");
-    }
+        final DriverApdex driverApdex = (min, max) -> {
+            if (max.getSeconds() == 3) {
+                return 60;
+            }
+            if ((min.getSeconds() == 3) && (max.getSeconds() == 12)) {
+                return 30;
+            } else {
+                return 0;
+            }
+        };
+        final Apdex apdex = new Apdex(driverApdex, 100);
 
-    @Test
-    public void testUnaryCalculate() {
-        fail("Implement me");
+        assertThat(apdex.calculate(Duration.ofSeconds(3)))
+                .isEqualTo(0.75);
     }
 
     @Test
     public void testApdex() {
-        // Example: if there are 100 samples with a target time of 3 seconds,
-        // where 60 are below 3 seconds,
-        // 30 are between 3 and 12 seconds,
-        // and the remaining 10 are above 12 seconds,
-        // the Apdex score is 0.75.
         assertThat(Apdex.apdex(60, 30, 100))
                 .isEqualTo(new BigDecimal("0.75"));
     }

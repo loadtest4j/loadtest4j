@@ -19,13 +19,7 @@ public class Apdex {
     }
 
     public double calculate(Duration satisfiedThreshold) {
-        return calculate(satisfiedThreshold, satisfiedThreshold.multipliedBy(4));
-    }
-
-    public double calculate(Duration satisfiedThreshold, Duration toleratedThreshold) {
-        if (!isGreaterThan(toleratedThreshold, satisfiedThreshold)) {
-            throw new IllegalArgumentException("toleratedThreshold must be greater than satisfiedThreshold.");
-        }
+        final Duration toleratedThreshold = satisfiedThreshold.multipliedBy(4);
 
         final long satisfiedRequests = driverApdex.getSamplesBetween(Duration.ZERO, satisfiedThreshold);
         final long toleratedRequests = driverApdex.getSamplesBetween(satisfiedThreshold, toleratedThreshold);
@@ -49,10 +43,6 @@ public class Apdex {
 
         final BigDecimal top = add(satisfiedRequests, half(toleratedRequests));
         return divide(top, totalRequests);
-    }
-
-    private static <T> boolean isGreaterThan(Comparable<T> a, T b) {
-        return a.compareTo(b) > -1;
     }
 
     private static BigDecimal add(long a, BigDecimal b) {
