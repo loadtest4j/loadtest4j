@@ -5,12 +5,13 @@ import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
 import org.loadtest4j.test_utils.StubDriver;
+import org.loadtest4j.test_utils.NopApdex;
 import org.loadtest4j.test_utils.TestDriverResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.loadtest4j.test_utils.TestResponseTime;
+import org.loadtest4j.test_utils.NopResponseTime;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, -1, 0, new TestResponseTime(Duration.ZERO)));
+        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, new NopApdex(), -1, 0, new NopResponseTime()));
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -61,7 +62,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, 0, -1, new TestResponseTime(Duration.ZERO)));
+        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, new NopApdex(), 0, -1, new NopResponseTime()));
 
         // Expect
         thrown.expect(LoadTesterException.class);

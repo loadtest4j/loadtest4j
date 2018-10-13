@@ -1,30 +1,23 @@
 package org.loadtest4j;
 
-import org.loadtest4j.driver.DriverApdex;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Duration;
 
-public class Apdex {
+public abstract class Apdex {
     private static final MathContext ROUNDING = MathContext.UNLIMITED;
 
-    private final DriverApdex driverApdex;
+    protected abstract long getTotalRequests();
 
-    private final long totalRequests;
+    protected abstract long getOkRequestsBetween(Duration min, Duration max);
 
-    Apdex(DriverApdex driverApdex, long totalRequests) {
-        this.driverApdex = driverApdex;
-        this.totalRequests = totalRequests;
-    }
-
-    public double calculate(Duration satisfiedThreshold) {
+    public double getScore(Duration satisfiedThreshold) {
         final Duration toleratedThreshold = satisfiedThreshold.multipliedBy(4);
 
-        final long satisfiedRequests = driverApdex.getSamplesBetween(Duration.ZERO, satisfiedThreshold);
-        final long toleratedRequests = driverApdex.getSamplesBetween(satisfiedThreshold, toleratedThreshold);
+        final long satisfiedRequests = getOkRequestsBetween(Duration.ZERO, satisfiedThreshold);
+        final long toleratedRequests = getOkRequestsBetween(satisfiedThreshold, toleratedThreshold);
 
-        return apdex(satisfiedRequests, toleratedRequests, totalRequests).doubleValue();
+        return apdex(satisfiedRequests, toleratedRequests, getTotalRequests()).doubleValue();
     }
 
     static BigDecimal apdex(long satisfiedRequests, long toleratedRequests, long totalRequests) {

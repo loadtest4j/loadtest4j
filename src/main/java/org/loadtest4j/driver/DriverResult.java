@@ -6,11 +6,13 @@ import java.time.Duration;
  * The low-level results from the load test driver.
  */
 public interface DriverResult {
-    long getOk();
+    DriverApdex getApdex();
+
+    Duration getActualDuration();
 
     long getKo();
 
-    Duration getActualDuration();
+    long getOk();
 
     DriverResponseTime getResponseTime();
 }

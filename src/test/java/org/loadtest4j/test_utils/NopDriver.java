@@ -1,9 +1,6 @@
 package org.loadtest4j.test_utils;
 
-import org.loadtest4j.driver.Driver;
-import org.loadtest4j.driver.DriverRequest;
-import org.loadtest4j.driver.DriverResponseTime;
-import org.loadtest4j.driver.DriverResult;
+import org.loadtest4j.driver.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -27,13 +24,18 @@ public class NopDriver implements Driver {
         }
 
         @Override
+        public DriverApdex getApdex() {
+            return new NopApdex();
+        }
+
+        @Override
         public Duration getActualDuration() {
             return Duration.ZERO;
         }
 
         @Override
         public DriverResponseTime getResponseTime() {
-            return TestResponseTime.ZERO;
+            return new NopResponseTime();
         }
     }
 }

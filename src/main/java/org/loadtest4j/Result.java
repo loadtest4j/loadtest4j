@@ -5,14 +5,20 @@ package org.loadtest4j;
  * with the exception of {@link Diagnostics} which exists only to aid visual test inspection.
  */
 public final class Result {
+    private final Apdex apdex;
     private final Diagnostics diagnostics;
     private final double percentOk;
     private final ResponseTime responseTime;
 
-    public Result(Diagnostics diagnostics, double percentOk, ResponseTime responseTime) {
+    public Result(Apdex apdex, Diagnostics diagnostics, double percentOk, ResponseTime responseTime) {
+        this.apdex = apdex;
         this.diagnostics = diagnostics;
         this.percentOk = percentOk;
         this.responseTime = responseTime;
+    }
+
+    public Apdex getApdex() {
+        return apdex;
     }
 
     public Diagnostics getDiagnostics() {

@@ -8,10 +8,7 @@ import org.loadtest4j.*;
 import org.loadtest4j.driver.DriverRequest;
 import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.NopDriver;
-import org.loadtest4j.test_utils.SpyDriver;
-import org.loadtest4j.test_utils.TestDriverResult;
-import org.loadtest4j.test_utils.TestResponseTime;
+import org.loadtest4j.test_utils.*;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -90,7 +87,7 @@ public class DriverAdapterTest {
 
     @Test
     public void testPostprocessResult() {
-        final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), 6, 4, new TestResponseTime(Duration.ZERO));
+        final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), new NopApdex(), 6, 4, new NopResponseTime());
 
         final Result result = DriverAdapter.postprocessResult(input);
 
@@ -110,6 +107,9 @@ public class DriverAdapterTest {
             s.assertThat(requestCount.getOk()).isEqualTo(6);
             s.assertThat(requestCount.getKo()).isEqualTo(4);
             s.assertThat(requestCount.getTotal()).isEqualTo(10);
+
+            final Apdex apdex = result.getApdex();
+            s.assertThat(apdex.getScore(Duration.ofSeconds(2))).isEqualTo(0);
         });
 
     }
