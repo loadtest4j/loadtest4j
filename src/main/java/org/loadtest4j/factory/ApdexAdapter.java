@@ -1,23 +1,33 @@
-package org.loadtest4j;
+package org.loadtest4j.factory;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.Duration;
+import java.util.function.BiFunction;
 
-public abstract class Apdex {
+class ApdexAdapter {
+
     private static final MathContext ROUNDING = MathContext.UNLIMITED;
 
-    protected abstract long getTotalRequests();
+    private final BiFunction<Duration, Duration, Long> okRequestsDistribution;
+    private final long totalRequests;
 
-    protected abstract long getOkRequestsBetween(Duration min, Duration max);
+    ApdexAdapter(BiFunction<Duration, Duration, Long> okRequestsDistribution, long totalRequests) {
+        this.okRequestsDistribution = okRequestsDistribution;
+        this.totalRequests = totalRequests;
+    }
 
-    public double getScore(Duration satisfiedThreshold) {
+    double getScore(Duration satisfiedThreshold) {
         final Duration toleratedThreshold = satisfiedThreshold.multipliedBy(4);
 
         final long satisfiedRequests = getOkRequestsBetween(Duration.ZERO, satisfiedThreshold);
         final long toleratedRequests = getOkRequestsBetween(satisfiedThreshold, toleratedThreshold);
 
-        return apdex(satisfiedRequests, toleratedRequests, getTotalRequests()).doubleValue();
+        return apdex(satisfiedRequests, toleratedRequests, totalRequests).doubleValue();
+    }
+
+    private long getOkRequestsBetween(Duration min, Duration max) {
+        return okRequestsDistribution.apply(min, max);
     }
 
     static BigDecimal apdex(long satisfiedRequests, long toleratedRequests, long totalRequests) {

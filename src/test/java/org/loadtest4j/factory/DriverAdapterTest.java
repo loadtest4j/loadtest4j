@@ -87,12 +87,39 @@ public class DriverAdapterTest {
 
     @Test
     public void testPostprocessResult() {
-        final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), new NopApdex(), 6, 4, new NopResponseTime());
+        final DriverResult input = new DriverResult() {
+            @Override
+            public Duration getActualDuration() {
+                return Duration.ofMillis(2500);
+            }
+
+            @Override
+            public long getKo() {
+                return 4;
+            }
+
+            @Override
+            public long getOk() {
+                return 6;
+            }
+
+            @Override
+            public long getOkRequestsBetween(Duration min, Duration max) {
+                return 0;
+            }
+
+            @Override
+            public Duration getResponseTimePercentile(double percentile) {
+                return Duration.ZERO;
+            }
+        };
 
         final Result result = DriverAdapter.postprocessResult(input);
 
         assertSoftly(s -> {
             s.assertThat(result.getPercentOk()).isEqualTo(60);
+
+            s.assertThat(result.getApdexScore(Duration.ofSeconds(2))).isEqualTo(0);
 
             final ResponseTime responseTime = result.getResponseTime();
             s.assertThat(responseTime.getPercentile(0)).isEqualTo(Duration.ZERO);
@@ -107,11 +134,7 @@ public class DriverAdapterTest {
             s.assertThat(requestCount.getOk()).isEqualTo(6);
             s.assertThat(requestCount.getKo()).isEqualTo(4);
             s.assertThat(requestCount.getTotal()).isEqualTo(10);
-
-            final Apdex apdex = result.getApdex();
-            s.assertThat(apdex.getScore(Duration.ofSeconds(2))).isEqualTo(0);
         });
-
     }
 
     private static List<Request> list(Request... elements) {

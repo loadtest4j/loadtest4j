@@ -30,17 +30,16 @@ class DriverAdapter implements LoadTester {
     }
 
     static Result postprocessResult(DriverResult driverResult) {
-        final Apdex apdex = getApdex(driverResult);
+        final ApdexAdapter apdex = getApdex(driverResult);
         final Diagnostics diagnostics = getDiagnostics(driverResult);
         final double percentOk = getPercentOk(driverResult);
         final ResponseTime responseTime = getResponseTime(driverResult);
-        return new Result(apdex, diagnostics, percentOk, responseTime);
+        return new ResultAdapter(apdex, diagnostics, percentOk, responseTime);
     }
 
-    private static Apdex getApdex(DriverResult driverResult) {
-        final DriverApdex driverApdex = driverResult.getApdex();
+    private static ApdexAdapter getApdex(DriverResult driverResult) {
         final long totalRequests = driverResult.getOk() + driverResult.getKo();
-        return new ApdexAdapter(driverApdex, totalRequests);
+        return new ApdexAdapter(driverResult::getOkRequestsBetween, totalRequests);
     }
 
     private static Diagnostics getDiagnostics(DriverResult driverResult) {
@@ -70,7 +69,7 @@ class DriverAdapter implements LoadTester {
     }
 
     private static ResponseTime getResponseTime(DriverResult driverResult) {
-        return new ResponseTimeAdapter(driverResult.getResponseTime());
+        return new ResponseTimeAdapter(driverResult::getResponseTimePercentile);
     }
 
     static double getRequestsPerSecond(long requests, Duration duration) {
@@ -93,38 +92,4 @@ class DriverAdapter implements LoadTester {
         }
     }
 
-    private static class ApdexAdapter extends Apdex {
-
-        private final DriverApdex delegate;
-        private final long totalRequests;
-
-        private ApdexAdapter(DriverApdex delegate, long totalRequests) {
-            this.delegate = delegate;
-            this.totalRequests = totalRequests;
-        }
-
-        @Override
-        protected long getTotalRequests() {
-            return totalRequests;
-        }
-
-        @Override
-        protected long getOkRequestsBetween(Duration min, Duration max) {
-            return delegate.getOkRequestsBetween(min, max);
-        }
-    }
-
-    private static class ResponseTimeAdapter extends ResponseTime {
-
-        private final DriverResponseTime delegate;
-
-        private ResponseTimeAdapter(DriverResponseTime delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public Duration getPercentile(double percentile) {
-            return delegate.getPercentile(percentile);
-        }
-    }
 }

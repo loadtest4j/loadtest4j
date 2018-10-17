@@ -24,8 +24,8 @@ public class NopDriver implements Driver {
         }
 
         @Override
-        public DriverApdex getApdex() {
-            return new NopApdex();
+        public long getOkRequestsBetween(Duration min, Duration max) {
+            return 0;
         }
 
         @Override
@@ -34,8 +34,8 @@ public class NopDriver implements Driver {
         }
 
         @Override
-        public DriverResponseTime getResponseTime() {
-            return new NopResponseTime();
+        public Duration getResponseTimePercentile(double p) {
+            return Duration.ZERO;
         }
     }
 }

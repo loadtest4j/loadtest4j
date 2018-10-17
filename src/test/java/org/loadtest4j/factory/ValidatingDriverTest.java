@@ -5,13 +5,11 @@ import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverResult;
 import org.loadtest4j.junit.UnitTest;
 import org.loadtest4j.test_utils.StubDriver;
-import org.loadtest4j.test_utils.NopApdex;
-import org.loadtest4j.test_utils.TestDriverResult;
+import org.loadtest4j.test_utils.NopDriverResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
-import org.loadtest4j.test_utils.NopResponseTime;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -30,7 +28,7 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        final DriverResult expectedResult = TestDriverResult.zero();
+        final DriverResult expectedResult = new NopDriverResult();
         stubDriver.expectRun(expectedResult);
 
         // When
@@ -46,7 +44,32 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, new NopApdex(), -1, 0, new NopResponseTime()));
+        stubDriver.expectRun(new DriverResult() {
+            @Override
+            public Duration getActualDuration() {
+                return Duration.ZERO;
+            }
+
+            @Override
+            public long getKo() {
+                return 0;
+            }
+
+            @Override
+            public long getOk() {
+                return -1;
+            }
+
+            @Override
+            public long getOkRequestsBetween(Duration min, Duration max) {
+                return 0;
+            }
+
+            @Override
+            public Duration getResponseTimePercentile(double percentile) {
+                return Duration.ZERO;
+            }
+        });
 
         // Expect
         thrown.expect(LoadTesterException.class);
@@ -62,7 +85,32 @@ public class ValidatingDriverTest {
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
         // And
-        stubDriver.expectRun(new TestDriverResult(Duration.ZERO, new NopApdex(), 0, -1, new NopResponseTime()));
+        stubDriver.expectRun(new DriverResult() {
+            @Override
+            public Duration getActualDuration() {
+                return Duration.ZERO;
+            }
+
+            @Override
+            public long getKo() {
+                return -1;
+            }
+
+            @Override
+            public long getOk() {
+                return 0;
+            }
+
+            @Override
+            public long getOkRequestsBetween(Duration min, Duration max) {
+                return 0;
+            }
+
+            @Override
+            public Duration getResponseTimePercentile(double percentile) {
+                return Duration.ZERO;
+            }
+        });
 
         // Expect
         thrown.expect(LoadTesterException.class);

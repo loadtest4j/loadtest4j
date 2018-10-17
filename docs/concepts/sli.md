@@ -6,6 +6,12 @@ An SLI Requirement is a statement about a particular value of that indicator.
 
 The most common indicators are listed below.
 
+## Apdex Score
+
+A measure of user satisfaction derived from the service response time distribution.
+
+For more information see the Apdex [Wikipedia article](https://en.wikipedia.org/wiki/Apdex).
+
 ## Survival Rate
 
 The minimum percentage of requests that must work (also called the 'percent OK').
