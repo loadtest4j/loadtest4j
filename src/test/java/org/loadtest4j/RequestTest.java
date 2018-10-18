@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadtest4j.test_utils.MockBodyVisitor;
 
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,10 +86,24 @@ public class RequestTest {
     }
 
     @Test
-    public void testWithBody() {
+    public void testWithStringBody() {
         final Request sut = Request.post("/pets").withBody("{}");
 
         assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("{}");
+    }
+
+    @Test
+    public void testWithFileBody() {
+        final Request sut = Request.post("/pets").withBody(Paths.get("/tmp/foo.txt"));
+
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("/tmp/foo.txt");
+    }
+
+    @Test
+    public void testDoesNotCombineBodies() {
+        final Request sut = Request.post("/pets").withBody("{}").withBody(Paths.get("/tmp/foo.txt"));
+
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("/tmp/foo.txt");
     }
 
     @Test
