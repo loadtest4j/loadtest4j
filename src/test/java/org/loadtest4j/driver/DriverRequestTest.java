@@ -4,6 +4,7 @@ import org.loadtest4j.Body;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.test_utils.MockBodyVisitor;
 
 import java.util.Collections;
 
@@ -16,7 +17,7 @@ public class DriverRequestTest {
 
     @Test
     public void testGetBody() {
-        assertThat(request.getBody()).isEqualTo(Body.string("{}"));
+        assertThat(request.getBody().accept(new MockBodyVisitor())).isEqualTo("{}");
     }
 
     @Test

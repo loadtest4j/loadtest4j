@@ -1,7 +1,6 @@
 package org.loadtest4j;
 
 import java.nio.file.Path;
-import java.util.Objects;
 
 public abstract class Body {
 
@@ -34,19 +33,6 @@ public abstract class Body {
         public <R> R accept(Visitor<R> visitor) {
             return visitor.file(file);
         }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            FileBody fileBody = (FileBody) o;
-            return Objects.equals(file, fileBody.file);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(file);
-        }
     }
 
     private static class StringBody extends Body {
@@ -59,19 +45,6 @@ public abstract class Body {
         @Override
         public <R> R accept(Visitor<R> visitor) {
             return visitor.string(body);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            StringBody that = (StringBody) o;
-            return Objects.equals(body, that.body);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(body);
         }
     }
 }

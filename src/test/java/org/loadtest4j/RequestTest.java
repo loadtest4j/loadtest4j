@@ -3,6 +3,7 @@ package org.loadtest4j;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.test_utils.MockBodyVisitor;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class RequestTest {
     public void testDefaultBody() {
         final Request sut = Request.get("/pets");
 
-        assertThat(sut.getBody()).isEqualTo(Body.string(""));
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEmpty();
     }
 
     @Test
@@ -87,7 +88,7 @@ public class RequestTest {
     public void testWithBody() {
         final Request sut = Request.post("/pets").withBody("{}");
 
-        assertThat(sut.getBody()).isEqualTo(Body.string("{}"));
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("{}");
     }
 
     @Test
