@@ -17,7 +17,7 @@ public abstract class Body {
         return new Body.FileBody(file);
     }
 
-    interface Visitor<R> {
+    public interface Visitor<R> {
         R string(String body);
 
         R file(Path path);
