@@ -1,5 +1,6 @@
 package org.loadtest4j;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,13 +11,13 @@ import java.util.stream.Stream;
  */
 public final class Request {
 
-    private final String body;
+    private final Body body;
     private final Map<String, String> headers;
     private final String method;
     private final String path;
     private final Map<String, String> queryParams;
 
-    private Request(String body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
+    private Request(Body body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
         this.body = body;
         this.headers = headers;
         this.method = method;
@@ -65,7 +66,7 @@ public final class Request {
     }
 
     private static Request withMethodAndPath(String method, String path) {
-        return new Request("", Collections.emptyMap(), method, path, Collections.emptyMap());
+        return new Request(Body.string(""), Collections.emptyMap(), method, path, Collections.emptyMap());
     }
 
     public Request withHeader(String key, String value) {
@@ -81,10 +82,16 @@ public final class Request {
     }
 
     public Request withBody(String body) {
-        return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
+        return new Request(Body.string(body), this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 
-    public String getBody() {
+    // FIXME should this be named withBody or withFile?
+    // FIXME should there just be a single withBody(Body body) method?
+    public Request withBody(Path file) {
+        return new Request(Body.file(file), this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
+    }
+
+    public Body getBody() {
         return body;
     }
 

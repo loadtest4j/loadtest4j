@@ -1,5 +1,6 @@
 package org.loadtest4j.driver;
 
+import org.loadtest4j.Body;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -11,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class DriverRequestTest {
 
-    private final DriverRequest request = new DriverRequest("{}", Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
+    private final DriverRequest request = new DriverRequest(Body.string("{}"), Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
 
     @Test
     public void testGetBody() {
-        assertThat(request.getBody()).isEqualTo("{}");
+        assertThat(request.getBody()).isEqualTo(Body.string("{}"));
     }
 
     @Test

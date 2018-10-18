@@ -23,7 +23,7 @@ public class RequestTest {
     public void testDefaultBody() {
         final Request sut = Request.get("/pets");
 
-        assertThat(sut.getBody()).isEqualTo("");
+        assertThat(sut.getBody()).isEqualTo(Body.string(""));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class RequestTest {
     public void testWithBody() {
         final Request sut = Request.post("/pets").withBody("{}");
 
-        assertThat(sut.getBody()).isEqualTo("{}");
+        assertThat(sut.getBody()).isEqualTo(Body.string("{}"));
     }
 
     @Test
