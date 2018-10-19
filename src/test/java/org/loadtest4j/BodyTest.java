@@ -5,8 +5,6 @@ import org.junit.experimental.categories.Category;
 import org.loadtest4j.junit.UnitTest;
 import org.loadtest4j.test_utils.MockBodyVisitor;
 
-import java.nio.file.Paths;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Category(UnitTest.class)
@@ -16,14 +14,24 @@ public class BodyTest {
         final Body body = Body.string("foo bar");
 
         assertThat(body.accept(new MockBodyVisitor()))
-                .isEqualTo("foo bar");
+                .containsExactly("foo bar");
     }
 
     @Test
-    public void testFileBody() {
-        final Body body = Body.file(Paths.get("/tmp/foo.txt"));
+    public void testBodyParts() {
+        final BodyPart foo = BodyPart.string("foo");
+        final BodyPart bar = BodyPart.string("bar");
+        final Body body = Body.parts(foo, bar);
 
         assertThat(body.accept(new MockBodyVisitor()))
-                .isEqualTo("/tmp/foo.txt");
+                .containsExactly(foo, bar);
+    }
+
+    @Test
+    public void testNoBodyParts() {
+        final Body body = Body.parts();
+
+        assertThat(body.accept(new MockBodyVisitor()))
+                .isEmpty();
     }
 }

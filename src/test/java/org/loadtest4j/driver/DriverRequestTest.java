@@ -17,7 +17,7 @@ public class DriverRequestTest {
 
     @Test
     public void testGetBody() {
-        assertThat(request.getBody().accept(new MockBodyVisitor())).isEqualTo("{}");
+        assertThat(request.getBody().accept(new MockBodyVisitor())).containsExactly("{}");
     }
 
     @Test

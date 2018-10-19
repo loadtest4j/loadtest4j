@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadtest4j.test_utils.MockBodyVisitor;
 
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class RequestTest {
     public void testDefaultBody() {
         final Request sut = Request.get("/pets");
 
-        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEmpty();
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).containsExactly("");
     }
 
     @Test
@@ -86,24 +85,19 @@ public class RequestTest {
     }
 
     @Test
-    public void testWithStringBody() {
-        final Request sut = Request.post("/pets").withBody("{}");
+    public void testWithBody() {
+        final Request sut = Request.post("/pets").withBody(Body.string("{}"));
 
-        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("{}");
-    }
-
-    @Test
-    public void testWithFileBody() {
-        final Request sut = Request.post("/pets").withBody(Paths.get("/tmp/foo.txt"));
-
-        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("/tmp/foo.txt");
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).containsExactly("{}");
     }
 
     @Test
     public void testDoesNotCombineBodies() {
-        final Request sut = Request.post("/pets").withBody("{}").withBody(Paths.get("/tmp/foo.txt"));
+        final Request sut = Request.post("/pets")
+                .withBody(Body.string("foo"))
+                .withBody(Body.string("bar"));
 
-        assertThat(sut.getBody().accept(new MockBodyVisitor())).isEqualTo("/tmp/foo.txt");
+        assertThat(sut.getBody().accept(new MockBodyVisitor())).containsExactly("bar");
     }
 
     @Test

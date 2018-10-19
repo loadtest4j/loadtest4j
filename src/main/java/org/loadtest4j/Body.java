@@ -1,37 +1,55 @@
 package org.loadtest4j;
 
-import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * An Algebraic Data Type representing an HTTP request body.
+ */
 public abstract class Body {
 
-    private Body() {}
+    private Body() {
+
+    }
 
     public abstract <R> R accept(Visitor<R> visitor);
 
-    public static Body string(String str) {
-        return new Body.StringBody(str);
+    /**
+     * Create a request body from a simple String in memory.
+     *
+     * @param body the string content of the body
+     * @return a string body
+     */
+    public static Body string(String body) {
+        return new Body.StringBody(body);
     }
 
-    public static Body file(Path file) {
-        return new Body.FileBody(file);
+    /**
+     * Create a multipart request body from a list of body parts.
+     *
+     * @param parts list of body parts
+     * @return a multipart request body
+     */
+    public static Body parts(BodyPart... parts) {
+        return new Body.BodyParts(Arrays.asList(parts));
     }
 
     public interface Visitor<R> {
         R string(String body);
 
-        R file(Path path);
+        R parts(List<BodyPart> body);
     }
 
-    private static class FileBody extends Body {
-        private final Path file;
+    private static class BodyParts extends Body {
+        private final List<BodyPart> parts;
 
-        private FileBody(Path file) {
-            this.file = file;
+        private BodyParts(List<BodyPart> parts) {
+            this.parts = parts;
         }
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
-            return visitor.file(file);
+            return visitor.parts(parts);
         }
     }
 

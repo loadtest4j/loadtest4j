@@ -1,6 +1,5 @@
 package org.loadtest4j;
 
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -81,14 +80,8 @@ public final class Request {
         return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMap(this.getQueryParams(), key, value));
     }
 
-    public Request withBody(String body) {
-        return new Request(Body.string(body), this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
-    }
-
-    // FIXME should this be named withBody or withFile?
-    // FIXME should there just be a single withBody(Body body) method?
-    public Request withBody(Path file) {
-        return new Request(Body.file(file), this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
+    public Request withBody(Body body) {
+        return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 
     public Body getBody() {
