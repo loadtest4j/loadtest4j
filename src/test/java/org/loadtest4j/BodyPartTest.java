@@ -13,10 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BodyPartTest {
     @Test
     public void testStringPart() {
-        final BodyPart bodyPart = BodyPart.string("foo");
+        final BodyPart bodyPart = BodyPart.string("foo", "abc");
 
         assertThat(bodyPart.accept(new MockBodyPartVisitor()))
-                .isEqualTo("foo");
+                .isEqualTo("foo,abc");
     }
 
     @Test

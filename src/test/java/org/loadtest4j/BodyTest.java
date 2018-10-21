@@ -19,8 +19,8 @@ public class BodyTest {
 
     @Test
     public void testBodyParts() {
-        final BodyPart foo = BodyPart.string("foo");
-        final BodyPart bar = BodyPart.string("bar");
+        final BodyPart foo = BodyPart.string("foo", "abc");
+        final BodyPart bar = BodyPart.string("bar", "def");
         final Body body = Body.parts(foo, bar);
 
         assertThat(body.accept(new MockBodyVisitor()))

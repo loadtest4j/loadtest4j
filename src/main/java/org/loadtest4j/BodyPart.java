@@ -13,54 +13,57 @@ public abstract class BodyPart {
     /**
      * Create a body part from a simple string.
      *
-     * @param part the string content of the body part
+     * @param name The name (identifier) for the body part
+     * @param content the string content of the body part
      * @return a string body part
      */
-    public static BodyPart string(String part) {
-        return new StringPart(part);
+    public static BodyPart string(String name, String content) {
+        return new StringPart(name, content);
     }
 
     /**
      * Create a file body part.
      *
-     * @param part the path to the file that will be a body part
+     * @param content the path to the file that will be a body part
      * @return a file body part
      */
-    public static BodyPart file(Path part) {
-        return new FilePart(part);
+    public static BodyPart file(Path content) {
+        return new FilePart(content);
     }
 
     public abstract <R> R accept(Visitor<R> visitor);
 
     public interface Visitor<R> {
-        R stringPart(String part);
+        R stringPart(String name, String content);
 
-        R filePart(Path part);
+        R filePart(Path content);
     }
 
     private static class FilePart extends BodyPart {
-        private final Path part;
+        private final Path content;
 
-        private FilePart(Path part) {
-            this.part = part;
+        private FilePart(Path content) {
+            this.content = content;
         }
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
-            return visitor.filePart(part);
+            return visitor.filePart(content);
         }
     }
 
     private static class StringPart extends BodyPart {
-        private final String part;
+        private final String name;
+        private final String content;
 
-        private StringPart(String part) {
-            this.part = part;
+        private StringPart(String name, String content) {
+            this.name = name;
+            this.content = content;
         }
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
-            return visitor.stringPart(part);
+            return visitor.stringPart(name, content);
         }
     }
 }

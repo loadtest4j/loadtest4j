@@ -17,11 +17,11 @@ public abstract class Body {
     /**
      * Create a request body from a simple String in memory.
      *
-     * @param body the string content of the body
+     * @param content the string content of the body
      * @return a string body
      */
-    public static Body string(String body) {
-        return new Body.StringBody(body);
+    public static Body string(String content) {
+        return new Body.StringBody(content);
     }
 
     /**
@@ -54,15 +54,15 @@ public abstract class Body {
     }
 
     private static class StringBody extends Body {
-        private final String body;
+        private final String content;
 
-        private StringBody(String body) {
-            this.body = body;
+        private StringBody(String content) {
+            this.content = content;
         }
 
         @Override
         public <R> R accept(Visitor<R> visitor) {
-            return visitor.string(body);
+            return visitor.string(content);
         }
     }
 }

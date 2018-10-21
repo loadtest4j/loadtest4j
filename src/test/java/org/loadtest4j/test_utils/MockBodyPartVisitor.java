@@ -6,12 +6,12 @@ import java.nio.file.Path;
 
 public class MockBodyPartVisitor implements BodyPart.Visitor<String> {
     @Override
-    public String stringPart(String part) {
-        return part;
+    public String stringPart(String name, String content) {
+        return name + "," + content;
     }
 
     @Override
-    public String filePart(Path part) {
-        return part.toString();
+    public String filePart(Path content) {
+        return content.toString();
     }
 }
