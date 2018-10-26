@@ -69,7 +69,7 @@ public final class Request {
     }
 
     public Request withHeader(String key, String value) {
-        return new Request(this.getBody(), concatMap(this.getHeaders(), key, value), this.getMethod(), this.getPath(), this.getQueryParams());
+        return withHeaders(Collections.singletonMap(key, value));
     }
 
     public Request withHeaders(Map<String, String> headers) {
@@ -80,7 +80,15 @@ public final class Request {
         return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMap(this.getQueryParams(), key, value));
     }
 
-    public Request withBody(Body body) {
+    public Request withBody(String content) {
+        return withBody(Body.string(content));
+    }
+
+    public Request withBody(BodyPart... parts) {
+        return withBody(Body.multipart(parts));
+    }
+
+    private Request withBody(Body body) {
         return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 

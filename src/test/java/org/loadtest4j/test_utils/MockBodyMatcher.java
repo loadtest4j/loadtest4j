@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 /*
  * This returns a List<Object> because AssertJ is smart and knows how to compare things loosely in a type sense.
- * If we were not using AssertJ then we would need more strictly typed body visitors for testing.
+ * If we were not using AssertJ then we would need more strictly typed body matchers for testing.
  */
-public class MockBodyVisitor implements Body.Visitor<List<Object>> {
+public class MockBodyMatcher implements Body.Matcher<List<Object>> {
 
     @Override
     public List<Object> string(String body) {
@@ -19,7 +19,7 @@ public class MockBodyVisitor implements Body.Visitor<List<Object>> {
     }
 
     @Override
-    public List<Object> parts(List<BodyPart> body) {
+    public List<Object> multipart(List<BodyPart> body) {
         return body.stream().map(bodyPart -> (Object) bodyPart).collect(Collectors.toList());
     }
 }

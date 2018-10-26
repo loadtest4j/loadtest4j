@@ -3,8 +3,8 @@ package org.loadtest4j;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.loadtest4j.junit.UnitTest;
-import org.loadtest4j.test_utils.MockBodyPartVisitor;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,15 +15,37 @@ public class BodyPartTest {
     public void testStringPart() {
         final BodyPart bodyPart = BodyPart.string("foo", "abc");
 
-        assertThat(bodyPart.accept(new MockBodyPartVisitor()))
-                .isEqualTo("foo,abc");
+        final String output = bodyPart.match(new BodyPart.Matcher<String>() {
+            @Override
+            public String stringPart(String name, String content) {
+                return name + "," + content;
+            }
+
+            @Override
+            public String filePart(Path content) {
+                return null;
+            }
+        });
+
+        assertThat(output).isEqualTo("foo,abc");
     }
 
     @Test
     public void testFilePart() {
         final BodyPart bodyPart = BodyPart.file(Paths.get("/tmp/foo.txt"));
 
-        assertThat(bodyPart.accept(new MockBodyPartVisitor()))
-                .isEqualTo("/tmp/foo.txt");
+        final String output = bodyPart.match(new BodyPart.Matcher<String>() {
+            @Override
+            public String stringPart(String name, String content) {
+                return null;
+            }
+
+            @Override
+            public String filePart(Path content) {
+                return content.toString();
+            }
+        });
+
+        assertThat(output).isEqualTo("/tmp/foo.txt");
     }
 }
