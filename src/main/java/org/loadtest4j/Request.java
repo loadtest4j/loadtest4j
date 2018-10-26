@@ -10,13 +10,13 @@ import java.util.stream.Stream;
  */
 public final class Request {
 
-    private final String body;
+    private final Body body;
     private final Map<String, String> headers;
     private final String method;
     private final String path;
     private final Map<String, String> queryParams;
 
-    private Request(String body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
+    private Request(Body body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
         this.body = body;
         this.headers = headers;
         this.method = method;
@@ -65,11 +65,11 @@ public final class Request {
     }
 
     private static Request withMethodAndPath(String method, String path) {
-        return new Request("", Collections.emptyMap(), method, path, Collections.emptyMap());
+        return new Request(Body.string(""), Collections.emptyMap(), method, path, Collections.emptyMap());
     }
 
     public Request withHeader(String key, String value) {
-        return new Request(this.getBody(), concatMap(this.getHeaders(), key, value), this.getMethod(), this.getPath(), this.getQueryParams());
+        return withHeaders(Collections.singletonMap(key, value));
     }
 
     public Request withHeaders(Map<String, String> headers) {
@@ -80,11 +80,19 @@ public final class Request {
         return new Request(this.getBody(), this.getHeaders(), this.getMethod(), this.getPath(), concatMap(this.getQueryParams(), key, value));
     }
 
-    public Request withBody(String body) {
+    public Request withBody(String content) {
+        return withBody(Body.string(content));
+    }
+
+    public Request withBody(BodyPart... parts) {
+        return withBody(Body.multipart(parts));
+    }
+
+    private Request withBody(Body body) {
         return new Request(body, this.getHeaders(), this.getMethod(), this.getPath(), this.getQueryParams());
     }
 
-    public String getBody() {
+    public Body getBody() {
         return body;
     }
 

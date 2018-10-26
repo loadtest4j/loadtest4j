@@ -1,5 +1,7 @@
 package org.loadtest4j.driver;
 
+import org.loadtest4j.Body;
+
 import java.util.Map;
 
 /**
@@ -9,13 +11,13 @@ import java.util.Map;
  * nothing more.
  */
 public final class DriverRequest {
-    private final String body;
+    private final Body body;
     private final Map<String, String> headers;
     private final String method;
     private final String path;
     private final Map<String, String> queryParams;
 
-    public DriverRequest(String body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
+    public DriverRequest(Body body, Map<String, String> headers, String method, String path, Map<String, String> queryParams) {
         this.body = body;
         this.headers = headers;
         this.method = method;
@@ -23,7 +25,7 @@ public final class DriverRequest {
         this.queryParams = queryParams;
     }
 
-    public String getBody() {
+    public Body getBody() {
         return body;
     }
 

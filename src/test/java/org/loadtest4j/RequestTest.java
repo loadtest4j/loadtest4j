@@ -3,6 +3,7 @@ package org.loadtest4j;
 import org.loadtest4j.junit.UnitTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.loadtest4j.test_utils.MockBodyMatcher;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class RequestTest {
     public void testDefaultBody() {
         final Request sut = Request.get("/pets");
 
-        assertThat(sut.getBody()).isEqualTo("");
+        assertThat(sut.getBody().match(new MockBodyMatcher())).containsExactly("");
     }
 
     @Test
@@ -84,10 +85,28 @@ public class RequestTest {
     }
 
     @Test
-    public void testWithBody() {
+    public void testWithBodyString() {
         final Request sut = Request.post("/pets").withBody("{}");
 
-        assertThat(sut.getBody()).isEqualTo("{}");
+        assertThat(sut.getBody().match(new MockBodyMatcher())).containsExactly("{}");
+    }
+
+    @Test
+    public void testWithBodyMultipart() {
+        final BodyPart part = BodyPart.string("foo", "bar");
+
+        final Request sut = Request.post("/pets").withBody(part);
+
+        assertThat(sut.getBody().match(new MockBodyMatcher())).containsExactly(part);
+    }
+
+    @Test
+    public void testDoesNotCombineBodies() {
+        final Request sut = Request.post("/pets")
+                .withBody("foo")
+                .withBody("bar");
+
+        assertThat(sut.getBody().match(new MockBodyMatcher())).containsExactly("bar");
     }
 
     @Test
