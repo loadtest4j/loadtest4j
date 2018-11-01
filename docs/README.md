@@ -29,7 +29,7 @@ A simple load test facade for Java.
 
 ## What it does
 
-Loadtest4j lets you write load tests as plain old xUnit tests.
+Loadtest4j is a Java library that lets you write load tests as plain old xUnit tests.
 
 The benefits include...
 
@@ -40,7 +40,9 @@ The benefits include...
 
 ## Usage
 
-1. **Add a load test driver** from the [registry](registry.md) to the POM:
+1. **Open your Web service project** - or make a new project.
+
+2. **Add a load test driver** from the [registry](registry.md) to your project:
     
     ```xml
     <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
@@ -51,7 +53,7 @@ The benefits include...
     </dependency>
     ```
 
-2. **Configure the library** in `src/test/resources/loadtest4j.properties`:
+3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
     
     ```properties
     loadtest4j.driver.duration = 60
@@ -59,7 +61,7 @@ The benefits include...
     loadtest4j.driver.usersPerSecond = 1
     ```
     
-3. **Write a load test** with your favorite language, test framework, and assertions:
+4. **Write a load test** with your favorite language, test framework, and assertions:
     
     ```java
     public class PetStoreLT {
@@ -80,7 +82,7 @@ The benefits include...
     }
     ```
 
-4. **Declare your load test** in the POM:
+5. **Declare your load test** to Maven:
 
     ```xml
     <plugin>
@@ -115,7 +117,7 @@ The benefits include...
     </plugin>
     ```
 
-5. **Run the test** with Maven or your IDE:
+6. **Run the test** with Maven or your IDE:
 
     ```bash
     # Run all tests
