@@ -131,28 +131,32 @@ The benefits include...
 
 ### Multipart requests
 
+Attach an arbitrary number of string parts or file parts to the multipart request body.
+
 ```java
 public class PetStoreLT {
     @Test
     public void shouldAddPet() {
-        // Attach an arbitrary number of string parts and file parts.
         BodyPart stringPart = BodyPart.string("name", "content");
         BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));
         
-        Request request = Request.post("/pets")
-                                 .withBody(stringPart, filePart);
+        Request request = Request.post("/pets").withBody(stringPart, filePart);
     }
 }
 ```
 
-### Reporters
+### Decorator
+
+Attach custom behaviors to a `LoadTester` using the decorator. The behaviors will execute after each invocation of that 
+`LoadTester`. This feature can be used for a wide variety of tasks, such as logging or visualising a `Result`.
+
+Note: Custom behaviors are not included with the core library.
 
 ```java
 public class PetStoreLT {
-    // Note: Reporters are distributed separately.
     private static final LoadTester loadTester = new LoadTesterDecorator()
-        .add(new Logger())
-        .add(new Grapher())
+        .add(new CustomReporter())
+        .add(new HtmlReporter())
         .decorate(LoadTesterFactory.getLoadTester());
 }
 ```

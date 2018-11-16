@@ -10,6 +10,7 @@ import org.loadtest4j.junit.UnitTest;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -19,46 +20,46 @@ public class LoadTesterDecoratorTest {
 
     @Test
     public void shouldDecorate() {
-        final StubReporter reporter = new StubReporter();
+        final Counter counter = new Counter();
         final StubLoadTester stubLoadTester = new StubLoadTester();
 
         final LoadTester loadTester = new LoadTesterDecorator()
-                .add(reporter)
+                .add(counter)
                 .decorate(stubLoadTester);
 
         loadTester.run(Collections.emptyList());
 
         assertSoftly(s -> {
             s.assertThat(stubLoadTester.getNumCalls()).isEqualTo(1);
-            s.assertThat(reporter.getNumCalls()).isEqualTo(1);
+            s.assertThat(counter.getCount()).isEqualTo(1);
         });
     }
 
     @Test
     public void shouldDecorateWithMultipleReporters() {
-        final StubReporter reporter1 = new StubReporter();
-        final StubReporter reporter2 = new StubReporter();
+        final Counter counter1 = new Counter();
+        final Counter counter2 = new Counter();
         final StubLoadTester stubLoadTester = new StubLoadTester();
 
         final LoadTester loadTester = new LoadTesterDecorator()
-                .add(reporter1)
-                .add(reporter2)
+                .add(counter1)
+                .add(counter2)
                 .decorate(stubLoadTester);
 
         loadTester.run(Collections.emptyList());
 
         assertSoftly(s -> {
             s.assertThat(stubLoadTester.getNumCalls()).isEqualTo(1);
-            s.assertThat(reporter1.getNumCalls()).isEqualTo(1);
-            s.assertThat(reporter2.getNumCalls()).isEqualTo(1);
+            s.assertThat(counter1.getCount()).isEqualTo(1);
+            s.assertThat(counter2.getCount()).isEqualTo(1);
         });
     }
 
     @Test
     public void shouldDecorateMultipleLoadTesters() {
-        final StubReporter reporter = new StubReporter();
+        final Counter counter = new Counter();
         final LoadTesterDecorator decorator = new LoadTesterDecorator()
-                .add(reporter);
+                .add(counter);
 
         final StubLoadTester stub1 = new StubLoadTester();
         decorator.decorate(stub1).run(Collections.emptyList());
@@ -69,7 +70,7 @@ public class LoadTesterDecoratorTest {
         assertSoftly(s -> {
             s.assertThat(stub1.getNumCalls()).isEqualTo(1);
             s.assertThat(stub2.getNumCalls()).isEqualTo(1);
-            s.assertThat(reporter.getNumCalls()).isEqualTo(2);
+            s.assertThat(counter.getCount()).isEqualTo(2);
         });
     }
 
@@ -77,21 +78,21 @@ public class LoadTesterDecoratorTest {
     public void shouldBeImmutable() {
         final LoadTesterDecorator decorator = new LoadTesterDecorator();
 
-        decorator.add(new StubReporter());
+        decorator.add(new Counter());
 
         assertThat(decorator).isEqualToComparingFieldByField(new LoadTesterDecorator());
     }
 
-    private static class StubReporter implements Reporter {
+    private static class Counter implements Consumer<Result> {
 
         private final AtomicLong numCalls = new AtomicLong();
 
         @Override
-        public void report(Result result) {
+        public void accept(Result result) {
             numCalls.incrementAndGet();
         }
 
-        long getNumCalls() {
+        long getCount() {
             return numCalls.longValue();
         }
     }

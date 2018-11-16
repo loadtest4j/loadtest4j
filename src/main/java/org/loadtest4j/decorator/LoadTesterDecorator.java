@@ -6,6 +6,7 @@ import org.loadtest4j.Result;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,22 +16,22 @@ import java.util.stream.Stream;
  */
 public class LoadTesterDecorator {
 
-    private final List<Reporter> reporters;
+    private final List<Consumer<Result>> consumers;
 
-    private LoadTesterDecorator(List<Reporter> reporters) {
-        this.reporters = reporters;
+    private LoadTesterDecorator(List<Consumer<Result>> consumers) {
+        this.consumers = consumers;
     }
 
     public LoadTesterDecorator() {
         this(Collections.emptyList());
     }
 
-    public LoadTesterDecorator add(Reporter reporter) {
-        return new LoadTesterDecorator(concatenate(reporters, reporter));
+    public LoadTesterDecorator add(Consumer<Result> consumer) {
+        return new LoadTesterDecorator(concatenate(consumers, consumer));
     }
 
     public LoadTester decorate(LoadTester loadTester) {
-        return new DecoratedLoadTester(loadTester, reporters);
+        return new DecoratedLoadTester(loadTester, consumers);
     }
 
     private static <T> List<T> concatenate(List<T> list, T element) {
@@ -40,18 +41,18 @@ public class LoadTesterDecorator {
 
     private static class DecoratedLoadTester implements LoadTester {
         private final LoadTester delegate;
-        private final List<Reporter> reporters;
+        private final List<Consumer<Result>> consumers;
 
-        private DecoratedLoadTester(LoadTester delegate, List<Reporter> reporters) {
+        private DecoratedLoadTester(LoadTester delegate, List<Consumer<Result>> consumers) {
             this.delegate = delegate;
-            this.reporters = reporters;
+            this.consumers = consumers;
         }
 
         @Override
         public Result run(List<Request> requests) {
             final Result result = delegate.run(requests);
 
-            reporters.forEach(reporter -> reporter.report(result));
+            consumers.forEach(reporter -> reporter.accept(result));
 
             return result;
         }
