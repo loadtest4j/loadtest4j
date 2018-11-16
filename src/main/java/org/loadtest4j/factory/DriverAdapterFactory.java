@@ -4,9 +4,7 @@ import org.loadtest4j.LoadTester;
 import org.loadtest4j.LoadTesterException;
 import org.loadtest4j.driver.Driver;
 import org.loadtest4j.driver.DriverFactory;
-import org.loadtest4j.utils.FastClassFinder;
 import org.loadtest4j.utils.PropertiesSubset;
-import org.loadtest4j.utils.Suppliers;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -16,7 +14,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 class DriverAdapterFactory {
-    private static final Supplier<DriverFactory> SUPPLIER = Suppliers.memoize(new DriverFactorySupplier(new FastClassFinder()));
+    private static final Supplier<DriverFactory> SUPPLIER = DriverFactorySupplier.standard();
 
     private static final String DRIVER_PROPERTY_NAMESPACE = "loadtest4j.driver";
 
