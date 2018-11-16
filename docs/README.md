@@ -126,3 +126,33 @@ The benefits include...
     # Run load tests
     mvn test-compile surefire:test@load
     ```
+
+## Advanced usage
+
+### Multipart requests
+
+```java
+public class PetStoreLT {
+
+    @Test
+    public void testAddPet() {
+        BodyPart fooTxt = BodyPart.file(Paths.get("foo.txt"));
+        BodyPart barTxt = BodyPart.file(Paths.get("bar.txt"));
+        
+        Request request = Request.post("/pets").withBody(fooTxt, barTxt);
+    }
+}
+```
+
+### Reporters
+
+```java
+public class PetStoreLT {
+
+    // Note: Reporters are distributed separately.
+    private static final LoadTester loadTester = new LoadTesterDecorator()
+        .add(new Logger())
+        .add(new Grapher())
+        .decorate(LoadTesterFactory.getLoadTester());
+}
+```
