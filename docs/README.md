@@ -133,13 +133,14 @@ The benefits include...
 
 ```java
 public class PetStoreLT {
-
     @Test
     public void testAddPet() {
-        BodyPart fooTxt = BodyPart.file(Paths.get("foo.txt"));
-        BodyPart barTxt = BodyPart.file(Paths.get("bar.txt"));
+        // Attach an arbitrary number of string parts and file parts.
+        BodyPart stringPart = BodyPart.string("name", "content");
+        BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));
         
-        Request request = Request.post("/pets").withBody(fooTxt, barTxt);
+        Request request = Request.post("/pets")
+                                 .withBody(stringPart, filePart);
     }
 }
 ```
@@ -148,7 +149,6 @@ public class PetStoreLT {
 
 ```java
 public class PetStoreLT {
-
     // Note: Reporters are distributed separately.
     private static final LoadTester loadTester = new LoadTesterDecorator()
         .add(new Logger())
