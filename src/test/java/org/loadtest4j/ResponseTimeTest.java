@@ -12,21 +12,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class ResponseTimeTest {
     @Test
-    public void testGetPercentile() {
+    public void shouldHavePercentileDistribution() {
         final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
         
         assertThat(responseTime.getPercentile(90.5)).isEqualTo(Duration.ZERO);
     }
     
     @Test
-    public void testGetMax() {
+    public void shouldHaveMax() {
         final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
         
         assertThat(responseTime.getMax()).isEqualTo(Duration.ZERO);
     }
 
     @Test
-    public void testGetMedian() {
+    public void shouldHaveMedian() {
         final ResponseTime responseTime = new ResponseTime(TestResponseTime.ZERO);
 
         assertThat(responseTime.getMedian()).isEqualTo(Duration.ZERO);

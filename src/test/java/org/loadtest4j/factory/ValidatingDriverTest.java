@@ -24,7 +24,7 @@ public class ValidatingDriverTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testRun() {
+    public void shouldRun() {
         // Given
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
@@ -40,7 +40,7 @@ public class ValidatingDriverTest {
     }
 
     @Test
-    public void testRunWithNegativeOkValue() {
+    public void shouldThrowExceptionWhenOkIsNegative() {
         // Given
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);
@@ -56,7 +56,7 @@ public class ValidatingDriverTest {
     }
 
     @Test
-    public void testRunWithNegativeKoValue() {
+    public void shouldThrowExceptionWhenKoIsNegative() {
         // Given
         final StubDriver stubDriver = new StubDriver();
         final Driver sut = new ValidatingDriver(stubDriver);

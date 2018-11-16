@@ -69,7 +69,7 @@ The benefits include...
         private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
     
         @Test
-        public void testFindPets() {
+        public void shouldFindPets() {
             List<Request> requests = List.of(Request.get("/pet/findByStatus")
                                                     .withHeader("Accept", "application/json")
                                                     .withQueryParam("status", "available"));
@@ -134,7 +134,7 @@ The benefits include...
 ```java
 public class PetStoreLT {
     @Test
-    public void testAddPet() {
+    public void shouldAddPet() {
         // Attach an arbitrary number of string parts and file parts.
         BodyPart stringPart = BodyPart.string("name", "content");
         BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));

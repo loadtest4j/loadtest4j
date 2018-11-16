@@ -26,7 +26,7 @@ public class DriverAdapterTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testRun() {
+    public void shouldRun() {
         // Given
         final SpyDriver driver = new SpyDriver(new NopDriver());
         final LoadTester loadTester = new DriverAdapter(driver);
@@ -41,7 +41,7 @@ public class DriverAdapterTest {
     }
 
     @Test
-    public void testRunPreservesRequestOrdering() {
+    public void shouldPreserveRequestOrdering() {
         // Given
         final SpyDriver driver = new SpyDriver(new NopDriver());
         final LoadTester loadTester = new DriverAdapter(driver);
@@ -56,22 +56,22 @@ public class DriverAdapterTest {
     }
 
     @Test
-    public void testGetPercentOk() {
+    public void shouldCalculatePercentOk() {
         assertThat(DriverAdapter.getPercentOk(2, 2)).isEqualTo(100);
     }
 
     @Test
-    public void testGetPercentOkAvoidsDivideByZero() {
+    public void shouldCalculatePercentOkAndAvoidDivideByZero() {
         assertThat(DriverAdapter.getPercentOk(0, 0)).isEqualTo(0);
     }
 
     @Test
-    public void testGetPercentOkWithErrors() {
+    public void shouldCalculatePercentOkWithErrors() {
         assertThat(DriverAdapter.getPercentOk(1, 4)).isEqualTo(25);
     }
 
     @Test
-    public void testGetPercentOkWithHugeNumbers() {
+    public void shouldCalculatePercentOkWithHugeNumbers() {
         final long ok = Long.MAX_VALUE / 2;
         final long total = Long.MAX_VALUE;
 
@@ -79,17 +79,17 @@ public class DriverAdapterTest {
     }
 
     @Test
-    public void testGetRequestsPerSecond() {
+    public void shouldCalculateRequestsPerSecond() {
         assertThat(DriverAdapter.getRequestsPerSecond(10, Duration.ofMillis(2500))).isEqualTo(4);
     }
 
     @Test
-    public void testGetRequestsPerSecondAvoidsDivideByZero() {
+    public void shouldCalculateRequestsPerSecondAndAvoidDivideByZero() {
         assertThat(DriverAdapter.getRequestsPerSecond(2, Duration.ZERO)).isEqualTo(0);
     }
 
     @Test
-    public void testPostprocessResult() {
+    public void shouldPostprocessResult() {
         final DriverResult input = new TestDriverResult(Duration.ofMillis(2500), 6, 4, new TestResponseTime(Duration.ZERO));
 
         final Result result = DriverAdapter.postprocessResult(input);

@@ -13,7 +13,7 @@ public class PetStoreTest {
     private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
     
     @Test
-    public void testFindPets() {
+    public void shouldFindPets() {
         final Result result = loadTester.run(requests);
         
         assertSoftly(s -> {
@@ -43,12 +43,12 @@ public class FindPetsTest {
     private static final Supplier<Result> result = LazyLoadTester.run(requests);
    
     @Test
-    public void testP75ResponseTime() {
+    public void shouldSatisfyP75ResponseTimeThreshold() {
         assertThat(result.get().getResponseTime().getPercentile(75)).isLessThanOrEqualTo(Duration.ofMillis(500));
     }
     
     @Test
-    public void testPercentOk() {
+    public void shouldSatisfyPercentOkThreshold() {
         assertThat(result.get().getPercentOk()).isGreaterThanOrEqualTo(99.99);
     }
 }

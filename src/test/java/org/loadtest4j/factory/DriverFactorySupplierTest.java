@@ -21,7 +21,7 @@ public class DriverFactorySupplierTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testGet() {
+    public void shouldSupplyFactory() {
         final Iterable<DriverFactory> singleFinder = Collections.singletonList(new NopDriverFactory());
         final DriverFactorySupplier supplier = new DriverFactorySupplier(singleFinder);
 
@@ -31,7 +31,7 @@ public class DriverFactorySupplierTest {
     }
 
     @Test
-    public void testGetWithNoDriverFactories() {
+    public void shouldThrowExceptionWhenNoFactoriesAreFound() {
         final Iterable<DriverFactory> emptyFinder = Collections.emptyList();
         final DriverFactorySupplier supplier = new DriverFactorySupplier(emptyFinder);
 
@@ -42,7 +42,7 @@ public class DriverFactorySupplierTest {
     }
 
     @Test
-    public void testGetWithMoreThanOneDriverFactory() {
+    public void shouldThrowExceptionWhenMultipleFactoriesAreFound() {
         final Iterable<DriverFactory> duplicateFinder = Arrays.asList(new NopDriverFactory(), new NopDriverFactory());
         final DriverFactorySupplier supplier = new DriverFactorySupplier(duplicateFinder);
 

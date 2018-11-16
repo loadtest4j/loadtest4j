@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 @Category(UnitTest.class)
@@ -70,6 +71,15 @@ public class LoadTesterDecoratorTest {
             s.assertThat(stub2.getNumCalls()).isEqualTo(1);
             s.assertThat(reporter.getNumCalls()).isEqualTo(2);
         });
+    }
+
+    @Test
+    public void shouldBeImmutable() {
+        final LoadTesterDecorator decorator = new LoadTesterDecorator();
+
+        decorator.add(new StubReporter());
+
+        assertThat(decorator).isEqualToComparingFieldByField(new LoadTesterDecorator());
     }
 
     private static class StubReporter implements Reporter {

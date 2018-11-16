@@ -16,27 +16,27 @@ public class DriverRequestTest {
     private final DriverRequest request = new DriverRequest(Body.string("{}"), Collections.singletonMap("Accept", "application/json"), "GET", "/", Collections.singletonMap("foo", "bar"));
 
     @Test
-    public void testGetBody() {
+    public void shouldHaveBody() {
         assertThat(request.getBody().match(new MockBodyMatcher())).containsExactly("{}");
     }
 
     @Test
-    public void testGetHeaders() {
+    public void shouldHaveHeaders() {
         assertThat(request.getHeaders()).containsEntry("Accept", "application/json");
     }
 
     @Test
-    public void testGetMethod() {
+    public void shouldHaveMethod() {
         assertThat(request.getMethod()).isEqualTo("GET");
     }
 
     @Test
-    public void testGetPath() {
+    public void shouldHavePath() {
         assertThat(request.getPath()).isEqualTo("/");
     }
 
     @Test
-    public void testGetQueryParams() {
+    public void shouldHaveQueryParams() {
         assertThat(request.getQueryParams()).containsEntry("foo", "bar");
     }
 }

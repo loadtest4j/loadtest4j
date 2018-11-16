@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class BodyTest {
     @Test
-    public void testStringBody() {
+    public void shouldSupportStringBody() {
         final Body body = Body.string("foo bar");
 
         assertThat(body.match(new MockBodyMatcher()))
@@ -18,7 +18,7 @@ public class BodyTest {
     }
 
     @Test
-    public void testBodyParts() {
+    public void shouldSupportBodyParts() {
         final BodyPart foo = BodyPart.string("foo", "abc");
         final BodyPart bar = BodyPart.string("bar", "def");
         final Body body = Body.multipart(foo, bar);
@@ -28,7 +28,7 @@ public class BodyTest {
     }
 
     @Test
-    public void testNoBodyParts() {
+    public void shouldSupportEmptyMultipartBody() {
         final Body body = Body.multipart();
 
         assertThat(body.match(new MockBodyMatcher()))
