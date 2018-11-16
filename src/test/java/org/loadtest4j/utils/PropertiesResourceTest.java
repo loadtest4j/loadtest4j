@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(IntegrationTest.class)
 public class PropertiesResourceTest {
     @Test
-    public void getProperties() {
+    public void shouldSupplyProperties() {
         final PropertiesResource sut = new PropertiesResource("/props/example.properties");
 
         final Properties properties = sut.getProperties();
@@ -22,7 +22,7 @@ public class PropertiesResourceTest {
     }
 
     @Test
-    public void getEmptyProperties() {
+    public void shouldSupplyEmptyPropertiesByDefault() {
         final PropertiesResource sut = new PropertiesResource("/props/fake.properties");
 
         final Properties properties = sut.getProperties();

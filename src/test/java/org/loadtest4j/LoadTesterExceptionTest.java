@@ -9,14 +9,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class LoadTesterExceptionTest {
     @Test
-    public void testExceptionWithString() {
+    public void shouldWrapMessages() {
         final LoadTesterException e = new LoadTesterException("foo");
 
         assertThat(e).hasMessage("foo");
     }
 
     @Test
-    public void testExceptionWithWrappedException() {
+    public void shouldWrapCauses() {
         final Exception foo = new Exception();
         final LoadTesterException e = new LoadTesterException(foo);
 

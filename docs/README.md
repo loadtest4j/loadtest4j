@@ -69,7 +69,7 @@ The benefits include...
         private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
     
         @Test
-        public void testFindPets() {
+        public void shouldFindPets() {
             List<Request> requests = List.of(Request.get("/pet/findByStatus")
                                                     .withHeader("Accept", "application/json")
                                                     .withQueryParam("status", "available"));
@@ -126,3 +126,37 @@ The benefits include...
     # Run load tests
     mvn test-compile surefire:test@load
     ```
+
+## Advanced usage
+
+### Multipart requests
+
+Attach an arbitrary number of string parts or file parts to the multipart request body.
+
+```java
+public class PetStoreLT {
+    @Test
+    public void shouldAddPet() {
+        BodyPart stringPart = BodyPart.string("name", "content");
+        BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));
+        
+        Request request = Request.post("/pets").withBody(stringPart, filePart);
+    }
+}
+```
+
+### Decorator
+
+Attach custom behaviors to a `LoadTester` using the decorator. The behaviors will execute after each invocation of that 
+`LoadTester`. This feature can be used for a wide variety of tasks, such as logging or visualising a `Result`.
+
+Note: Custom behaviors are not included with the core library.
+
+```java
+public class PetStoreLT {
+    private static final LoadTester loadTester = new LoadTesterDecorator()
+        .add(new CustomReporter())
+        .add(new HtmlReporter())
+        .decorate(LoadTesterFactory.getLoadTester());
+}
+```

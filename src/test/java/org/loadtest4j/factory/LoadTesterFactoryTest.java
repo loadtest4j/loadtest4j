@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LoadTesterFactoryTest {
 
     @Test
-    public void testPublicApi() {
+    public void shouldGetLoadTester() {
         // The static factory method will reference loadtest4j.properties in the test resources
         final LoadTester loadTester = LoadTesterFactory.getLoadTester();
 

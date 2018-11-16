@@ -20,7 +20,7 @@ public class DriverAdapterFactoryTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testCreateDriver() {
+    public void shouldCreateDriver() {
         // Given
         final DriverAdapterFactory factory = DriverAdapterFactory.defaultFactory();
 
@@ -35,7 +35,7 @@ public class DriverAdapterFactoryTest {
     }
 
     @Test
-    public void testCreateDriverWithMissingProperties() {
+    public void shouldThrowExceptionWhenPropertiesAreMissing() {
         final DriverAdapterFactory factory = DriverAdapterFactory.defaultFactory();
 
         thrown.expect(LoadTesterException.class);

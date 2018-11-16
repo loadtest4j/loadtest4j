@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class PropertiesSubsetTest {
     @Test
-    public void testGetSubsetAndStripPrefix() {
+    public void shouldGetSubsetAndStripPrefix() {
         final Map<String, String> props = new ConcurrentHashMap<>();
         props.put("foo", "1");
         props.put("foo.bar", "2");

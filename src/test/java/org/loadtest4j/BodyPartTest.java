@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Category(UnitTest.class)
 public class BodyPartTest {
     @Test
-    public void testStringPart() {
+    public void shouldSupportStringPart() {
         final BodyPart bodyPart = BodyPart.string("foo", "abc");
 
         final String output = bodyPart.match(new BodyPart.Matcher<String>() {
@@ -31,7 +31,7 @@ public class BodyPartTest {
     }
 
     @Test
-    public void testFilePart() {
+    public void shouldSupportFilePart() {
         final BodyPart bodyPart = BodyPart.file(Paths.get("/tmp/foo.txt"));
 
         final String output = bodyPart.match(new BodyPart.Matcher<String>() {
