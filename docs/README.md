@@ -155,7 +155,7 @@ Note: Custom behaviors are not included with the core library.
 ```java
 public class PetStoreLT {
     private static final LoadTester loadTester = new LoadTesterDecorator()
-        .add(new CustomReporter())
+        .add(new Slf4jReporter())
         .add(new HtmlReporter())
         .decorate(LoadTesterFactory.getLoadTester());
 }
