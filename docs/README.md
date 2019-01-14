@@ -62,7 +62,9 @@ Use **either** the Factory **or** the Builder. (Note: The options available, and
 #### Factory
 
 ```java
-LoadTester loadTester = LoadTesterFactory.getLoadTester();
+public class PetStoreLT {
+    private static LoadTester loadTester = LoadTesterFactory.getLoadTester();
+}
 ```
 
 ```properties
@@ -76,10 +78,12 @@ loadtest4j.driver.usersPerSecond = 1
 #### Builder
 
 ```java
-LoadTester loadTester = GatlingBuilder.withUrl("https://example.com")
-                                      .withDuration(Duration.ofSeconds(60))
-                                      .withUsersPerSecond(1)
-                                      .build();
+public class PetStoreLT {
+    private static LoadTester loadTester = GatlingBuilder.withUrl("https://example.com")
+                                                         .withDuration(Duration.ofSeconds(60))
+                                                         .withUsersPerSecond(1)
+                                                         .build();
+}
 ``` 
 
 ### 3. Write load tests
@@ -89,7 +93,7 @@ Write load tests with your favorite language, test framework, and assertions:
 ```java
 public class PetStoreLT {
 
-    private static final LoadTester loadTester = /* see step 2 */ ;
+    private static LoadTester loadTester = /* see step 2 */ ;
 
     @Test
     public void shouldFindPets() {
@@ -181,7 +185,7 @@ Note: Custom behaviors are not included with the core library.
 
 ```java
 public class PetStoreLT {
-    private static final LoadTester loadTester = new LoadTesterDecorator()
+    private static LoadTester loadTester = new LoadTesterDecorator()
         .add(new Slf4jReporter())
         .add(new HtmlReporter())
         .decorate(LoadTesterFactory.getLoadTester());
