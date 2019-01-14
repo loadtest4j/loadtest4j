@@ -40,12 +40,12 @@ The benefits include...
 
 ## Usage
 
+With a new or existing Maven project open in your favorite editor...
+
 ### 1. Add the library
 
-Open your Web service project - or make a new project.
+Add a load test driver library from the [registry](registry.md) to your Maven project POM:
 
-Then add a load test driver from the [registry](registry.md) to your project POM:
-    
 ```xml
 <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
 <dependency>
@@ -57,7 +57,7 @@ Then add a load test driver from the [registry](registry.md) to your project POM
 
 ### 2. Create the load tester
 
-Use **either** the Factory **or** the Builder. (Note: The name of the builder class, and options available, will depend on the driver used.)
+Use **either** the Factory **or** the Builder. (Note: The options available, and builder class name, depend on the driver used.)
 
 #### Factory
 
