@@ -40,92 +40,119 @@ The benefits include...
 
 ## Usage
 
-1. **Open your Web service project** - or make a new project.
+### 1. Add the library
 
-2. **Add a load test driver** from the [registry](registry.md) to your project:
-    
-    ```xml
-    <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
-    <dependency>
-        <groupId>org.loadtest4j.drivers</groupId>
-        <artifactId>loadtest4j-gatling</artifactId>
-        <scope>test</scope>
-    </dependency>
-    ```
+Open your Web service project - or make a new project.
 
-3. **Configure the library** in `src/test/resources/loadtest4j.properties`:
+Then add a load test driver from the [registry](registry.md) to your project POM:
     
-    ```properties
-    loadtest4j.driver.duration = 60
-    loadtest4j.driver.url = https://example.com
-    loadtest4j.driver.usersPerSecond = 1
-    ```
+```xml
+<!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
+<dependency>
+    <groupId>org.loadtest4j.drivers</groupId>
+    <artifactId>loadtest4j-gatling</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+### 2. Create the load tester
+
+Use **either** the Factory **or** the Builder. (Note: The name of the builder class, and options available, will depend on the driver used.)
+
+#### Factory
+
+```java
+LoadTester loadTester = LoadTesterFactory.getLoadTester();
+```
+
+```properties
+# src/test/resources/loadtest4j.properties
+
+loadtest4j.driver.duration = 60
+loadtest4j.driver.url = https://example.com
+loadtest4j.driver.usersPerSecond = 1
+```
+
+#### Builder
+
+```java
+LoadTester loadTester = GatlingBuilder.withUrl("https://example.com")
+                                      .withDuration(Duration.ofSeconds(60))
+                                      .withUsersPerSecond(1)
+                                      .build();
+``` 
+
+### 3. Write load tests
+ 
+Write load tests with your favorite language, test framework, and assertions:
     
-4. **Write a load test** with your favorite language, test framework, and assertions:
-    
-    ```java
-    public class PetStoreLT {
-    
-        private static final LoadTester loadTester = LoadTesterFactory.getLoadTester();
-    
-        @Test
-        public void shouldFindPets() {
-            List<Request> requests = List.of(Request.get("/pet/findByStatus")
-                                                    .withHeader("Accept", "application/json")
-                                                    .withQueryParam("status", "available"));
-    
-            Result result = loadTester.run(requests);
-    
-            assertThat(result.getResponseTime().getPercentile(90))
-                .isLessThanOrEqualTo(Duration.ofMillis(500));
-        }
+```java
+public class PetStoreLT {
+
+    private static final LoadTester loadTester = /* see step 2 */ ;
+
+    @Test
+    public void shouldFindPets() {
+        List<Request> requests = List.of(Request.get("/pet/findByStatus")
+                                                .withHeader("Accept", "application/json")
+                                                .withQueryParam("status", "available"));
+
+        Result result = loadTester.run(requests);
+
+        assertThat(result.getResponseTime().getPercentile(90))
+            .isLessThanOrEqualTo(Duration.ofMillis(500));
     }
-    ```
+}
+```
 
-5. **Declare your load test** to Maven:
+### 4. Declare your load tests
 
-    ```xml
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <executions>
-            <execution>
-                <id>integration</id>
-                <phase>integration-test</phase>
-                <goals>
-                    <goal>test</goal>
-                </goals>
-                <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
-                </configuration>
-            </execution>
-            <execution>
-                <id>load</id>
-                <phase>integration-test</phase>
-                <goals>
-                    <goal>test</goal>
-                </goals>
-                <configuration>
-                    <includes>
-                        <include>**/*LT.java</include>
-                    </includes>
-                </configuration>
-            </execution>
-        </executions>
-    </plugin>
-    ```
+Tell Maven how to discover and run your load tests:
 
-6. **Run the test** with Maven or your IDE:
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>integration</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <includes>
+                    <include>**/*IT.java</include>
+                </includes>
+            </configuration>
+        </execution>
+        <execution>
+            <id>load</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <includes>
+                    <include>**/*LT.java</include>
+                </includes>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
 
-    ```bash
-    # Run all tests
-    mvn verify
-    
-    # Run load tests
-    mvn test-compile surefire:test@load
-    ```
+### 5. Run the tests
+ 
+Run the tests with Maven or your IDE:
+
+```bash
+# Run all tests
+mvn verify
+
+# Only run load tests
+mvn test-compile surefire:test@load
+```
 
 ## Advanced usage
 
