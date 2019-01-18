@@ -44,7 +44,7 @@ With a new or existing Maven project open in your favorite editor...
 
 ### 1. Add the library
 
-Add a load test driver library from the [registry](registry.md) to your Maven project POM:
+Add a load test driver library from the [registry](registry.md) to your Maven project POM.
 
 ```xml
 <!-- Example: https://github.com/loadtest4j/loadtest4j-gatling -->
@@ -62,9 +62,7 @@ Use **either** the Factory **or** the Builder. (Note: The options available, and
 #### Factory
 
 ```java
-public class PetStoreLT {
-    private static LoadTester loadTester = LoadTesterFactory.getLoadTester();
-}
+LoadTester loadTester = LoadTesterFactory.getLoadTester();
 ```
 
 ```properties
@@ -78,22 +76,20 @@ loadtest4j.driver.usersPerSecond = 1
 #### Builder
 
 ```java
-public class PetStoreLT {
-    private static LoadTester loadTester = GatlingBuilder.withUrl("https://example.com")
-                                                         .withDuration(Duration.ofSeconds(60))
-                                                         .withUsersPerSecond(1)
-                                                         .build();
-}
+LoadTester loadTester = GatlingBuilder.withUrl("https://example.com")
+                                      .withDuration(Duration.ofSeconds(60))
+                                      .withUsersPerSecond(1)
+                                      .build();
 ``` 
 
 ### 3. Write load tests
  
-Write load tests with your favorite language, test framework, and assertions:
+Write load tests with your favorite language, test framework, and assertions.
     
 ```java
 public class PetStoreLT {
 
-    private static LoadTester loadTester = /* see step 2 */ ;
+    private static final LoadTester loadTester = /* see step 2 */ ;
 
     @Test
     public void shouldFindPets() {
@@ -111,7 +107,7 @@ public class PetStoreLT {
 
 ### 4. Declare your load tests
 
-Tell Maven how to discover and run your load tests:
+Tell Maven how to discover and run your load tests.
 
 ```xml
 <plugin>
@@ -148,7 +144,7 @@ Tell Maven how to discover and run your load tests:
 
 ### 5. Run the tests
  
-Run the tests with Maven or your IDE:
+Run the tests with Maven or your IDE.
 
 ```bash
 # Run all tests
@@ -165,15 +161,10 @@ mvn test-compile surefire:test@load
 Attach an arbitrary number of string parts or file parts to the multipart request body.
 
 ```java
-public class PetStoreLT {
-    @Test
-    public void shouldAddPet() {
-        BodyPart stringPart = BodyPart.string("name", "content");
-        BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));
-        
-        Request request = Request.post("/pets").withBody(stringPart, filePart);
-    }
-}
+BodyPart stringPart = BodyPart.string("name", "content");
+BodyPart filePart = BodyPart.file(Paths.get("foo.txt"));
+
+Request request = Request.post("/pets").withBody(stringPart, filePart);
 ```
 
 ### Decorator
@@ -184,10 +175,8 @@ Attach custom behaviors to a `LoadTester` using the decorator. The behaviors wil
 Note: Custom behaviors are not included with the core library.
 
 ```java
-public class PetStoreLT {
-    private static LoadTester loadTester = new LoadTesterDecorator()
+LoadTester loadTester = new LoadTesterDecorator()
         .add(new Slf4jReporter())
         .add(new HtmlReporter())
         .decorate(LoadTesterFactory.getLoadTester());
-}
 ```
