@@ -1,8 +1,6 @@
 language: java
 
-sudo: false
-
-jdk: oraclejdk8
+jdk: openjdk8
 
 before_script: echo $GPG_SECRET_KEYS | base64 --decode | gpg --import
 
